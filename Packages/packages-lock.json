@@ -1,5 +1,13 @@
 {
   "dependencies": {
+    "com.tobii.xr.sdk": {
+      "version": "file:D:/JasminsWorkspace/Downloads_Ressources/TobiiXRSDK_3.0.1.179 (1)",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.unity.xr.management": "3.2.16"
+      }
+    },
     "com.unity.collab-proxy": {
       "version": "1.2.16",
       "depth": 0,

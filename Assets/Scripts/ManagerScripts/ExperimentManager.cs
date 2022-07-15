@@ -31,12 +31,15 @@ public class ExperimentManager : MonoBehaviour
 
     // private SpawningManager _spawnManager;
     
-    
+    // eye tracking variables
+    public bool validating = true; // true if you are in the validation/ calibration phase (should be true in beginning to start with calibration and validation)
+    public bool valOngoing = false; // variable only changed within validation
+    public bool etRecord = true; // true if you are recording using eye-tracker
     
     
     //---------------------------------------------
 
-    private static ExperimentManager _Instance;
+    public static ExperimentManager _Instance;
     public static ExperimentManager Instance()
     {
         Debug.Assert(_Instance!=null);
