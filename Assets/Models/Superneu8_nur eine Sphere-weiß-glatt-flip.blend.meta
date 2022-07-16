@@ -1,9 +1,14 @@
 fileFormatVersion: 2
-guid: 502bda5a233ebf0488dd8644b4715ada
+guid: 20fefc6cb69426e4b9649cdc212a57d0
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "Material_wei\xDF"
+    second: {fileID: 2100000, guid: 8eab09db3af9d474ab5f43bdcf9cd4fb, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
