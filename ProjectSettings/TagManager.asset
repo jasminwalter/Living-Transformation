@@ -7,6 +7,9 @@ TagManager:
   - LocalSphereEye
   - RemoteSphereEye
   - ArtPiece
+  - projectile
+  - FxTemporaire
+  - Hand
   layers:
   - Default
   - TransparentFX
