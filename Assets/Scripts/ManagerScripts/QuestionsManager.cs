@@ -130,10 +130,11 @@ public class QuestionsManager : MonoBehaviour
         buttonText.SetActive(true);
     }
     #endregion
-    
-    public void KeyboardInput(GameObject InputText)
+
+    #region ConsentCheckKeyboard
+    public void KeyboardInput(GameObject inputText)
     {
-        consentInputField.GetComponentInChildren<Text>().text += InputText.GetComponent<Text>().text;
+        consentInputField.GetComponentInChildren<Text>().text += inputText.GetComponent<Text>().text;
 
     }
 
@@ -160,6 +161,8 @@ public class QuestionsManager : MonoBehaviour
         _fading = true;
         
     }
+    
+    #endregion
     
     
 
