@@ -8,14 +8,33 @@ using Valve.VR;
 
 public class QuestionsManager : MonoBehaviour
 {
+    // Question Overview Game Objects
     public GameObject languageSelection;
+    public GameObject englishUI;
+    public GameObject germanUI;
+    public GameObject consentCheck;
+    public GameObject consentInputField;
+    
+    
+    
+    
+    
     public bool german = false;
     public bool english = false;
+    
     public bool languageQuestionAnswered = false;
+    public bool consentCheckAnswered = false;
+    
     public bool inPrepRoom = true;
     private bool _fading = false;
     public float _tFading = 0.0f;
-    
+
+    private void OnEnable()
+    {
+        languageSelection.SetActive(true);
+    }
+
+
     // Update is called once per frame
     void Update()
     {
@@ -42,8 +61,38 @@ public class QuestionsManager : MonoBehaviour
                     _fading = false;
                     _tFading = 0.0f;
                     
+                    languageQuestionAnswered = false;
+                    consentCheck.SetActive(true);
+                    }
+            }
+        }
+
+        if (consentCheckAnswered)
+        {
+            
+            if (_fading)
+            {
+                if (_tFading < 1.0f)
+                {
+
+                    CanvasFading(consentCheck);
+
+                    // deactivate question and activate next one
+                }
+                else
+                {
+                    consentCheck.SetActive(false);
+                    _fading = false;
+                    _tFading = 0.0f;
+                    
+                    consentCheckAnswered = false;
+                    
+                    // trigger next question
                 }
             }
+            
+            
+            
         }
     }
 
@@ -51,7 +100,6 @@ public class QuestionsManager : MonoBehaviour
     {
 
         canvasGroup.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(1, 0, _tFading);
-        Debug.Log(canvasGroup.GetComponent<CanvasGroup>().alpha );
         _tFading += 0.6f*Time.deltaTime;
 
 
@@ -83,6 +131,35 @@ public class QuestionsManager : MonoBehaviour
     }
     #endregion
     
+    public void KeyboardInput(GameObject InputText)
+    {
+        consentInputField.GetComponentInChildren<Text>().text += InputText.GetComponent<Text>().text;
+
+    }
+
+    public void KeyboardDelete()
+    {
+        string inputText = consentInputField.GetComponentInChildren<Text>().text;
+        if (inputText.Length > 0)
+        {
+            consentInputField.GetComponentInChildren<Text>().text = inputText.Remove(inputText.Length - 1);
+        }
+    }
+
+    public void KeyboardNext(GameObject nextButton)
+    {
+        Debug.Log("Next Button pressed");
+        // save the data
+        ColorBlock cb = nextButton.GetComponent<Button>().colors;
+        cb.normalColor = Color.green;
+        Debug.Log(cb);
+
+        consentInputField.GetComponent<Button>().colors = cb;
+        
+        consentCheckAnswered = true;
+        _fading = true;
+        
+    }
     
     
 
