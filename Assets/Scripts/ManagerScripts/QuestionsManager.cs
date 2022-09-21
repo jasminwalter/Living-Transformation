@@ -13,6 +13,8 @@ public class QuestionsManager : MonoBehaviour
     public bool english = false;
     public bool languageQuestionAnswered = false;
     public bool inPrepRoom = true;
+    private bool _fading = false;
+    public float _tFading = 0.0f;
     
     // Update is called once per frame
     void Update()
@@ -21,21 +23,48 @@ public class QuestionsManager : MonoBehaviour
         if (languageQuestionAnswered)
         {
             // save answer
-            languageSelection.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(1, 0, 1.1f*Time.deltaTime);
+            //languageSelection.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(1, 0, 0.1f);
             // deactivate question and activate next one
 
             //languageSelection.SetActive(false);
+            if (_fading)
+            {
+                if (_tFading < 1.0f)
+                {
+
+                    CanvasFading(languageSelection);
+
+                    // deactivate question and activate next one
+                }
+                else
+                {
+                    languageSelection.SetActive(false);
+                    _fading = false;
+                    _tFading = 0.0f;
+                    
+                }
+            }
         }
     }
+
+    void CanvasFading(GameObject canvasGroup)
+    {
+
+        canvasGroup.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(1, 0, _tFading);
+        Debug.Log(canvasGroup.GetComponent<CanvasGroup>().alpha );
+        _tFading += 0.6f*Time.deltaTime;
+
+
+    }
+    
     #region ButtonResponses
     #region LanguageSelection
     public void SelectionEnglish()
     {
-        // save answer
         Debug.Log("Selection English");
         english = true;
         languageQuestionAnswered = true;
-        // fade in or fade out of 
+        _fading = true;
 
     }
 
@@ -44,7 +73,13 @@ public class QuestionsManager : MonoBehaviour
         Debug.Log("Selection German");
         german = true;
         languageQuestionAnswered = true;
-        
+        _fading = true;
+
+    }
+
+    public void SelectionText(GameObject buttonText)
+    {
+        buttonText.SetActive(true);
     }
     #endregion
     
