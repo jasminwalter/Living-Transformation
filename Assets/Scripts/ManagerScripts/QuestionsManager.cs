@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR;
 using Valve.VR;
+using Random = System.Random;
 
 public class QuestionsManager : MonoBehaviour
 {
@@ -25,6 +27,10 @@ public class QuestionsManager : MonoBehaviour
     public GameObject ageInput;
 
     public GameObject genderQuestion;
+
+    public GameObject emotionQuestions;
+    public GameObject emotionText;
+    public GameObject questionTable;
     
 
 
@@ -45,10 +51,21 @@ public class QuestionsManager : MonoBehaviour
     public bool genderQuestionAnswered = false;
     public string gender;
     
+    public bool emotionQuestionAnswered = false;
+    public int emotionNumAnswered = 0;
+    public List<string> emotionList = new List<string>()
+        { "sad", "anxious", "annoyed", "happy", "calm/relaxed", "excited" };
+    public int[] emotionIndex = new int[] {0,1,2,3,4,5};
+    private static Random rng;
+    public bool emotionQtransition = false;
+    
     public bool inPrepRoom = true;
     private bool _fadingOut = false;
     private bool _fadingIn = false;
     private float _tFading = 0.0f;
+    private bool _movingUp = false;
+    private bool _movingDown = false;
+    private float _tMoving = 0.0f;
 
     private void OnEnable()
     {
@@ -59,7 +76,18 @@ public class QuestionsManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (Input.GetKeyDown("space"))
+        {
+            rng = new Random();
+            Shuffle(emotionList);
+            Debug.Log("At the moment, how much are you " + emotionList[0] + "?");
+
+            
+        }
+
         
+       
         // language question
         if (languageQuestionAnswered)
         {
@@ -270,32 +298,143 @@ public class QuestionsManager : MonoBehaviour
                 
                     // trigger next question
                     _fadingIn = true;
-                    // genderQuestion.GetComponent<CanvasGroup>().alpha = 0.0f;
-                    // genderQuestion.SetActive(true);
+                    _movingUp = true;
+                    emotionQtransition = true;
+                    
+                    rng = new Random();
+                    Shuffle(emotionList);
+                    emotionText.GetComponent<Text>().text =
+                        "At the moment, how much are you " + emotionList[0] + "?";
+                    emotionQuestions.GetComponent<CanvasGroup>().alpha = 0.0f;
+                    emotionQuestions.SetActive(true);
+                }
+                
+            }
+
+            if (emotionQtransition)
+            {
+
+                if (_fadingIn)
+                {
+                    if (_tFading < 1.0f)
+                    {
+                        CanvasFadingIn(emotionQuestions);
+                    }
+                    else
+                    {
+                        _fadingIn = false;
+                        _tFading = 0.0f;
+                    }
+                }
+
+                if (_movingUp)
+                {
+                    if (_tMoving < 1.0f)
+                    {
+                        TablePullUp(questionTable);
+                    }
+                    else
+                    {
+                        _movingUp = false;
+                        _tMoving = 0.0f;
+                    }
+                }
+
+                if (!_fadingIn & !_movingUp)
+                {
+                    genderQuestionAnswered = false;
+                    emotionQtransition = false;
+
+                }
+            }
+        }
+        
+        
+        // emotion questions
+        if (emotionQuestionAnswered)
+        {
+            if (emotionNumAnswered < 6)
+            {
+                if (_fadingOut)
+                {
+                    if (_tFading < 1.0f)
+                    {
+                        CanvasFadingOut(emotionQuestions);
+                    }
+                    else
+                    {
+                        _fadingOut = false;
+                        _tFading = 0.0f;
+                    }
+                }
+
+                if (!_fadingOut && !_fadingIn)
+                {
+                    emotionText.GetComponent<Text>().text =
+                        "At the moment, how much are you " + emotionList[emotionNumAnswered] + "?";
+                    _fadingIn = true;
+                }
+
+                if (_fadingIn)
+                {
+                    if (_tFading < 1.0f)
+                    {
+                        CanvasFadingIn(emotionQuestions);
+                    }
+                    else
+                    {
+                        _fadingIn = false;
+                        _tFading = 0.0f;
+                        emotionQuestionAnswered = false;
+                    }
+
                 }
                 
             }
             
-            if (_fadingIn)
+            else
             {
-                if (_tFading < 1.0f)
+                if (_fadingOut)
                 {
-                    // CanvasFadingIn(genderQuestion);
+                    if (_tFading < 1.0f)
+                    {
+                        CanvasFadingOut(emotionQuestions);
+                    }
+                    else
+                    {
+                        _fadingOut = false;
+                        _tFading = 0.0f;
+                    }
                 }
-                else
+
+                if (_movingUp)
                 {
+                    if (_tMoving < 1.0f)
+                    {
+                        TablePullUp(questionTable);
+                    }
+                    else
+                    {
+                        _movingUp = false;
+                        _tMoving = 0.0f;
+                    }
+                }
 
-                    _fadingIn = false;
-                    _tFading = 0.0f;
+                if (!_fadingIn & !_movingUp)
+                {
+                    genderQuestionAnswered = false;
+                    
+                    // trigger next question/part
 
-                    genderQuestionAnswered= false;
                 }
                 
             }
+            
+
         }
     }
 
-    #region FadingEffects
+    #region QuestionTransitionEfffects
 
     private void CanvasFadingOut(GameObject canvasGroup)
     {
@@ -313,6 +452,32 @@ public class QuestionsManager : MonoBehaviour
         
     }
     
+    private void TablePullUp(GameObject table)
+    {
+        table.GetComponent<Transform>().position = new Vector3(0,Mathf.Lerp(-51.7f, -50f, _tMoving),0);
+        _tMoving += 1.0f*Time.deltaTime;
+
+    }
+    
+    #endregion
+
+    #region EmotionRandomization
+    
+   
+    public static void Shuffle(List<string> emoList)  
+    {  
+        int n = emoList.Count;  
+        while (n > 1) {  
+            n--;  
+            int k = rng.Next(n + 1);  
+            String value = emoList[k];  
+            emoList[k] = emoList[n];  
+            emoList[n] = value;  
+        }  
+    }
+
+    
+
     #endregion
     
     #region ButtonResponses
@@ -448,8 +613,19 @@ public class QuestionsManager : MonoBehaviour
     }
 
     #endregion
-    
-    
+
+    #region EmotionQuestions
+
+    public void emotionEnter(GameObject enterButton)
+    {
+        emotionQuestionAnswered = true;
+        emotionNumAnswered += 1;
+        _fadingOut = true;
+    }
+
     #endregion
-    
+
+
+    #endregion
+
 }
