@@ -12,17 +12,23 @@ public class QuestionsManager : MonoBehaviour
     public GameObject languageSelection;
     public GameObject englishUI;
     public GameObject germanUI;
+    
     public GameObject consentCheck;
     public GameObject consentInputField;
+    
     public GameObject numVisitsQuestion;
     public GameObject numVisitsQRound1;
     public GameObject numVisitsQRound2;
     public GameObject numVisitInput;
-    
-    
-    
-    
-    
+
+    public GameObject ageQuestion;
+    public GameObject ageInput;
+
+
+
+
+
+
     public bool german = false;
     public bool english = false;
     
@@ -31,11 +37,13 @@ public class QuestionsManager : MonoBehaviour
     public bool numVisitsAnswered = false;
     public bool notFirstVisit = false;
     public int numberOfVisits;
+    public bool ageQuestionAnswered = false;
+    public int age;
     
     public bool inPrepRoom = true;
     private bool _fadingOut = false;
     private bool _fadingIn = false;
-    public float _tFading = 0.0f;
+    private float _tFading = 0.0f;
 
     private void OnEnable()
     {
@@ -171,22 +179,52 @@ public class QuestionsManager : MonoBehaviour
                     _fadingOut = false;
                     _tFading = 0.0f;
                 
+                    // trigger next question
                     _fadingIn = true;
+                    ageQuestion.GetComponent<CanvasGroup>().alpha = 0.0f;
+                    ageQuestion.SetActive(true);
                 }
             }
 
-            // take care of fading in the next question
-            // else if (_fadingIn && _tFading < 1.0f)
-            // {
-            //     CanvasFadingIn(numVisitsQRound2);
-            //     
-            // }
-            // else
-            // {
-            //     _tFading = 0.0f;
-            //     _fadingIn = false;
-            //     notFirstVisit = false;
-            // }
+            if (_fadingIn)
+            {
+                if (_tFading < 1.0f)
+                {
+                    CanvasFadingIn(ageQuestion);
+                }
+                else
+                {
+
+                    _fadingIn = false;
+                    _tFading = 0.0f;
+
+                    numVisitsAnswered = false;
+                }
+                
+            }
+            
+        }
+        
+        // age question
+
+        if (ageQuestionAnswered)
+        {
+            if (_fadingOut)
+            {
+                if (_tFading < 1.0f)
+                {
+                    CanvasFadingOut(ageQuestion);
+                }
+                else
+                {
+                    ageQuestion.SetActive(false);
+                    _fadingOut = false;
+                    _tFading = 0.0f;
+                
+                    _fadingIn = true;
+                }
+                
+            }
         }
     }
 
@@ -204,7 +242,7 @@ public class QuestionsManager : MonoBehaviour
     private void CanvasFadingIn(GameObject canvasGroup)
     {
         canvasGroup.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(0, 1, _tFading);
-        _tFading += 0.8f*Time.deltaTime;
+        _tFading += 1.0f*Time.deltaTime;
         
     }
     
@@ -303,12 +341,33 @@ public class QuestionsManager : MonoBehaviour
         inputNumField.GetComponent<Button>().colors = cb;
 
         numberOfVisits = int.Parse(inputNumField.GetComponentInChildren<Text>().text);
-        Debug.Log("number of visits " + numberOfVisits);
         numVisitsAnswered = true;
         _fadingOut = true;
         
     }
     
+
+    #endregion
+
+    #region AgeQuestion
+
+    public void AgeNumPad(GameObject numButtons)
+    {
+        ageInput.GetComponentInChildren<Text>().text += numButtons.GetComponent<Text>().text;
+    }
+
+    public void AgeEnter(GameObject numAgeInput)
+    {
+        // save the data
+        ColorBlock cb = numAgeInput.GetComponent<Button>().colors;
+        cb.normalColor = Color.green;
+
+        numAgeInput.GetComponent<Button>().colors = cb;
+
+        age = int.Parse(numAgeInput.GetComponentInChildren<Text>().text);
+        ageQuestionAnswered = true;
+        _fadingOut = true;
+    }
 
     #endregion
     
