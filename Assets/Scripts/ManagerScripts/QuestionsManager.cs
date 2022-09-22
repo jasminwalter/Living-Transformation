@@ -24,6 +24,9 @@ public class QuestionsManager : MonoBehaviour
     public GameObject ageQuestion;
     public GameObject ageInput;
 
+    public GameObject genderQuestion;
+    
+
 
 
 
@@ -39,6 +42,8 @@ public class QuestionsManager : MonoBehaviour
     public int numberOfVisits;
     public bool ageQuestionAnswered = false;
     public int age;
+    public bool genderQuestionAnswered = false;
+    public string gender;
     
     public bool inPrepRoom = true;
     private bool _fadingOut = false;
@@ -221,7 +226,69 @@ public class QuestionsManager : MonoBehaviour
                     _fadingOut = false;
                     _tFading = 0.0f;
                 
+                    // trigger next question
                     _fadingIn = true;
+                    genderQuestion.GetComponent<CanvasGroup>().alpha = 0.0f;
+                    genderQuestion.SetActive(true);
+                }
+                
+            }
+            
+            if (_fadingIn)
+            {
+                if (_tFading < 1.0f)
+                {
+                    CanvasFadingIn(genderQuestion);
+                }
+                else
+                {
+
+                    _fadingIn = false;
+                    _tFading = 0.0f;
+
+                    ageQuestionAnswered= false;
+                }
+                
+            }
+        }
+        
+        
+        // gender question
+        if (genderQuestionAnswered)
+        {
+            if (_fadingOut)
+            {
+                if (_tFading < 1.0f)
+                {
+                    CanvasFadingOut(genderQuestion);
+                }
+                else
+                {
+                    genderQuestion.SetActive(false);
+                    _fadingOut = false;
+                    _tFading = 0.0f;
+                
+                    // trigger next question
+                    _fadingIn = true;
+                    // genderQuestion.GetComponent<CanvasGroup>().alpha = 0.0f;
+                    // genderQuestion.SetActive(true);
+                }
+                
+            }
+            
+            if (_fadingIn)
+            {
+                if (_tFading < 1.0f)
+                {
+                    // CanvasFadingIn(genderQuestion);
+                }
+                else
+                {
+
+                    _fadingIn = false;
+                    _tFading = 0.0f;
+
+                    genderQuestionAnswered= false;
                 }
                 
             }
@@ -366,6 +433,17 @@ public class QuestionsManager : MonoBehaviour
 
         age = int.Parse(numAgeInput.GetComponentInChildren<Text>().text);
         ageQuestionAnswered = true;
+        _fadingOut = true;
+    }
+
+    #endregion
+
+    #region GenderQuestion
+
+    public void GenderInput(GameObject genderButton)
+    {
+        gender = genderButton.GetComponent<Text>().text;
+        genderQuestionAnswered = true;
         _fadingOut = true;
     }
 
