@@ -14,6 +14,9 @@ public class QuestionsManager : MonoBehaviour
     public GameObject languageSelection;
     public GameObject englishUI;
     public GameObject germanUI;
+
+    public GameObject welcomeText;
+    public GameObject welcomeNext;
     
     public GameObject consentCheck;
     public GameObject consentInputField;
@@ -42,6 +45,13 @@ public class QuestionsManager : MonoBehaviour
     public bool english = false;
     
     public bool languageQuestionAnswered = false;
+    
+    public bool displayWelcomeText = false;
+    public bool welcomeNextTrigger = false;
+    public float welcometextTimer = 0.0f;
+    public float welcomeNextThreshold = 35.0f;
+    public float welcomeTextExitThreshold = 120.0f;
+    
     public bool consentCheckAnswered = false;
     public bool numVisitsAnswered = false;
     public bool notFirstVisit = false;
@@ -77,17 +87,6 @@ public class QuestionsManager : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown("space"))
-        {
-            rng = new Random();
-            Shuffle(emotionList);
-            Debug.Log("At the moment, how much are you " + emotionList[0] + "?");
-
-            
-        }
-
-        
-       
         // language question
         if (languageQuestionAnswered)
         {
@@ -111,9 +110,89 @@ public class QuestionsManager : MonoBehaviour
                     _fadingOut = false;
                     _tFading = 0.0f;
                     
-                    languageQuestionAnswered = false;
-                    consentCheck.SetActive(true);
+                    // trigger next question
+                    welcomeText.GetComponent<CanvasGroup>().alpha = 0.0f;
+                    welcomeText.SetActive(true);
+                    _fadingIn = true;
+                }
+
+                if (_fadingIn)
+                {
+                    if (_tFading < 1.0f)
+                    {
+                        CanvasFadingIn(welcomeText);
                     }
+                    else
+                    {
+                        _fadingIn = false;
+                        _tFading = 0.0f;
+                        languageQuestionAnswered = false;
+                        displayWelcomeText = true;
+                    }
+                }
+            }
+        }
+        // when the welcome text is desplayed, start timer
+        if (displayWelcomeText)
+        {
+            welcometextTimer += Time.deltaTime;
+            // if timer exceeds threshold, fade in next button
+            if (welcometextTimer > welcomeNextThreshold && welcometextTimer < welcomeTextExitThreshold)
+            {
+                if (_tFading < 1.0f)
+                {
+
+                    CanvasFadingIn(welcomeNext);
+
+                }
+
+            }
+
+            if (!welcomeNextTrigger && welcometextTimer > welcomeTextExitThreshold)
+            {
+                welcomeNextTrigger = true;
+                _fadingOut = true;
+                _tFading = 0.0f;
+            }
+
+            if (welcomeNextTrigger)
+            {
+
+                if (_fadingOut)
+                {
+                    if (_tFading < 1.0f)
+                    {
+
+                        CanvasFadingOut(welcomeText);
+
+                    }
+                    else
+                    {
+                        welcomeText.SetActive(false);
+                        _fadingOut = false;
+                        _tFading = 0.0f;
+
+                        // trigger next question
+
+                        consentCheck.GetComponent<CanvasGroup>().alpha = 0.0f;
+                        consentCheck.SetActive(true);
+                        _fadingIn = true;
+                    }
+                }
+
+                if (_fadingIn)
+                {
+                    if (_tFading < 1.0f)
+                    {
+                        CanvasFadingIn(consentCheck);
+                    }
+                    else
+                    {
+                        _fadingIn = false;
+                        _tFading = 0.0f;
+                        displayWelcomeText = false;
+                    }
+                }
             }
         }
 
@@ -481,6 +560,13 @@ public class QuestionsManager : MonoBehaviour
     #endregion
     
     #region ButtonResponses
+    
+    
+    public void SelectionText(GameObject buttonText)
+    {
+        buttonText.SetActive(true);
+    }
+    
     #region LanguageSelection
     public void SelectionEnglish()
     {
@@ -500,10 +586,17 @@ public class QuestionsManager : MonoBehaviour
 
     }
 
-    public void SelectionText(GameObject buttonText)
+    #endregion
+
+    #region WelcomeText
+
+    public void WelcomeNext()
     {
-        buttonText.SetActive(true);
+        welcomeNextTrigger = true;
+        _fadingOut = true;
+        _tFading = 0.0f;
     }
+
     #endregion
 
     #region ConsentCheckKeyboard
