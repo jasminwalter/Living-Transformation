@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR;
@@ -32,7 +33,8 @@ public class QuestionsManager : MonoBehaviour
     public GameObject genderQuestion;
 
     public GameObject emotionQuestions;
-    public GameObject emotionText;
+    public TextMeshPro emotionText;
+    public GameObject emotionText2;
     public GameObject emotionTable;
     
 
@@ -710,7 +712,7 @@ public class QuestionsManager : MonoBehaviour
 
     #region EmotionQuestions
 
-    public void emotionEnter(GameObject enterButton)
+    public void emotionEnter()
     {
         emotionQuestionAnswered = true;
         emotionNumAnswered += 1;

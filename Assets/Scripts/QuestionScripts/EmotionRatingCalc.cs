@@ -23,9 +23,6 @@ public class EmotionRatingCalc : MonoBehaviour
         completeDistance = Vector3.Distance(startPoint.GetComponent<Transform>().position,
             endPoint.GetComponent<Transform>().position);
         multiplier = completeDistance / 5;
-        
-        Debug.Log("Distance: " + completeDistance);
-        Debug.Log("multiplier: " + multiplier);
     }
 
     // Update is called once per frame
