@@ -33,7 +33,7 @@ public class QuestionsManager : MonoBehaviour
 
     public GameObject emotionQuestions;
     public GameObject emotionText;
-    public GameObject questionTable;
+    public GameObject emotionTable;
     
 
 
@@ -47,6 +47,7 @@ public class QuestionsManager : MonoBehaviour
     public bool languageQuestionAnswered = false;
     
     public bool displayWelcomeText = false;
+    public bool fadeInWelcomeNext = false;
     public bool welcomeNextTrigger = false;
     public float welcometextTimer = 0.0f;
     public float welcomeNextThreshold = 35.0f;
@@ -94,29 +95,26 @@ public class QuestionsManager : MonoBehaviour
             //languageSelection.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(1, 0, 0.1f);
             // deactivate question and activate next one
 
-            //languageSelection.SetActive(false);
             if (_fadingOut)
             {
                 if (_tFading < 1.0f)
                 {
-
                     CanvasFadingOut(languageSelection);
-
-                    // deactivate question and activate next one
                 }
                 else
                 {
                     languageSelection.SetActive(false);
                     _fadingOut = false;
                     _tFading = 0.0f;
-                    
+
                     // trigger next question
                     welcomeText.GetComponent<CanvasGroup>().alpha = 0.0f;
                     welcomeText.SetActive(true);
                     _fadingIn = true;
                 }
+            }
 
-                if (_fadingIn)
+            if (_fadingIn)
                 {
                     if (_tFading < 1.0f)
                     {
@@ -130,22 +128,25 @@ public class QuestionsManager : MonoBehaviour
                         displayWelcomeText = true;
                     }
                 }
-            }
         }
-        // when the welcome text is desplayed, start timer
+        // when the welcome text is displayed, start timer
         if (displayWelcomeText)
         {
             welcometextTimer += Time.deltaTime;
             // if timer exceeds threshold, fade in next button
-            if (welcometextTimer > welcomeNextThreshold && welcometextTimer < welcomeTextExitThreshold)
+            if (!fadeInWelcomeNext && welcometextTimer > welcomeNextThreshold && welcometextTimer < welcomeTextExitThreshold)
+            {
+                fadeInWelcomeNext = true;
+                welcomeNext.GetComponent<CanvasGroup>().alpha = 0.0f;
+                welcomeNext.SetActive(true);
+            }
+
+            if (fadeInWelcomeNext)
             {
                 if (_tFading < 1.0f)
                 {
-
                     CanvasFadingIn(welcomeNext);
-
                 }
-
             }
 
             if (!welcomeNextTrigger && welcometextTimer > welcomeTextExitThreshold)
@@ -410,7 +411,7 @@ public class QuestionsManager : MonoBehaviour
                 {
                     if (_tMoving < 1.0f)
                     {
-                        TablePullUp(questionTable);
+                        TablePullUp(emotionTable);
                     }
                     else
                     {
@@ -490,7 +491,7 @@ public class QuestionsManager : MonoBehaviour
                 {
                     if (_tMoving < 1.0f)
                     {
-                        TablePullUp(questionTable);
+                        TablePullUp(emotionTable);
                     }
                     else
                     {

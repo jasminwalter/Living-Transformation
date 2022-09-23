@@ -17,7 +17,7 @@ namespace Valve.VR.InteractionSystem
 		public Transform endPosition;
 		public LinearMapping linearMapping;
 		public bool repositionGameObject = true;
-		public bool maintainMomemntum = true;
+		public bool maintainMomemntum = false;
 		public float momemtumDampenRate = 5.0f;
 
         protected Hand.AttachmentFlags attachmentFlags = Hand.AttachmentFlags.DetachFromOtherHand;
