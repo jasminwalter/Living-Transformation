@@ -36,11 +36,6 @@ public class QuestionsManager : MonoBehaviour
     public TextMeshPro emotionText;
     public GameObject emotionText2;
     public GameObject emotionTable;
-    
-
-
-
-
 
 
     public bool german = false;
@@ -564,18 +559,35 @@ public class QuestionsManager : MonoBehaviour
     
     #region ButtonResponses
 
+    #region GeneralButtonFunctions
     public void HighlightSelectionText(TextMeshProUGUI text)
     {
         text.color = Color.white;
     }
     
+    public void KeyInput(TextMeshProUGUI keyInput)
+    {
+        consentInputField.GetComponentInChildren<TextMeshProUGUI>().text += keyInput.text;
+    }
+
+    public void KeyboardDelete(GameObject inputField)
+    {
+        string inputText = inputField.GetComponentInChildren<TextMeshProUGUI>().text;
+        if (inputText.Length > 0)
+        {
+            inputField.GetComponentInChildren<TextMeshProUGUI>().text = inputText.Remove(inputText.Length - 1);
+        }
+        
+    }
     
-    public void SelectionText(GameObject buttonText)
+    #endregion
+    
+    #region LanguageSelection
+    
+    public void DisplaySelectionText(GameObject buttonText)
     {
         buttonText.SetActive(true);
     }
-    
-    #region LanguageSelection
     public void SelectionEnglish()
     {
         Debug.Log("Selection English");
@@ -609,26 +621,11 @@ public class QuestionsManager : MonoBehaviour
     #endregion
 
     #region ConsentCheckKeyboard
-    public void ConsentKeyboardInput(GameObject buttonText)
-    {
-        consentInputField.GetComponentInChildren<Text>().text += buttonText.GetComponent<Text>().text;
-
-    }
     
-    public void KeyboardDelete(GameObject inputField)
-    {
-        string inputText = inputField.GetComponentInChildren<Text>().text;
-        if (inputText.Length > 0)
-        {
-            inputField.GetComponentInChildren<Text>().text = inputText.Remove(inputText.Length - 1);
-        }
-    }
-
     public void ConsentKeyboardNext(GameObject nextButton)
     {
         // save the data
         ColorBlock cb = nextButton.GetComponent<Button>().colors;
-        cb.normalColor = Color.green;
 
         consentInputField.GetComponent<Button>().colors = cb;
         
