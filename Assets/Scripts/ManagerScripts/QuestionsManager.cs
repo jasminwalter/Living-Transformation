@@ -52,7 +52,7 @@ public class QuestionsManager : MonoBehaviour
     public bool fadeInWelcomeNext = false;
     public bool welcomeNextTrigger = false;
     public float welcometextTimer = 0.0f;
-    public float welcomeNextThreshold = 35.0f;
+    public float welcomeNextThreshold = 5.0f;
     public float welcomeTextExitThreshold = 120.0f;
     
     public bool consentCheckAnswered = false;
@@ -563,6 +563,11 @@ public class QuestionsManager : MonoBehaviour
     #endregion
     
     #region ButtonResponses
+
+    public void HighlightSelectionText(TextMeshProUGUI text)
+    {
+        text.color = Color.white;
+    }
     
     
     public void SelectionText(GameObject buttonText)
@@ -599,6 +604,7 @@ public class QuestionsManager : MonoBehaviour
         _fadingOut = true;
         _tFading = 0.0f;
     }
+    
 
     #endregion
 
