@@ -707,9 +707,9 @@ public class QuestionsManager : MonoBehaviour
 
     #region GenderQuestion
 
-    public void GenderInput(GameObject genderButton)
+    public void GenderInput(TextMeshProUGUI genderInput)
     {
-        gender = genderButton.GetComponent<Text>().text;
+        gender = genderInput.text;
         genderQuestionAnswered = true;
         _fadingOut = true;
     }
