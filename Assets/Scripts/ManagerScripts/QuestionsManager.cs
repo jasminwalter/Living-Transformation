@@ -21,6 +21,7 @@ public class QuestionsManager : MonoBehaviour
     
     public GameObject consentCheck;
     public GameObject consentInputField;
+    public GameObject rightUINumPad;
     
     public GameObject numVisitsQuestion;
     public GameObject numVisitsQRound1;
@@ -174,6 +175,9 @@ public class QuestionsManager : MonoBehaviour
 
                         consentCheck.GetComponent<CanvasGroup>().alpha = 0.0f;
                         consentCheck.SetActive(true);
+
+                        rightUINumPad.GetComponent<CanvasGroup>().alpha = 0.0f;
+                        rightUINumPad.SetActive(true);
                         _fadingIn = true;
                     }
                 }
@@ -183,6 +187,7 @@ public class QuestionsManager : MonoBehaviour
                     if (_tFading < 1.0f)
                     {
                         CanvasFadingIn(consentCheck);
+                        CanvasFadingIn(rightUINumPad);
                     }
                     else
                     {
@@ -204,11 +209,13 @@ public class QuestionsManager : MonoBehaviour
                 {
 
                     CanvasFadingOut(consentCheck);
+                    CanvasFadingOut(rightUINumPad);
 
                 }
                 else
                 {
                     consentCheck.SetActive(false);
+                    rightUINumPad.SetActive(false);
                     _fadingOut = false;
                     _tFading = 0.0f;
 
@@ -565,11 +572,6 @@ public class QuestionsManager : MonoBehaviour
         text.color = Color.white;
     }
     
-    public void KeyInput(TextMeshProUGUI keyInput)
-    {
-        consentInputField.GetComponentInChildren<TextMeshProUGUI>().text += keyInput.text;
-    }
-
     public void KeyboardDelete(GameObject inputField)
     {
         string inputText = inputField.GetComponentInChildren<TextMeshProUGUI>().text;
@@ -622,6 +624,10 @@ public class QuestionsManager : MonoBehaviour
 
     #region ConsentCheckKeyboard
     
+    public void ConsentKeyBoardInput(TextMeshProUGUI keyInput)
+    {
+        consentInputField.GetComponentInChildren<TextMeshProUGUI>().text += keyInput.text;
+    }
     public void ConsentKeyboardNext(GameObject nextButton)
     {
         // save the data
