@@ -34,9 +34,9 @@ public class QuestionsManager : MonoBehaviour
     public GameObject genderQuestion;
 
     public GameObject emotionQuestions;
-    public TextMeshPro emotionText;
-    public GameObject emotionText2;
+    public GameObject emotionQuestionText;
     public GameObject emotionTable;
+    public GameObject emotionNext;
 
 
     public bool german = false;
@@ -387,7 +387,7 @@ public class QuestionsManager : MonoBehaviour
                     
                     rng = new Random();
                     Shuffle(emotionList);
-                    emotionText.GetComponent<Text>().text =
+                    emotionQuestionText.GetComponent<TextMeshProUGUI>().text =
                         "At the moment, how much are you " + emotionList[0] + "?";
                     emotionQuestions.GetComponent<CanvasGroup>().alpha = 0.0f;
                     emotionQuestions.SetActive(true);
@@ -454,9 +454,10 @@ public class QuestionsManager : MonoBehaviour
 
                 if (!_fadingOut && !_fadingIn)
                 {
-                    emotionText.GetComponent<Text>().text =
+                    emotionQuestionText.GetComponent<TextMeshProUGUI>().text =
                         "At the moment, how much are you " + emotionList[emotionNumAnswered] + "?";
                     _fadingIn = true;
+                    emotionNext.GetComponent<TextMeshProUGUI>().color = Color.black;
                 }
 
                 if (_fadingIn)
