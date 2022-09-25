@@ -686,20 +686,19 @@ public class QuestionsManager : MonoBehaviour
 
     #region AgeQuestion
 
-    public void AgeNumPad(GameObject numButtons)
+    public void AgeNumPad(TextMeshProUGUI keyInput)
     {
-        ageInput.GetComponentInChildren<Text>().text += numButtons.GetComponent<Text>().text;
+        ageInput.GetComponentInChildren<TextMeshProUGUI>().text += keyInput.text;
     }
 
     public void AgeEnter(GameObject numAgeInput)
     {
         // save the data
         ColorBlock cb = numAgeInput.GetComponent<Button>().colors;
-        cb.normalColor = Color.green;
 
         numAgeInput.GetComponent<Button>().colors = cb;
 
-        age = int.Parse(numAgeInput.GetComponentInChildren<Text>().text);
+        age = int.Parse(numAgeInput.GetComponentInChildren<TextMeshProUGUI>().text);
         ageQuestionAnswered = true;
         _fadingOut = true;
     }
