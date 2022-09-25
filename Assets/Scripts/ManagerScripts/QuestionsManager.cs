@@ -663,21 +663,19 @@ public class QuestionsManager : MonoBehaviour
         _fadingOut = true;
     }
 
-    public void NumVisitButton(GameObject numButtons)
+    public void NumVisitKeyBoardInput(TextMeshProUGUI keyInput)
     {
-        numVisitInput.GetComponentInChildren<Text>().text += numButtons.GetComponent<Text>().text;
-        
+        numVisitInput.GetComponentInChildren<TextMeshProUGUI>().text += keyInput.text;
     }
 
-    public void EnterNumVisits(GameObject inputNumField)
+    public void NumVisitsEnter(GameObject inputNumField)
     {
         // save the data
         ColorBlock cb = inputNumField.GetComponent<Button>().colors;
-        cb.normalColor = Color.green;
 
         inputNumField.GetComponent<Button>().colors = cb;
 
-        numberOfVisits = int.Parse(inputNumField.GetComponentInChildren<Text>().text);
+        numberOfVisits = int.Parse(inputNumField.GetComponentInChildren<TextMeshProUGUI>().text);
         numVisitsAnswered = true;
         _fadingOut = true;
         
