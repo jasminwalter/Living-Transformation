@@ -20,14 +20,14 @@ public class QuestionsManager : MonoBehaviour
     public GameObject playerVR;
     public GameObject cameraVR;
     public GameObject heightQuestion;
+    public GameObject canvasUIAll;
 
     public GameObject welcomeText;
     public GameObject welcomeNext;
     
     public GameObject consentCheck;
     public GameObject consentInputField;
-    public GameObject rightUINumPad;
-    
+
     public GameObject numVisitsQuestion;
     public GameObject numVisitsQRound1;
     public GameObject numVisitsQRound2;
@@ -183,6 +183,10 @@ public class QuestionsManager : MonoBehaviour
                     _fadingOut = false;
                     _tFading = 0.0f;
 
+                    if (inWheelchair | smallBodySize)
+                    {
+                        canvasUIAll.GetComponent<Transform>().position = new Vector3(0.0f,-48.56f,0.0f); // original value is y = -48.46
+                    }
                     welcomeText.GetComponent<CanvasGroup>().alpha = 0.0f;
                     welcomeText.SetActive(true);
                     _fadingIn = true;
@@ -253,9 +257,7 @@ public class QuestionsManager : MonoBehaviour
 
                         consentCheck.GetComponent<CanvasGroup>().alpha = 0.0f;
                         consentCheck.SetActive(true);
-
-                        rightUINumPad.GetComponent<CanvasGroup>().alpha = 0.0f;
-                        rightUINumPad.SetActive(true);
+                        
                         _fadingIn = true;
                     }
                 }
@@ -265,7 +267,6 @@ public class QuestionsManager : MonoBehaviour
                     if (_tFading < 1.0f)
                     {
                         CanvasFadingIn(consentCheck);
-                        CanvasFadingIn(rightUINumPad);
                     }
                     else
                     {
@@ -287,13 +288,11 @@ public class QuestionsManager : MonoBehaviour
                 {
 
                     CanvasFadingOut(consentCheck);
-                    CanvasFadingOut(rightUINumPad);
 
                 }
                 else
                 {
                     consentCheck.SetActive(false);
-                    rightUINumPad.SetActive(false);
                     _fadingOut = false;
                     _tFading = 0.0f;
 
