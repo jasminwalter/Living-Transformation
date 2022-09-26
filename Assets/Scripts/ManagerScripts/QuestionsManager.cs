@@ -46,6 +46,9 @@ public class QuestionsManager : MonoBehaviour
     public GameObject emotionNext;
 
     public GameObject relationQuestion;
+
+    public GameObject connectionQuestion;
+    public GameObject connectionTable;
     
     // other public variables
     [Header("Other variables")]
@@ -78,19 +81,25 @@ public class QuestionsManager : MonoBehaviour
     public int age;
     public bool genderQuestionAnswered = false;
     public string gender;
-
-    public bool relationQuestionAnswered = false;
-    public string relation;
-
+    
     public bool startQuestions = false;
     public bool emotionQuestionAnswered = false;
     public int emotionNumAnswered = 0;
     public List<string> emotionList = new List<string>()
         { "sad", "anxious", "annoyed", "happy", "calm/relaxed", "excited" };
-    public int[] emotionIndex = new int[] {0,1,2,3,4,5};
+    //public int[] emotionIndex = new int[] {0,1,2,3,4,5};
+    public float currentEmotionRating = 0.0f;
+    public float[] emotionRatingList = new float[]{0.0f,0.0f,0.0f,0.0f,0.0f,0.0f};
     private static Random rng;
     public bool emotionQtransition = false;
     public float targetHeight = 50.0f;
+
+    public bool relationQuestionAnswered = false;
+    public string relation;
+    
+    public bool connectionTransition = false;
+    public bool connectionQuestionAnswered = false;
+    public float connectionRating = 0.0f;
     
     public bool inPrepRoom = true;
     private bool _fadingOut = false;
@@ -462,23 +471,26 @@ public class QuestionsManager : MonoBehaviour
                     genderQuestion.SetActive(false);
                     _fadingOut = false;
                     _tFading = 0.0f;
-                
+
                     // trigger next question
                     _fadingIn = true;
                     _movingUp = true;
                     emotionQtransition = true;
-                    
+
                     rng = new Random();
                     Shuffle(emotionList);
                     emotionQuestionText.GetComponent<TextMeshProUGUI>().text =
                         "At the moment, how much are you " + emotionList[0] + "?";
                     emotionQuestions.GetComponent<CanvasGroup>().alpha = 0.0f;
                     emotionQuestions.SetActive(true);
-                }
-                
-            }
 
-            if (emotionQtransition)
+                    genderQuestionAnswered = false;
+                }
+
+            }
+        }
+
+        if (emotionQtransition)
             {
 
                 if (_fadingIn)
@@ -509,12 +521,10 @@ public class QuestionsManager : MonoBehaviour
 
                 if (!_fadingIn & !_movingUp)
                 {
-                    genderQuestionAnswered = false;
                     emotionQtransition = false;
-
                 }
+            
             }
-        }
         
         
         // emotion questions
@@ -541,6 +551,8 @@ public class QuestionsManager : MonoBehaviour
                         "At the moment, how much are you " + emotionList[emotionNumAnswered] + "?";
                     _fadingIn = true;
                     emotionNext.GetComponent<TextMeshProUGUI>().color = Color.black;
+
+                    emotionRatingList[emotionNumAnswered - 1] = currentEmotionRating;
 
                     _handleBack = true;
                 }
@@ -631,10 +643,7 @@ public class QuestionsManager : MonoBehaviour
                         emotionQuestionAnswered = false;
                     }
                 }
-                
             }
-            
-
         }
 
 
@@ -653,28 +662,104 @@ public class QuestionsManager : MonoBehaviour
                     _tFading = 0.0f;
                 
                     // trigger next question
-                    // _fadingIn = true;
-                    // genderQuestion.GetComponent<CanvasGroup>().alpha = 0.0f;
-                    // genderQuestion.SetActive(true);
+
+                    _fadingIn = true;
+                    _movingUp = true;
+                    emotionQtransition = true;
+
+                    connectionQuestion.GetComponent<CanvasGroup>().alpha = 0.0f;
+                    connectionQuestion.SetActive(true);
+
+                    relationQuestionAnswered = false;
                 }
-                
             }
-            //
-            // if (_fadingIn)
-            // {
-            //     if (_tFading < 1.0f)
-            //     {
-            //         CanvasFadingIn(genderQuestion);
-            //     }
-            //     else
-            //     {
-            //         _fadingIn = false;
-            //         _tFading = 0.0f;
-            //         ageQuestionAnswered= false;
-            //     }
-            // }
         }
         
+        if (connectionTransition)
+        {
+            if (_fadingIn)
+            {
+                if (_tFading < 1.0f)
+                {
+                    CanvasFadingIn(connectionQuestion);
+                }
+                else
+                {
+                    _fadingIn = false;
+                    _tFading = 0.0f;
+                }
+            }
+
+            if (_movingUp)
+            {
+                if (_tMoving < 1.0f)
+                {
+                    TablePullUp(connectionTable);
+                }
+                else
+                {
+                    _movingUp = false;
+                    _tMoving = 0.0f;
+                }
+            }
+
+            if (!_fadingIn & !_movingUp)
+            {
+                emotionQtransition = false;
+            }
+
+        }
+
+        if (connectionQuestionAnswered)
+        {
+            if (_fadingOut)
+            {
+                if (_tFading < 1.0f)
+                {
+                    CanvasFadingOut(connectionQuestion);
+                }
+                else
+                {
+                    _fadingOut = false;
+                    _tFading = 0.0f;
+                }
+            }
+
+            if (_movingDown)
+            {
+                if (_tMoving < 1.0f)
+                {
+                    TablePullDown(connectionTable);
+                }
+                else
+                {
+                    _movingDown = false;
+                    _tMoving = 0.0f;
+                }
+            }
+
+            if (!_fadingOut & !_movingDown)
+            {
+                _fadingIn = true;
+                connectionQuestion.SetActive(false);
+                relationQuestion.GetComponent<CanvasGroup>().alpha = 0.0f;
+                relationQuestion.SetActive(true);
+            }
+
+            if (_fadingIn)
+            {
+                if (_tFading < 1.0f)
+                {
+                    // CanvasFadingIn(relationQuestion);
+                }
+                else
+                {
+                    _fadingIn = false;
+                    _tFading = 0.0f;
+                    connectionQuestionAnswered = false;
+                }
+            }
+        }
     }
 
     #region QuestionTransitionEfffects
@@ -738,7 +823,7 @@ public class QuestionsManager : MonoBehaviour
             String value = emoList[k];  
             emoList[k] = emoList[n];  
             emoList[n] = value;  
-        }  
+        }
     }
 
     
@@ -956,7 +1041,16 @@ public class QuestionsManager : MonoBehaviour
 
     #endregion
 
+    #region ConnectionQuestion
 
+    public void ConnectionEnter()
+    {
+        connectionQuestionAnswered = true;
+        _fadingOut = true;
+        _movingDown = true;
+    }
+
+    #endregion
     #endregion
 
 }
