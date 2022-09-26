@@ -569,20 +569,20 @@ public class QuestionsManager : MonoBehaviour
                     }
                 }
 
-                if (_movingUp)
+                if (_movingDown)
                 {
                     if (_tMoving < 1.0f)
                     {
-                        TablePullUp(emotionTable);
+                        TablePullDown(emotionTable);
                     }
                     else
                     {
-                        _movingUp = false;
+                        _movingDown = false;
                         _tMoving = 0.0f;
                     }
                 }
 
-                if (!_fadingIn & !_movingUp)
+                if (!_fadingIn & !_movingDown)
                 {
                     genderQuestionAnswered = false;
                     
@@ -845,6 +845,11 @@ public class QuestionsManager : MonoBehaviour
         emotionQuestionAnswered = true;
         emotionNumAnswered += 1;
         _fadingOut = true;
+        
+        if (emotionNumAnswered >= 6)
+        {
+            _movingDown = true;
+        }
     }
 
     #endregion
