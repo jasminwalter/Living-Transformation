@@ -12,9 +12,13 @@ using Random = System.Random;
 public class QuestionsManager : MonoBehaviour
 {
     // Question Overview Game Objects
+    [Header("Game Objects")]
     public GameObject languageSelection;
     public GameObject englishUI;
     public GameObject germanUI;
+
+    public GameObject player;
+    public GameObject heightQuestion;
 
     public GameObject welcomeText;
     public GameObject welcomeNext;
@@ -38,11 +42,21 @@ public class QuestionsManager : MonoBehaviour
     public GameObject emotionTable;
     public GameObject emotionNext;
 
-
+    // other public variables
+    [Header("Other variables")]
     public bool german = false;
     public bool english = false;
     
     public bool languageQuestionAnswered = false;
+
+    public float heightThreshold = 1.4f;
+    public float cameraHeight;
+    public bool triggerHeightQuestion = false;
+    public bool inWheelchair = false;
+    public bool smallBodySize = false;
+    public bool noHeightIssue = false;
+    public bool heightQuestionAnswered = false;
+    
     
     public bool displayWelcomeText = false;
     public bool fadeInWelcomeNext = false;
@@ -59,7 +73,8 @@ public class QuestionsManager : MonoBehaviour
     public int age;
     public bool genderQuestionAnswered = false;
     public string gender;
-    
+
+    public bool startQuestions = false;
     public bool emotionQuestionAnswered = false;
     public int emotionNumAnswered = 0;
     public List<string> emotionList = new List<string>()
@@ -67,6 +82,7 @@ public class QuestionsManager : MonoBehaviour
     public int[] emotionIndex = new int[] {0,1,2,3,4,5};
     private static Random rng;
     public bool emotionQtransition = false;
+    public float targetHeight = 50.0f;
     
     public bool inPrepRoom = true;
     private bool _fadingOut = false;
@@ -104,11 +120,23 @@ public class QuestionsManager : MonoBehaviour
                     languageSelection.SetActive(false);
                     _fadingOut = false;
                     _tFading = 0.0f;
+                    cameraHeight = camera.GetComponent<Transform>().position.y;
 
-                    // trigger next question
-                    welcomeText.GetComponent<CanvasGroup>().alpha = 0.0f;
-                    welcomeText.SetActive(true);
-                    _fadingIn = true;
+                    if (cameraHeight < heightThreshold)
+                    {
+                        heightQuestion.GetComponent<CanvasGroup>().alpha = 0.0f;
+                        heightQuestion.SetActive(true);
+                        _fadingIn = true;
+
+                    }
+                    else
+                    {
+                        // trigger next question
+                        welcomeText.GetComponent<CanvasGroup>().alpha = 0.0f;
+                        welcomeText.SetActive(true);
+                        _fadingIn = true;
+                        
+                    }
                 }
             }
 
@@ -116,16 +144,65 @@ public class QuestionsManager : MonoBehaviour
                 {
                     if (_tFading < 1.0f)
                     {
-                        CanvasFadingIn(welcomeText);
+                        if (cameraHeight < heightThreshold)
+                        {
+                            CanvasFadingIn(heightQuestion);
+                        }
+                        else
+                        {
+                            CanvasFadingIn(welcomeText);
+                        }
                     }
                     else
                     {
                         _fadingIn = false;
                         _tFading = 0.0f;
                         languageQuestionAnswered = false;
-                        displayWelcomeText = true;
+                        
+                        if (!(cameraHeight < heightThreshold))
+                        {
+                            displayWelcomeText = true;
+
+                        }
                     }
                 }
+        }
+
+        if (heightQuestionAnswered)
+        {
+            if (_fadingOut)
+            {
+                if (_tFading < 1.0f)
+                {
+                    CanvasFadingOut(heightQuestion);
+                }
+                else
+                {
+                    heightQuestion.SetActive(false);
+                    _fadingOut = false;
+                    _tFading = 0.0f;
+
+                    welcomeText.GetComponent<CanvasGroup>().alpha = 0.0f;
+                    welcomeText.SetActive(true);
+                    _fadingIn = true;
+                }
+            }
+
+            if (_fadingIn)
+            {
+                if (_tFading < 1.0f)
+                {
+                    CanvasFadingIn(welcomeText);
+                }
+                else
+                {
+                    _fadingIn = false;
+                    _tFading = 0.0f;
+                     heightQuestionAnswered = false;
+                     displayWelcomeText = true;
+                }
+            }
+            
         }
         // when the welcome text is displayed, start timer
         if (displayWelcomeText)
@@ -539,9 +616,21 @@ public class QuestionsManager : MonoBehaviour
     
     private void TablePullUp(GameObject table)
     {
-        table.GetComponent<Transform>().position = new Vector3(0,Mathf.Lerp(-51.7f, -50f, _tMoving),0);
+        float x = table.GetComponent<Transform>().position.x;
+        float z = table.GetComponent<Transform>().position.z;
+        table.GetComponent<Transform>().position = new Vector3(x,Mathf.Lerp(-51.7f, targetHeight, _tMoving),z);
         _tMoving += 1.0f*Time.deltaTime;
 
+    }
+
+    private void TablePullDown(GameObject table)
+    {
+        float x = table.GetComponent<Transform>().position.x;
+        float y = table.GetComponent<Transform>().position.y;
+        float z = table.GetComponent<Transform>().position.z;
+        table.GetComponent<Transform>().position = new Vector3(x,Mathf.Lerp(y, -51.7f, _tMoving),z);
+        _tMoving += 1.0f*Time.deltaTime;
+        
     }
     
     #endregion
@@ -607,6 +696,38 @@ public class QuestionsManager : MonoBehaviour
         languageQuestionAnswered = true;
         _fadingOut = true;
 
+    }
+
+    #endregion
+
+    #region HeightQuestion
+
+    public void HeightSelection(int heightCondition)
+    {
+        if (heightCondition == 1)
+        {
+            inWheelchair = true;
+            heightThreshold = -50.433f;
+        }
+
+        else if (heightCondition == 2)
+        {
+            smallBodySize = true;
+            heightThreshold = -50.433f;
+
+        }
+
+        else if (heightCondition == 3)
+        {
+            noHeightIssue = true;
+        }
+        else
+        {
+            Debug.Log("Something went wrong in height question");
+        }
+
+        heightQuestionAnswered = true;
+        _fadingOut = true;
     }
 
     #endregion
