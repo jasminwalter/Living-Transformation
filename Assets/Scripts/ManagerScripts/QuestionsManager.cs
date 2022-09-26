@@ -708,13 +708,13 @@ public class QuestionsManager : MonoBehaviour
         if (heightCondition == 1)
         {
             inWheelchair = true;
-            heightThreshold = -50.433f;
+            targetHeight = -50.433f;
         }
 
         else if (heightCondition == 2)
         {
             smallBodySize = true;
-            heightThreshold = -50.433f;
+            targetHeight = -50.433f;
 
         }
 
