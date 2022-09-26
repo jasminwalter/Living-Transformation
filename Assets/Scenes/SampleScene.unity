@@ -13494,7 +13494,8 @@ MonoBehaviour:
   languageSelection: {fileID: 1047755655}
   englishUI: {fileID: 1516222949}
   germanUI: {fileID: 867405861}
-  camera: {fileID: 854245308}
+  playerVR: {fileID: 1552878955}
+  cameraVR: {fileID: 854245308}
   heightQuestion: {fileID: 974395335}
   welcomeText: {fileID: 2052556431}
   welcomeNext: {fileID: 252141726}

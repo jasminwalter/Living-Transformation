@@ -17,7 +17,8 @@ public class QuestionsManager : MonoBehaviour
     public GameObject englishUI;
     public GameObject germanUI;
 
-    public GameObject player;
+    public GameObject playerVR;
+    public GameObject cameraVR;
     public GameObject heightQuestion;
 
     public GameObject welcomeText;
@@ -94,6 +95,7 @@ public class QuestionsManager : MonoBehaviour
 
     private void OnEnable()
     {
+        //cameraVR = playerVR.GetComponent<GameObject>().Find("VRCamera");
         languageSelection.SetActive(true);
     }
 
@@ -101,7 +103,6 @@ public class QuestionsManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         // language question
         if (languageQuestionAnswered)
         {
@@ -120,7 +121,7 @@ public class QuestionsManager : MonoBehaviour
                     languageSelection.SetActive(false);
                     _fadingOut = false;
                     _tFading = 0.0f;
-                    cameraHeight = camera.GetComponent<Transform>().position.y;
+                    cameraHeight = cameraVR.GetComponent<Transform>().position.y +50.0f;
 
                     if (cameraHeight < heightThreshold)
                     {
