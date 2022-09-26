@@ -49,6 +49,8 @@ public class QuestionsManager : MonoBehaviour
 
     public GameObject connectionQuestion;
     public GameObject connectionTable;
+
+    public GameObject eyeInformation;
     
     // other public variables
     [Header("Other variables")]
@@ -84,10 +86,9 @@ public class QuestionsManager : MonoBehaviour
     
     public bool startQuestions = false;
     public bool emotionQuestionAnswered = false;
-    public int emotionNumAnswered = 0;
+    public int emotionNumAnswered = 0; 
     public List<string> emotionList = new List<string>()
         { "sad", "anxious", "annoyed", "happy", "calm/relaxed", "excited" };
-    //public int[] emotionIndex = new int[] {0,1,2,3,4,5};
     public float currentEmotionRating = 0.0f;
     public float[] emotionRatingList = new float[]{0.0f,0.0f,0.0f,0.0f,0.0f,0.0f};
     private static Random rng;
@@ -100,6 +101,8 @@ public class QuestionsManager : MonoBehaviour
     public bool connectionTransition = false;
     public bool connectionQuestionAnswered = false;
     public float connectionRating = 0.0f;
+
+    public bool eyeInfoQuestionAnswered = false;
     
     public bool inPrepRoom = true;
     private bool _fadingOut = false;
@@ -760,6 +763,14 @@ public class QuestionsManager : MonoBehaviour
                 }
             }
         }
+
+        if (eyeInfoQuestionAnswered)
+        {
+            // trigger calibration
+            
+            
+            eyeInformation.SetActive(false);
+        }
     }
 
     #region QuestionTransitionEfffects
@@ -1048,6 +1059,16 @@ public class QuestionsManager : MonoBehaviour
         connectionQuestionAnswered = true;
         _fadingOut = true;
         _movingDown = true;
+    }
+
+    #endregion
+
+    #region EyeCallibrationInformation
+
+    public void EyeInfoEnter()
+    {
+        eyeInfoQuestionAnswered = true;
+        
     }
 
     #endregion
