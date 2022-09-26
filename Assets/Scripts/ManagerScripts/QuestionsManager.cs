@@ -41,8 +41,12 @@ public class QuestionsManager : MonoBehaviour
     public GameObject emotionQuestions;
     public GameObject emotionQuestionText;
     public GameObject emotionTable;
+    public GameObject emotionHandle;
+    public GameObject emotionHandleOrigin;
     public GameObject emotionNext;
 
+    public GameObject relationQuestion;
+    
     // other public variables
     [Header("Other variables")]
     public bool german = false;
@@ -75,6 +79,9 @@ public class QuestionsManager : MonoBehaviour
     public bool genderQuestionAnswered = false;
     public string gender;
 
+    public bool relationQuestionAnswered = false;
+    public string relation;
+
     public bool startQuestions = false;
     public bool emotionQuestionAnswered = false;
     public int emotionNumAnswered = 0;
@@ -92,6 +99,8 @@ public class QuestionsManager : MonoBehaviour
     private bool _movingUp = false;
     private bool _movingDown = false;
     private float _tMoving = 0.0f;
+    private bool _handleBack = false;
+    private float _tHandle = 0.0f;
 
     private void OnEnable()
     {
@@ -431,13 +440,10 @@ public class QuestionsManager : MonoBehaviour
                 }
                 else
                 {
-
                     _fadingIn = false;
                     _tFading = 0.0f;
-
                     ageQuestionAnswered= false;
                 }
-                
             }
         }
         
@@ -535,6 +541,8 @@ public class QuestionsManager : MonoBehaviour
                         "At the moment, how much are you " + emotionList[emotionNumAnswered] + "?";
                     _fadingIn = true;
                     emotionNext.GetComponent<TextMeshProUGUI>().color = Color.black;
+
+                    _handleBack = true;
                 }
 
                 if (_fadingIn)
@@ -547,9 +555,25 @@ public class QuestionsManager : MonoBehaviour
                     {
                         _fadingIn = false;
                         _tFading = 0.0f;
-                        emotionQuestionAnswered = false;
                     }
+                }
 
+                if (_handleBack)
+                {
+                    if (_tHandle < 1.0f)
+                    {
+                        MoveHandleToStart(emotionHandle, emotionHandle.GetComponent<Transform>().position.x);
+                    }
+                    else
+                    {
+                        _tHandle = 0.0f;
+                        _handleBack = false;
+                    }
+                }
+
+                if (!_fadingIn & !_handleBack)
+                {
+                    emotionQuestionAnswered = false;
                 }
                 
             }
@@ -582,18 +606,75 @@ public class QuestionsManager : MonoBehaviour
                     }
                 }
 
-                if (!_fadingIn & !_movingDown)
+                if (!_fadingOut & !_movingDown)
                 {
                     genderQuestionAnswered = false;
                     
+                    
                     // trigger next question/part
+                    _fadingIn = true;
+                    relationQuestion.GetComponent<CanvasGroup>().alpha = 0.0f;
+                    relationQuestion.SetActive(true);
 
+                }
+                
+                if (_fadingIn)
+                {
+                    if (_tFading < 1.0f)
+                    {
+                        CanvasFadingIn(relationQuestion);
+                    }
+                    else
+                    {
+                        _fadingIn = false;
+                        _tFading = 0.0f;
+                        emotionQuestionAnswered = false;
+                    }
                 }
                 
             }
             
 
         }
+
+
+        if (relationQuestionAnswered)
+        {
+            if (_fadingOut)
+            {
+                if (_tFading < 1.0f)
+                {
+                    CanvasFadingOut(relationQuestion);
+                }
+                else
+                {
+                    relationQuestion.SetActive(false);
+                    _fadingOut = false;
+                    _tFading = 0.0f;
+                
+                    // trigger next question
+                    // _fadingIn = true;
+                    // genderQuestion.GetComponent<CanvasGroup>().alpha = 0.0f;
+                    // genderQuestion.SetActive(true);
+                }
+                
+            }
+            //
+            // if (_fadingIn)
+            // {
+            //     if (_tFading < 1.0f)
+            //     {
+            //         CanvasFadingIn(genderQuestion);
+            //     }
+            //     else
+            //     {
+            //         _fadingIn = false;
+            //         _tFading = 0.0f;
+            //         ageQuestionAnswered= false;
+            //     }
+            // }
+        }
+        
     }
 
     #region QuestionTransitionEfffects
@@ -630,6 +711,16 @@ public class QuestionsManager : MonoBehaviour
         float z = table.GetComponent<Transform>().position.z;
         table.GetComponent<Transform>().position = new Vector3(x,Mathf.Lerp(y, -51.7f, _tMoving),z);
         _tMoving += 1.0f*Time.deltaTime;
+        
+    }
+
+    private void MoveHandleToStart(GameObject handle, float destinationPosition)
+    {
+        float currentX =  handle.GetComponent<Transform>().position.x;
+        float y = handle.GetComponent<Transform>().position.y;
+        float z = handle.GetComponent<Transform>().position.z;
+        handle.GetComponent<Transform>().position = new Vector3(Mathf.Lerp(currentX, destinationPosition, _tHandle),y, z);
+        _tHandle += 1.0f*Time.deltaTime;
         
     }
     
@@ -840,7 +931,7 @@ public class QuestionsManager : MonoBehaviour
 
     #region EmotionQuestions
 
-    public void emotionEnter()
+    public void EmotionEnter()
     {
         emotionQuestionAnswered = true;
         emotionNumAnswered += 1;
@@ -850,6 +941,17 @@ public class QuestionsManager : MonoBehaviour
         {
             _movingDown = true;
         }
+    }
+
+    #endregion
+
+    #region RelationQuestion
+
+    public void RelationInput(TextMeshProUGUI relationInput)
+    {
+        relation = relationInput.text;
+        relationQuestionAnswered = true;
+        _fadingOut = true;
     }
 
     #endregion
