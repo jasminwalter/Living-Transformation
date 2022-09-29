@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ConnectionRatingCalc : MonoBehaviour
 {
-    public GameObject questionsManager;
+    public QuestionsManager questionsManager;
     public GameObject negPoint;
     public GameObject posPoint;
 

@@ -30,7 +30,19 @@ namespace ViveSR
 
                     if (GUILayout.Button("Launch Calibration"))
                     {
-                        SRanipal_Eye_API.LaunchEyeCalibration(IntPtr.Zero);
+                        bool testCal = false;
+                        SRanipal_Eye_API.IsUserNeedCalibration(ref testCal);
+                        Debug.Log("Does user need calibration? " + testCal);
+                        
+                        // SRanipal_Eye_API.LaunchEyeCalibration(IntPtr.Zero);
+                        var result = SRanipal_Eye_API.LaunchEyeCalibration(IntPtr.Zero);
+                        Debug.Log("Calibration result: " + result);
+                        EyeParameter test = new EyeParameter();
+                        var sensitivity = SRanipal_Eye_API.GetEyeParameter(ref test);
+                        Debug.Log("Eye sensitivity parameter: " + test.gaze_ray_parameter.sensitive_factor);
+                        
+                        SRanipal_Eye_API.IsUserNeedCalibration(ref testCal);
+                        Debug.Log("Does user need calibration? " + testCal);
                     }
                 }
             }

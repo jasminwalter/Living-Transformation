@@ -11,6 +11,8 @@ using Random = System.Random;
 
 public class QuestionsManager : MonoBehaviour
 {
+    public static QuestionsManager Instance { get; private set; } 
+    
     // Question Overview Game Objects
     [Header("Game Objects")]
     public GameObject languageSelection;
