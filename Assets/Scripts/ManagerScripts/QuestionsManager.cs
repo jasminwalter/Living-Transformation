@@ -104,7 +104,7 @@ public class QuestionsManager : MonoBehaviour
     public bool connectionQuestionAnswered = false;
     public float connectionRating = 0.0f;
 
-    public bool eyeInfoQuestionAnswered = false;
+    public bool eyeInfoFadeOut = false;
     
     public bool inPrepRoom = true;
     private bool _fadingOut = false;
@@ -119,7 +119,7 @@ public class QuestionsManager : MonoBehaviour
     private void OnEnable()
     {
         //cameraVR = playerVR.GetComponent<GameObject>().Find("VRCamera");
-        languageSelection.SetActive(true);
+        //languageSelection.SetActive(true);
     }
 
 
@@ -766,12 +766,11 @@ public class QuestionsManager : MonoBehaviour
             }
         }
 
-        if (eyeInfoQuestionAnswered)
+        if (eyeInfoFadeOut)
         {
             // trigger calibration
-            
-            
             eyeInformation.SetActive(false);
+            
         }
     }
 
@@ -1067,9 +1066,9 @@ public class QuestionsManager : MonoBehaviour
 
     #region EyeCallibrationInformation
 
-    public void EyeInfoEnter()
+    public void CalibrationInfoFinished()
     {
-        eyeInfoQuestionAnswered = true;
+        eyeInfoFadeOut = true;
         
     }
 
