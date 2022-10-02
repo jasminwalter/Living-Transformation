@@ -105,6 +105,7 @@ public class QuestionsManager : MonoBehaviour
     public float connectionRating = 0.0f;
 
     public bool eyeInfoFadeOut = false;
+    public bool calibratingSystemFinished = false;
     
     public bool inPrepRoom = true;
     private bool _fadingOut = false;

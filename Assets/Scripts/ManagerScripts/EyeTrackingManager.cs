@@ -24,7 +24,8 @@ public class EyeTrackingManager : MonoBehaviour
     //
     // public bool startCalibration;
     // public bool startValidation;
-    
+
+    public bool isCalibratingSystem = false;
     
     public int calibrationTries = 0;
     // public List<int> calibrationOverviewAmountOfTries;
@@ -47,12 +48,15 @@ public class EyeTrackingManager : MonoBehaviour
 
     public bool increasesETThreshold = false;
     public bool noEyeTrackingFunctionality = false;
-    
-    [Header("Additional GameObjects")]
-    
+
+    [Header("visual transition variables")]
+
+    public FadingCamera fadingCamera;
     public GameObject preparationRoomObjects;
 
     public GameObject validationRoomObjects;
+    
+    
     public bool fadingOutToValidationRoom = false;
     public bool fadingInToValidationRoom = false;
     public float fadingTime = 3.0f;
@@ -106,149 +110,133 @@ public class EyeTrackingManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        // if (!calibrationSuccess & calibrationTries < 2)
-        // {
-        //     calibrationCount++;
-        //     calibrationTries++;
-        //
-        //     calibrationSuccess = SRanipal_Eye_v2.LaunchEyeCalibration();
-        //     Debug.Log("Calibration success: " + calibrationSuccess);
-        // }
-        //
-        // if (calibrationSuccess)
-        // {
-        //     calibrationSuccess = true;
-        //     validationOnGoing = true;
-        // }
-        //
-        // else
-        // {
-        //     calibrationProblem = true;
-        // }
-        //
-        // // save calibration info
-        // calibrationOverviewSuccessOfTries.Append(calibrationSuccess);
-        //
-        // calibrationOverviewAmountOfTries.Append(calibrationTries);
-        // calibrationTries = 0;
 
-        if (fadingOutToValidationRoom)
+        if (isCalibratingSystem)
         {
-            if (_currentFadeTime > 0)
+            if (calibrationFailed)
             {
-                Debug.Log("FadingOut");
-                mainCamera.GetComponent<SteamVR_Fade>().OnStartFade(Color.black, _currentFadeTime , false);
-                _currentFadeTime -= Time.deltaTime;
-            }
-            else
-            {
-                preparationRoomObjects.SetActive(false);
-                validationRoomObjects.SetActive(true);
-                fadingOutToValidationRoom = false;
-                fadingInToValidationRoom = true;
-                _currentFadeTime = fadingTime;
-            }
-        }
-
-        if (fadingInToValidationRoom)
-        {
-
-            if (_currentFadeTime > 0)
-            {
-                Debug.Log("Fading in...............");
-                mainCamera.GetComponent<SteamVR_Fade>().OnStartFade(Color.black, _currentFadeTime , false);
-                _currentFadeTime -= Time.deltaTime;
-            }
-            else
-            {
-                _currentFadeTime = fadingTime;
-                fadingInToValidationRoom = false;
-            }
-        }
-        
-        if (calibrationFailed)
-        {
-            if (calibrationTries < 3)
-            {
-                Debug.Log("Restarting calibration...");
-                calibrationFailed = false;
-                StartCalibration();
-                
-            }
-            else
-            {
-                calibrationProblem = true;
-            }
-        }
-
-        if (calibrationSuccess)
-        {
-            calibrationSuccess = false;
-            validationTries++;
-            ValidateEyeTracking();
-        }
-
-        if (validationSuccess)
-        {
-            Debug.Log("Validation was successful, starting avatar selection");
-            validationSuccess = false;
-
-            calibrationTries = 0;
-            validationTries = 0;
-            // start avatar selection process
-        }
-
-        if (validationFail)
-        {
-            Debug.Log("Validation failed");
-            if (calibrationTries < 4)
-            {
-                Debug.Log("restart calibration and validation process");
-                validationFail = false;
-                StartCalibration();
-            }
-            else
-            {
-                if (_totalError < 3.0f)
+                if (calibrationTries < 3)
                 {
-                    Debug.Log("Increase validation error to 3.0f + start avatar selection");
-                    increasesETThreshold = true;
-                    validationFail = false;
-                    // increase the gaze sphere
-                    
+                    Debug.Log("Restarting calibration...");
+                    calibrationFailed = false;
+                    StartCalibration();
+                
                 }
                 else
                 {
                     calibrationProblem = true;
+                }
+            }
+
+            if (calibrationSuccess)
+            {
+                calibrationSuccess = false;
+                validationTries++;
+                ValidateEyeTracking();
+            }
+
+            if (validationSuccess)
+            {
+                Debug.Log("Validation was successful, starting avatar selection");
+                validationSuccess = false;
+
+                calibrationTries = 0;
+                validationTries = 0;
+                isCalibratingSystem = false;
+                // start avatar selection process
+            }
+
+            if (validationFail)
+            {
+                Debug.Log("Validation failed");
+                if (calibrationTries < 4)
+                {
+                    Debug.Log("restart calibration and validation process");
                     validationFail = false;
-                    noEyeTrackingFunctionality = true;
+                    StartCalibration();
+                }
+                else
+                {
+                    if (_totalError < 3.0f)
+                    {
+                        Debug.Log("Increase validation error to 3.0f + start avatar selection");
+                        increasesETThreshold = true;
+                        validationFail = false;
+                        isCalibratingSystem = false;
+                        // increase the gaze sphere
+
+                    }
+                    else
+                    {
+                        calibrationProblem = true;
+                        validationFail = false;
+                        noEyeTrackingFunctionality = true;
+                    }
+
                 }
 
             }
-
-        }
         
-        // deal with that somehow
-        if (calibrationProblem)
-        {
-            // deal with no eye tracking functionality
-            Debug.Log("No eye tracking functionality available");
+            // deal with that somehow
+            if (calibrationProblem)
+            {
+                // deal with no eye tracking functionality
+                Debug.Log("No eye tracking functionality available");
             
-            // somehow deal with that.....
+                // somehow deal with that.....
+                isCalibratingSystem = false;
+
+            }
             
         }
+
     }
+
+    #region VisualFunctionalities
+
+    IEnumerator SwitchToValidationRoom()
+    {
+        // fade out
+        fadingCamera.FadeOut();
+        yield return new WaitForSeconds(fadingCamera.fadeDuration);
+        
+        // switch rooms
+        preparationRoomObjects.SetActive(false);
+        validationRoomObjects.SetActive(true);
+
+        // fade in
+        fadingCamera.FadeIn();
+        yield return new WaitForSeconds(fadingCamera.fadeDuration);
+
+        StartCalibration();
+        
+    }
+
+    IEnumerator SwitchBackToPreparationRoom()
+    {
+        // fade out
+        fadingCamera.FadeOut();
+        yield return new WaitForSeconds(fadingCamera.fadeDuration);
+        
+        // switch rooms
+        validationRoomObjects.SetActive(false);
+        preparationRoomObjects.SetActive(true);
+        
+
+        // fade in
+        fadingCamera.FadeIn();
+        yield return new WaitForSeconds(fadingCamera.fadeDuration);
+        QuestionsManager.Instance.calibratingSystemFinished = true;
+    }
+
+    #endregion
 
     #region CalibrationRegion
     
     public void StartCalButton()
     {
-        fadingOutToValidationRoom = true;
-        
-        Debug.Log("Button pressed");
-        // StartCalibration();
-        // Debug.Log(" start cal button method finished");
+        isCalibratingSystem = true;
+        StartCoroutine(SwitchToValidationRoom());
     }
 
     public void StartCalibration()
