@@ -57,7 +57,7 @@ public class QuestionsManager : MonoBehaviour
     // other public variables
     [Header("Other variables")]
     public bool german = false;
-    public bool english = false;
+    public bool english = true;
     
     public bool languageQuestionAnswered = false;
 
@@ -121,6 +121,14 @@ public class QuestionsManager : MonoBehaviour
     {
         //cameraVR = playerVR.GetComponent<GameObject>().Find("VRCamera");
         //languageSelection.SetActive(true);
+    }
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
     }
 
 
@@ -770,10 +778,38 @@ public class QuestionsManager : MonoBehaviour
         if (eyeInfoFadeOut)
         {
             // trigger calibration
-            eyeInformation.SetActive(false);
+            if (_fadingOut)
+            {
+                if (_tFading < 1.0f)
+                {
+                    CanvasFadingOut(eyeInformation);
+                }
+                else
+                {
+                    eyeInformation.SetActive(false);
+                    _fadingOut = false;
+                    _tFading = 0.0f;
+                }
+
+            }
+            
             
         }
     }
+
+    #region Language
+
+    public bool GetEnglish()
+    {
+        return english;
+    }
+
+    public bool GetGerman()
+    {
+        return german;
+    }
+
+    #endregion
 
     #region QuestionTransitionEfffects
 
@@ -1070,7 +1106,8 @@ public class QuestionsManager : MonoBehaviour
     public void CalibrationInfoFinished()
     {
         eyeInfoFadeOut = true;
-        
+        _fadingOut = true;
+
     }
 
     #endregion

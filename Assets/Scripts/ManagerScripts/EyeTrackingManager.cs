@@ -55,6 +55,7 @@ public class EyeTrackingManager : MonoBehaviour
     public GameObject preparationRoomObjects;
 
     public GameObject validationRoomObjects;
+    public GameObject etInstructionCanvas;
     
     
     public bool fadingOutToValidationRoom = false;
@@ -91,6 +92,47 @@ public class EyeTrackingManager : MonoBehaviour
     private float _totalError;
     
     #endregion
+
+    #region InstructionTexts
+    
+    // English instructions
+    [Header("English Instructions")] 
+    
+    private float _instructionThresholdShort = 3.0f;
+
+    private float _instructionThresholdLong = 8.0f;
+    
+    public GameObject instCalSuccessE;
+    public GameObject instCalFailE;
+    
+    public GameObject instValSuccessE;
+    public GameObject instValFailE;
+    
+    public GameObject instCalValProblemE;
+
+    // German instructions
+    [Header("German Instructions")]
+
+    public GameObject instCalSuccessG;
+    public GameObject instCalFailG;
+    
+    public GameObject instValSuccessG;
+    public GameObject instValFailG;
+    
+    public GameObject instCalValProblemG;
+    
+    // instruction placeholders
+
+    private GameObject _instructionCalibrationSuccess;
+    private GameObject _instructionCalibrationFail;
+    
+    private GameObject _instructionValidationSuccess;
+    private GameObject _instructionValidationFail;
+    
+    private GameObject _instructionCalValProblem;
+    
+
+    #endregion
     
     private void Awake()
     {
@@ -110,88 +152,41 @@ public class EyeTrackingManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        if (isCalibratingSystem)
-        {
-            if (calibrationFailed)
-            {
-                if (calibrationTries < 3)
-                {
-                    Debug.Log("Restarting calibration...");
-                    calibrationFailed = false;
-                    StartCalibration();
-                
-                }
-                else
-                {
-                    calibrationProblem = true;
-                }
-            }
-
-            if (calibrationSuccess)
-            {
-                calibrationSuccess = false;
-                validationTries++;
-                ValidateEyeTracking();
-            }
-
-            if (validationSuccess)
-            {
-                Debug.Log("Validation was successful, starting avatar selection");
-                validationSuccess = false;
-
-                calibrationTries = 0;
-                validationTries = 0;
-                isCalibratingSystem = false;
-                // start avatar selection process
-            }
-
-            if (validationFail)
-            {
-                Debug.Log("Validation failed");
-                if (calibrationTries < 4)
-                {
-                    Debug.Log("restart calibration and validation process");
-                    validationFail = false;
-                    StartCalibration();
-                }
-                else
-                {
-                    if (_totalError < 3.0f)
-                    {
-                        Debug.Log("Increase validation error to 3.0f + start avatar selection");
-                        increasesETThreshold = true;
-                        validationFail = false;
-                        isCalibratingSystem = false;
-                        // increase the gaze sphere
-
-                    }
-                    else
-                    {
-                        calibrationProblem = true;
-                        validationFail = false;
-                        noEyeTrackingFunctionality = true;
-                    }
-
-                }
-
-            }
-        
-            // deal with that somehow
-            if (calibrationProblem)
-            {
-                // deal with no eye tracking functionality
-                Debug.Log("No eye tracking functionality available");
-            
-                // somehow deal with that.....
-                isCalibratingSystem = false;
-
-            }
-            
-        }
-
     }
 
+    #region InstructionsAssignment
+
+    public void AssignInstructionLanguage()
+    {
+        if(QuestionsManager.Instance.english)
+        {
+            
+            _instructionCalibrationSuccess = instCalSuccessE;
+            _instructionCalibrationFail= instCalFailE;
+                
+            _instructionValidationSuccess = instValSuccessE;
+            _instructionValidationFail = instValFailE;
+                
+            _instructionCalValProblem = instCalValProblemE;
+        }
+
+        
+        
+        if (QuestionsManager.Instance.german)
+        {
+            _instructionCalibrationSuccess = instCalSuccessG;
+            _instructionCalibrationFail= instCalFailG;
+                
+            _instructionValidationSuccess = instValSuccessG;
+            _instructionValidationFail = instValFailG;
+                
+            _instructionCalValProblem = instCalValProblemG;
+        }
+    }
+    
+    
+    #endregion
+    
     #region VisualFunctionalities
 
     IEnumerator SwitchToValidationRoom()
@@ -203,13 +198,15 @@ public class EyeTrackingManager : MonoBehaviour
         // switch rooms
         preparationRoomObjects.SetActive(false);
         validationRoomObjects.SetActive(true);
+        etInstructionCanvas.SetActive(true);
 
         // fade in
         fadingCamera.FadeIn();
         yield return new WaitForSeconds(fadingCamera.fadeDuration);
 
         StartCalibration();
-        
+        yield return null;
+
     }
 
     IEnumerator SwitchBackToPreparationRoom()
@@ -219,6 +216,7 @@ public class EyeTrackingManager : MonoBehaviour
         yield return new WaitForSeconds(fadingCamera.fadeDuration);
         
         // switch rooms
+        etInstructionCanvas.SetActive(false);
         validationRoomObjects.SetActive(false);
         preparationRoomObjects.SetActive(true);
         
@@ -226,7 +224,8 @@ public class EyeTrackingManager : MonoBehaviour
         // fade in
         fadingCamera.FadeIn();
         yield return new WaitForSeconds(fadingCamera.fadeDuration);
-        QuestionsManager.Instance.calibratingSystemFinished = true;
+        // QuestionsManager.Instance.calibratingSystemFinished = true;
+        yield return null;
     }
 
     #endregion
@@ -235,32 +234,67 @@ public class EyeTrackingManager : MonoBehaviour
     
     public void StartCalButton()
     {
+        AssignInstructionLanguage();
         isCalibratingSystem = true;
         StartCoroutine(SwitchToValidationRoom());
     }
 
     public void StartCalibration()
     {
-        Debug.Log("Start Calibration method started ");
         calibrationCount++;
         calibrationTries++;
         
         calibrationResult = SRanipal_Eye_v2.LaunchEyeCalibration();
         Debug.Log("Calibration success: " + calibrationResult);
-
-        if (calibrationResult)
-        {
-            calibrationSuccess = true;
-        }
-        else
-        {
-            calibrationFailed = true;
-        }
+        StartCoroutine(EvaluateCalibration());
 
     }
 
+
+    private IEnumerator EvaluateCalibration()
+    {
+        if (calibrationResult)
+        {
+            // calibrationSuccess = true;
+            _instructionCalibrationSuccess.SetActive(true);
+            yield return new WaitForSeconds(_instructionThresholdShort);
+            _instructionCalibrationSuccess.SetActive(false);
+            // calibrationSuccess = false;
+            validationTries++;
+            ValidateEyeTracking();
+            
+        }
+        else
+        {
+            if (calibrationTries < 3)
+            {
+                // calibrationFailed = true;
+                _instructionCalibrationFail.SetActive(true);
+                yield return new WaitForSeconds(_instructionThresholdLong);
+                _instructionCalibrationFail.SetActive(false);
+                
+                Debug.Log("Restarting calibration...");
+                // calibrationFailed = false;
+                StartCalibration();
+                
+            }
+            else
+            {
+                calibrationProblem = true;
+                _instructionCalValProblem.SetActive(true);
+                yield return new WaitForSeconds(_instructionThresholdLong);
+                _instructionCalValProblem.SetActive(false);
+                StartCoroutine(SwitchBackToPreparationRoom());
+
+            }
+
+        }
+
+        yield return null;
+
+    }
     #endregion
-    
+
     #region ValidationRegion
 
      private void SaveValidationFile()
@@ -289,6 +323,7 @@ public class EyeTrackingManager : MonoBehaviour
           if (_isValidationRunning) yield break;
           _isValidationRunning = true;
   
+          Debug.Log("Start Validation");
           _validationId++;
   
           fixationPoint.transform.parent = mainCamera.gameObject.transform;
@@ -298,25 +333,6 @@ public class EyeTrackingManager : MonoBehaviour
           fixationPoint.transform.position = _hmdTransform.position + _hmdTransform.rotation * new Vector3(0,0,30);
   
           fixationPoint.transform.LookAt(_hmdTransform);
-          
-          // display the instructions-----------------------------------------------------------------------to do------
-          
-          // if (_isExperiment)
-          // {
-          //     // ExperimentManager.Instance.SetInstructionText(_instructions.ValidationInstruction);
-          //
-          //     yield return new WaitForSeconds(2);
-          //
-          //     // ExperimentManager.Instance.SetInstructionText("");
-          // }
-          // else
-          // {
-          //     // ExplorationManager.Instance.SetInstructionText(_instructions.ValidationInstruction);
-          //
-          //     yield return new WaitForSeconds(2);
-          //
-          //     // ExplorationManager.Instance.SetInstructionText("");
-          // }
           
           yield return new WaitForSeconds(.15f);
           
@@ -392,28 +408,60 @@ public class EyeTrackingManager : MonoBehaviour
               _totalError = CalculateValidationError(anglesX) + CalculateValidationError(anglesY) +
                                CalculateValidationError(anglesZ);
               validationFail = true;
-              // give instructions ----------------------------------------------------------------------------to do----
-              if (_isExperiment)
+              Debug.Log("Validation failed");
+              
+              if (calibrationTries < 4)
               {
-                  // ExperimentManager.Instance.SetValidationSuccessStatus(false);
+                  Debug.Log("restart calibration and validation process");
+                  _instructionValidationFail.SetActive(true);
+                  yield return new WaitForSeconds(_instructionThresholdLong);
+                  _instructionValidationFail.SetActive(false);
+                  
+                  validationFail = false;
+                  StartCalibration();
               }
               else
               {
-                  // ExplorationManager.Instance.SetValidationSuccessStatus(false);
+                  if (_totalError < 3.0f)
+                  {
+                      Debug.Log("Increase validation error to 3.0f + start avatar selection");
+                      increasesETThreshold = true;
+                      validationFail = false;
+                      _instructionValidationSuccess.SetActive(true);
+                      yield return new WaitForSeconds(_instructionThresholdShort);
+                      _instructionValidationSuccess.SetActive(false);
+                      StartCoroutine(SwitchBackToPreparationRoom());
+                      // increase the gaze sphere
+
+                  }
+                  else
+                  {
+                      calibrationProblem = true;
+                      validationFail = false;
+                      noEyeTrackingFunctionality = true;
+                      
+                      _instructionCalValProblem.SetActive(true);
+                      yield return new WaitForSeconds(_instructionThresholdLong);
+                      _instructionCalValProblem.SetActive(false);
+                      StartCoroutine(SwitchBackToPreparationRoom());
+                  }
+
               }
+
           }
           else
           {
               validationSuccess = true;
-              if (_isExperiment)
-              {
-                  // ExperimentManager.Instance.SetValidationSuccessStatus(true);
-              }
-              else
-              {
-                  // ExplorationManager.Instance.SetValidationSuccessStatus(true);
-              }
+              calibrationTries = 0;
+              validationTries = 0;
+              _instructionValidationSuccess.SetActive(true);
+              yield return new WaitForSeconds(_instructionThresholdShort);
+              _instructionValidationSuccess.SetActive(false);
+              StartCoroutine(SwitchBackToPreparationRoom());
+
           }
+
+          yield return null;
       }
                   
       private IEnumerator CheckErrorEyeTracker(float delay=5)
