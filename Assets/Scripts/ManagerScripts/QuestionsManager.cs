@@ -11,6 +11,8 @@ using Random = System.Random;
 
 public class QuestionsManager : MonoBehaviour
 {
+    public static QuestionsManager Instance { get; private set; } 
+    
     // Question Overview Game Objects
     [Header("Game Objects")]
     public GameObject languageSelection;
@@ -55,7 +57,7 @@ public class QuestionsManager : MonoBehaviour
     // other public variables
     [Header("Other variables")]
     public bool german = false;
-    public bool english = false;
+    public bool english = true;
     
     public bool languageQuestionAnswered = false;
 
@@ -102,7 +104,8 @@ public class QuestionsManager : MonoBehaviour
     public bool connectionQuestionAnswered = false;
     public float connectionRating = 0.0f;
 
-    public bool eyeInfoQuestionAnswered = false;
+    public bool eyeInfoFadeOut = false;
+    public bool calibratingSystemFinished = false;
     
     public bool inPrepRoom = true;
     private bool _fadingOut = false;
@@ -117,7 +120,15 @@ public class QuestionsManager : MonoBehaviour
     private void OnEnable()
     {
         //cameraVR = playerVR.GetComponent<GameObject>().Find("VRCamera");
-        languageSelection.SetActive(true);
+        //languageSelection.SetActive(true);
+    }
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
     }
 
 
@@ -764,14 +775,41 @@ public class QuestionsManager : MonoBehaviour
             }
         }
 
-        if (eyeInfoQuestionAnswered)
+        if (eyeInfoFadeOut)
         {
             // trigger calibration
+            if (_fadingOut)
+            {
+                if (_tFading < 1.0f)
+                {
+                    CanvasFadingOut(eyeInformation);
+                }
+                else
+                {
+                    eyeInformation.SetActive(false);
+                    _fadingOut = false;
+                    _tFading = 0.0f;
+                }
+
+            }
             
             
-            eyeInformation.SetActive(false);
         }
     }
+
+    #region Language
+
+    public bool GetEnglish()
+    {
+        return english;
+    }
+
+    public bool GetGerman()
+    {
+        return german;
+    }
+
+    #endregion
 
     #region QuestionTransitionEfffects
 
@@ -1065,10 +1103,11 @@ public class QuestionsManager : MonoBehaviour
 
     #region EyeCallibrationInformation
 
-    public void EyeInfoEnter()
+    public void CalibrationInfoFinished()
     {
-        eyeInfoQuestionAnswered = true;
-        
+        eyeInfoFadeOut = true;
+        _fadingOut = true;
+
     }
 
     #endregion

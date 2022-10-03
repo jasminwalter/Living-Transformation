@@ -9,7 +9,7 @@ using Debug = UnityEngine.Debug;
 public class EmotionRatingCalc : MonoBehaviour
 {
 
-    public GameObject questionsManager;
+    public QuestionsManager questionsManager;
     public GameObject startPoint;
 
     public GameObject endPoint;
