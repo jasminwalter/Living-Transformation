@@ -52,7 +52,7 @@ public class EyeTrackingManager : MonoBehaviour
     [Header("visual transition variables")]
 
     public FadingCamera fadingCamera;
-    public GameObject preparationRoomObjects;
+    public GameObject preparationRoom;
 
     public GameObject validationRoomObjects;
     public GameObject etInstructionCanvas;
@@ -196,7 +196,7 @@ public class EyeTrackingManager : MonoBehaviour
         yield return new WaitForSeconds(fadingCamera.fadeDuration);
         
         // switch rooms
-        preparationRoomObjects.SetActive(false);
+        preparationRoom.SetActive(false);
         validationRoomObjects.SetActive(true);
         etInstructionCanvas.SetActive(true);
 
@@ -218,7 +218,7 @@ public class EyeTrackingManager : MonoBehaviour
         // switch rooms
         etInstructionCanvas.SetActive(false);
         validationRoomObjects.SetActive(false);
-        preparationRoomObjects.SetActive(true);
+        preparationRoom.SetActive(true);
         
 
         // fade in
