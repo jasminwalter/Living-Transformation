@@ -57,6 +57,8 @@ public class EyeTrackingManager : MonoBehaviour
     public GameObject validationRoomObjects;
     public GameObject etInstructionCanvas;
     
+    public GameObject avatarSelection;
+    
     
     public bool fadingOutToValidationRoom = false;
     public bool fadingInToValidationRoom = false;
@@ -219,6 +221,7 @@ public class EyeTrackingManager : MonoBehaviour
         etInstructionCanvas.SetActive(false);
         validationRoomObjects.SetActive(false);
         preparationRoom.SetActive(true);
+        avatarSelection.SetActive(true);
         
 
         // fade in

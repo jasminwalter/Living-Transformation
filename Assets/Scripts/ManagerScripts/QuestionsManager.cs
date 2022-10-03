@@ -53,6 +53,12 @@ public class QuestionsManager : MonoBehaviour
     public GameObject connectionTable;
 
     public GameObject eyeInformation;
+
+    public GameObject avatarSelection;
+
+    public GameObject trainingInformation;
+
+    
     
     // other public variables
     [Header("Other variables")]
@@ -106,6 +112,9 @@ public class QuestionsManager : MonoBehaviour
 
     public bool eyeInfoFadeOut = false;
     public bool calibratingSystemFinished = false;
+
+    public bool fadeOutAvatarSelection = false;
+    public bool fadeOutTrainingInfo = false;
     
     public bool inPrepRoom = true;
     private bool _fadingOut = false;
@@ -792,8 +801,59 @@ public class QuestionsManager : MonoBehaviour
                 }
 
             }
-            
-            
+        }
+
+        if (fadeOutAvatarSelection)
+        {
+            if (_fadingOut)
+            {
+                if (_tFading < 1.0f)
+                {
+                    CanvasFadingOut(avatarSelection);
+                }
+                else
+                {
+                    avatarSelection.SetActive(false);
+                    _fadingOut = false;
+                    _tFading = 0.0f;
+
+                    _fadingIn = true;
+                    trainingInformation.GetComponent<CanvasGroup>().alpha = 0.0f;
+                    trainingInformation.SetActive(true);
+                }
+            }
+
+            if (_fadingIn)
+            {
+                if (_tFading < 1.0f)
+                {
+                    CanvasFadingIn(trainingInformation);
+                }
+                else
+                {
+                    _fadingIn = false;
+                    _tFading = 0.0f;
+                    fadeOutAvatarSelection = false;
+                }
+            }
+        }
+
+        if (fadeOutTrainingInfo)
+        {
+            if (_fadingOut)
+            {
+                if (_tFading < 1.0f)
+                {
+                    CanvasFadingOut(trainingInformation);
+                }
+                else
+                {
+                    trainingInformation.SetActive(false);
+                    _fadingOut = false;
+                    _tFading = 0.0f;
+                }
+
+            }
         }
     }
 
@@ -1108,6 +1168,22 @@ public class QuestionsManager : MonoBehaviour
         eyeInfoFadeOut = true;
         _fadingOut = true;
 
+    }
+
+    #endregion
+
+    #region StartTrainingAfterAvatarSelection
+
+    public void AvatarSelectionNext()
+    {
+        fadeOutAvatarSelection = true;
+        _fadingOut = true;
+    }
+
+    public void StartTrainingButton()
+    {
+        fadeOutTrainingInfo = true;
+        _fadingOut = true;
     }
 
     #endregion
