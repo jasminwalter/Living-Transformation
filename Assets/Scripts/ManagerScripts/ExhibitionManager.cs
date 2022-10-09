@@ -14,8 +14,6 @@ public class ExhibitionManager : MonoBehaviour
 
     public GameObject exhibitionInfo2;
 
-    public GameObject exitExhibition;
-
     public float displayTime = 5.0f;
     
     
@@ -27,6 +25,9 @@ public class ExhibitionManager : MonoBehaviour
 
     [Header("Exhibition elements")]
     public GameObject exhibition;
+
+    public GameObject exitUIEnglish;
+    public GameObject exitUIGerman;
 
     public GameObject playerLocal;
     public GameObject playerRemote;
@@ -130,6 +131,17 @@ public class ExhibitionManager : MonoBehaviour
         preparationRoom.SetActive(false);
         exhibition.SetActive(true);
         
+        // activate language specific elements
+        if (QuestionsManager.Instance.english)
+        {
+            exitUIEnglish.SetActive(true);
+        }
+
+        if (QuestionsManager.Instance.german)
+        {
+            exitUIGerman.SetActive(true);
+        }
+        
         // position player in exhibition
         playerLocal.GetComponent<Transform>().position = startServer.GetComponent<Transform>().position;
 
@@ -154,7 +166,18 @@ public class ExhibitionManager : MonoBehaviour
 
     IEnumerator ExitExhibitionRoutine()
     {
+        fadingCamera.FadeOut();
+        yield return new WaitForSeconds(fadingCamera.fadeDuration);
+        exhibition.SetActive(false);
+        preparationRoom.SetActive(true);
         
+        // set active - final question part 1
+        
+        
+        // fade in
+        fadingCamera.FadeIn();
+        yield return new WaitForSeconds(fadingCamera.fadeDuration);
+
         
         yield return null;
     }
