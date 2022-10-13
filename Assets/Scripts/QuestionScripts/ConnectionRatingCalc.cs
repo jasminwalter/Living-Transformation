@@ -29,6 +29,7 @@ public class ConnectionRatingCalc : MonoBehaviour
         _connectionRating = (Vector3.Distance(negPoint.GetComponent<Transform>().position,
             this.transform.position) / _multiplier) -5.0f;
         ratingText2.text = _connectionRating.ToString("0.00");
-        questionsManager.GetComponent<QuestionsManager>().connectionRating = _connectionRating;
+        
+        QuestionsManager.Instance.connectionRating = _connectionRating;
     }
 }

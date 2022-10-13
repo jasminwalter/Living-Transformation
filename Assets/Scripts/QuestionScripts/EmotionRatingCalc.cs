@@ -8,8 +8,6 @@ using Debug = UnityEngine.Debug;
 
 public class EmotionRatingCalc : MonoBehaviour
 {
-
-    public QuestionsManager questionsManager;
     public GameObject startPoint;
 
     public GameObject endPoint;
@@ -32,6 +30,7 @@ public class EmotionRatingCalc : MonoBehaviour
         emotionRating = Vector3.Distance(startPoint.GetComponent<Transform>().position,
             this.transform.position) / multiplier;
         ratingText.text = emotionRating.ToString("0.00");
-        questionsManager.GetComponent<QuestionsManager>().currentEmotionRating = emotionRating;
+        QuestionsManager.Instance.currentEmotionRating = emotionRating;
     }
+    
 }
