@@ -51,7 +51,7 @@ public class ExhibitionManager : MonoBehaviour
         
     }
 
-    IEnumerator fadeOutUI(GameObject uiElement)
+    private IEnumerator fadeOutUI(GameObject uiElement)
     {
      
         float timer = 0.0f;
@@ -68,7 +68,7 @@ public class ExhibitionManager : MonoBehaviour
         yield return null;
     }
 
-    IEnumerator fadeInUI(GameObject uiElement)
+    private IEnumerator fadeInUI(GameObject uiElement)
     {
 
         float timer = 0.0f;
@@ -92,7 +92,7 @@ public class ExhibitionManager : MonoBehaviour
         StartCoroutine(EnterExhibitionRoutine());
     }
 
-    IEnumerator EnterExhibitionRoutine()
+    private IEnumerator EnterExhibitionRoutine()
     {
         // display the other instructions
         StartCoroutine(fadeOutUI(exhibitionStart));
@@ -164,7 +164,7 @@ public class ExhibitionManager : MonoBehaviour
         StartCoroutine(ExitExhibitionRoutine());
     }
 
-    IEnumerator ExitExhibitionRoutine()
+    private IEnumerator ExitExhibitionRoutine()
     {
         fadingCamera.FadeOut();
         yield return new WaitForSeconds(fadingCamera.fadeDuration);

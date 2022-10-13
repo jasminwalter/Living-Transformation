@@ -33,12 +33,12 @@ public class FadingCamera : MonoBehaviour
         Fade(0,1);
     }
     
-    public void Fade(float alphaIn, float alphaOut)
+    private void Fade(float alphaIn, float alphaOut)
     {
         StartCoroutine(FadeRoutine(alphaIn, alphaOut));
     }
 
-    public IEnumerator FadeRoutine(float alphaIn, float alphaOut)
+    private IEnumerator FadeRoutine(float alphaIn, float alphaOut)
     {
         float timer = 0.0f;
         while (timer <= fadeDuration)

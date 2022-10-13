@@ -191,7 +191,7 @@ public class EyeTrackingManager : MonoBehaviour
     
     #region VisualFunctionalities
 
-    IEnumerator SwitchToValidationRoom()
+    private IEnumerator SwitchToValidationRoom()
     {
         // fade out
         fadingCamera.FadeOut();
@@ -211,7 +211,7 @@ public class EyeTrackingManager : MonoBehaviour
 
     }
 
-    IEnumerator SwitchBackToPreparationRoom()
+    private IEnumerator SwitchBackToPreparationRoom()
     {
         // fade out
         fadingCamera.FadeOut();

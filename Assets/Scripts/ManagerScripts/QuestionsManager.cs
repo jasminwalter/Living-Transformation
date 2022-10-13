@@ -11,120 +11,197 @@ using Random = System.Random;
 
 public class QuestionsManager : MonoBehaviour
 {
-    public static QuestionsManager Instance { get; private set; } 
+    public static QuestionsManager Instance { get; private set; }
+
+
     
     // Question Overview Game Objects
     [Header("Game Objects")]
-    public GameObject languageSelection;
-    public GameObject englishUI;
-    public GameObject germanUI;
 
     public GameObject playerVR;
     public GameObject cameraVR;
-    public GameObject heightQuestion;
+    
+    #region UI Elements
+    public GameObject languageSelection;
     public GameObject canvasUIAll;
-
-    public GameObject welcomeText;
-    public GameObject welcomeNext;
     
-    public GameObject consentCheck;
-    public GameObject consentInputField;
-
-    public GameObject numVisitsQuestion;
-    public GameObject numVisitsQRound1;
-    public GameObject numVisitsQRound2;
-    public GameObject numVisitInput;
-
-    public GameObject ageQuestion;
-    public GameObject ageInput;
-
-    public GameObject genderQuestion;
-
-    public GameObject emotionQuestions;
-    public GameObject emotionQuestionText;
-    public GameObject emotionTable;
-    public GameObject emotionHandle;
-    public GameObject emotionHandleOrigin;
-    public GameObject emotionNext;
-
-    public GameObject relationQuestion;
-
-    public GameObject connectionQuestion;
-    public GameObject connectionTable;
-
-    public GameObject eyeInformation;
-
-    public GameObject avatarSelection;
-
-    public GameObject trainingInformation;
-
+    #region English
+    [Header("English")]
+    public GameObject heightQuestionE;
     
+    public GameObject welcomeTextE;
+    public GameObject welcomeNextE;
+    
+    public GameObject consentCheckE;
+    public GameObject consentInputFieldE;
+
+    public GameObject numVisitsQuestionE;
+    public GameObject numVisitsQRound1E;
+    public GameObject numVisitsQRound2E;
+    public GameObject numVisitInputE;
+
+    public GameObject ageQuestionE;
+    public GameObject ageInputE;
+
+    public GameObject genderQuestionE;
+
+    public GameObject emotionQuestionsE;
+    public GameObject emotionQuestionTextE;
+    public GameObject emotionTableE;
+    public GameObject emotionHandleE;
+    public GameObject emotionHandleOriginE;
+    public GameObject emotionNextE;
+
+    public GameObject relationQuestionE;
+
+    public GameObject connectionQuestionE;
+    public GameObject connectionTableE;
+    public GameObject connectionHandleE;
+    public GameObject connectionHandleOriginE;
+
+    public GameObject eyeInformationE;
+
+    public GameObject avatarSelectionE;
+
+    public GameObject trainingInformationE;
+
+    #endregion
+    #region German
+    [Header("German")]
+    
+    public GameObject heightQuestionG;
+
+    public GameObject welcomeTextG;
+    public GameObject welcomeNextG;
+    
+    public GameObject consentCheckG;
+    public GameObject consentInputFieldG;
+
+    public GameObject numVisitsQuestionG;
+    public GameObject numVisitsQRound1G;
+    public GameObject numVisitsQRound2G;
+    public GameObject numVisitInputG;
+
+    public GameObject ageQuestionG;
+    public GameObject ageInputG;
+
+    public GameObject genderQuestionG;
+
+    public GameObject emotionQuestionsG;
+    public GameObject emotionQuestionTextG;
+    public GameObject emotionTableG;
+    public GameObject emotionHandleG;
+    public GameObject emotionHandleOriginG;
+    public GameObject emotionNextG;
+
+    public GameObject relationQuestionG;
+
+    public GameObject connectionQuestionG;
+    public GameObject connectionTableG;
+    public GameObject connectionHandleG;
+    public GameObject connectionHandleOriginG;
+
+    public GameObject eyeInformationG;
+
+    public GameObject avatarSelectionG;
+
+    public GameObject trainingInformationG;
+    
+    #endregion
+
+    #region generalUIVariables
+
+    // private UI variables
+    
+    private GameObject _heightQuestion;
+
+    private GameObject _welcomeText;
+    private GameObject _welcomeNext;
+    
+    private GameObject _consentCheck;
+    private GameObject _consentInputField;
+
+    private GameObject _numVisitsQuestion;
+    private GameObject _numVisitsQRound1;
+    private GameObject _numVisitsQRound2;
+    private GameObject _numVisitInput;
+
+    private GameObject _ageQuestion;
+    private GameObject _ageInput;
+
+    private GameObject _genderQuestion;
+
+    private GameObject _emotionQuestions;
+    private GameObject _emotionQuestionText;
+    private GameObject _emotionTable;
+    private GameObject _emotionHandle;
+    private GameObject _emotionHandleOrigin;
+    private GameObject _emotionNext;
+
+    private GameObject _relationQuestion;
+
+    private GameObject _connectionQuestion;
+    private GameObject _connectionTable;
+    private GameObject _connectionHandle;
+    private GameObject _connectionHandleOrigin;
+
+    private GameObject _eyeInformation;
+
+    private GameObject _avatarSelection;
+
+    private GameObject _trainingInformation;
+    #endregion
+    
+    #endregion
     
     // other public variables
-    [Header("Other variables")]
-    public bool german = false;
-    public bool english = true;
+    [Header("Saving variables")]
     
-    public bool languageQuestionAnswered = false;
-
-    public float heightThreshold = 1.4f;
+    public bool german = false;
+    public bool english = false;
+    
+    
     public float cameraHeight;
-    public bool triggerHeightQuestion = false;
     public bool inWheelchair = false;
     public bool smallBodySize = false;
     public bool noHeightIssue = false;
-    public bool heightQuestionAnswered = false;
+
+    public int numberOfVisits;
+    public int age;
+    public string gender;
     
+    public int emotionNumAnswered = 0; 
+    public List<string> emotionListE = new List<string>()
+        { "sad", "anxious", "annoyed", "happy", "calm/relaxed", "excited" };
+
+    public List<string> emotionListG = new List<string>()
+        {"traurig", "besorgt", "genervt", "glücklich", "entspannt", "begeistert"};
     
-    public bool displayWelcomeText = false;
-    public bool fadeInWelcomeNext = false;
+    private List<string> _emotionList;
+    public float currentEmotionRating = 0.0f;
+    public float[] emotionRatingList = new float[]{0.0f,0.0f,0.0f,0.0f,0.0f,0.0f};
+    
+    public string relation;
+    public float connectionRating = 0.0f;
+
+    
+    [Header("Other Variables")]
+    
+    public float heightThreshold = 1.4f;
+    
     public bool welcomeNextTrigger = false;
-    public float welcometextTimer = 0.0f;
     public float welcomeNextThreshold = 5.0f;
     public float welcomeTextExitThreshold = 120.0f;
     
-    public bool consentCheckAnswered = false;
-    public bool numVisitsAnswered = false;
-    public bool notFirstVisit = false;
-    public int numberOfVisits;
-    public bool ageQuestionAnswered = false;
-    public int age;
-    public bool genderQuestionAnswered = false;
-    public string gender;
-    
-    public bool startQuestions = false;
-    public bool emotionQuestionAnswered = false;
-    public int emotionNumAnswered = 0; 
-    public List<string> emotionList = new List<string>()
-        { "sad", "anxious", "annoyed", "happy", "calm/relaxed", "excited" };
-    public float currentEmotionRating = 0.0f;
-    public float[] emotionRatingList = new float[]{0.0f,0.0f,0.0f,0.0f,0.0f,0.0f};
     private static Random rng;
-    public bool emotionQtransition = false;
     public float targetHeight = 50.0f;
 
-    public bool relationQuestionAnswered = false;
-    public string relation;
     
-    public bool connectionTransition = false;
-    public bool connectionQuestionAnswered = false;
-    public float connectionRating = 0.0f;
+    public float fadingOutDuration = 2.0f;
+    public float fadingInDuration = 2.0f;
+    public float movingTableDuration = 2.0f;
+    public float handleResetDuration = 0.5f;
 
-    public bool eyeInfoFadeOut = false;
-    public bool calibratingSystemFinished = false;
-
-    public bool fadeOutAvatarSelection = false;
-    public bool fadeOutTrainingInfo = false;
-    
-    public bool inPrepRoom = true;
-    private bool _fadingOut = false;
-    private bool _fadingIn = false;
-    private float _tFading = 0.0f;
-    private bool _movingUp = false;
-    private bool _movingDown = false;
-    private float _tMoving = 0.0f;
-    private bool _handleBack = false;
-    private float _tHandle = 0.0f;
 
     private void OnEnable()
     {
@@ -144,717 +221,7 @@ public class QuestionsManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // language question
-        if (languageQuestionAnswered)
-        {
-            // save answer
-            //languageSelection.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(1, 0, 0.1f);
-            // deactivate question and activate next one
-
-            if (_fadingOut)
-            {
-                if (_tFading < 1.0f)
-                {
-                    CanvasFadingOut(languageSelection);
-                }
-                else
-                {
-                    languageSelection.SetActive(false);
-                    _fadingOut = false;
-                    _tFading = 0.0f;
-                    cameraHeight = cameraVR.GetComponent<Transform>().position.y +50.0f;
-
-                    if (cameraHeight < heightThreshold)
-                    {
-                        heightQuestion.GetComponent<CanvasGroup>().alpha = 0.0f;
-                        heightQuestion.SetActive(true);
-                        _fadingIn = true;
-
-                    }
-                    else
-                    {
-                        // trigger next question
-                        welcomeText.GetComponent<CanvasGroup>().alpha = 0.0f;
-                        welcomeText.SetActive(true);
-                        _fadingIn = true;
-                        
-                    }
-                }
-            }
-
-            if (_fadingIn)
-                {
-                    if (_tFading < 1.0f)
-                    {
-                        if (cameraHeight < heightThreshold)
-                        {
-                            CanvasFadingIn(heightQuestion);
-                        }
-                        else
-                        {
-                            CanvasFadingIn(welcomeText);
-                        }
-                    }
-                    else
-                    {
-                        _fadingIn = false;
-                        _tFading = 0.0f;
-                        languageQuestionAnswered = false;
-                        
-                        if (!(cameraHeight < heightThreshold))
-                        {
-                            displayWelcomeText = true;
-
-                        }
-                    }
-                }
-        }
-
-        if (heightQuestionAnswered)
-        {
-            if (_fadingOut)
-            {
-                if (_tFading < 1.0f)
-                {
-                    CanvasFadingOut(heightQuestion);
-                }
-                else
-                {
-                    heightQuestion.SetActive(false);
-                    _fadingOut = false;
-                    _tFading = 0.0f;
-
-                    if (inWheelchair | smallBodySize)
-                    {
-                        canvasUIAll.GetComponent<Transform>().position = new Vector3(0.0f,-48.56f,0.0f); // original value is y = -48.46
-                    }
-                    welcomeText.GetComponent<CanvasGroup>().alpha = 0.0f;
-                    welcomeText.SetActive(true);
-                    _fadingIn = true;
-                }
-            }
-
-            if (_fadingIn)
-            {
-                if (_tFading < 1.0f)
-                {
-                    CanvasFadingIn(welcomeText);
-                }
-                else
-                {
-                    _fadingIn = false;
-                    _tFading = 0.0f;
-                     heightQuestionAnswered = false;
-                     displayWelcomeText = true;
-                }
-            }
-            
-        }
-        // when the welcome text is displayed, start timer
-        if (displayWelcomeText)
-        {
-            welcometextTimer += Time.deltaTime;
-            // if timer exceeds threshold, fade in next button
-            if (!fadeInWelcomeNext && welcometextTimer > welcomeNextThreshold && welcometextTimer < welcomeTextExitThreshold)
-            {
-                fadeInWelcomeNext = true;
-                welcomeNext.GetComponent<CanvasGroup>().alpha = 0.0f;
-                welcomeNext.SetActive(true);
-            }
-
-            if (fadeInWelcomeNext)
-            {
-                if (_tFading < 1.0f)
-                {
-                    CanvasFadingIn(welcomeNext);
-                }
-            }
-
-            if (!welcomeNextTrigger && welcometextTimer > welcomeTextExitThreshold)
-            {
-                welcomeNextTrigger = true;
-                _fadingOut = true;
-                _tFading = 0.0f;
-            }
-
-            if (welcomeNextTrigger)
-            {
-
-                if (_fadingOut)
-                {
-                    if (_tFading < 1.0f)
-                    {
-
-                        CanvasFadingOut(welcomeText);
-
-                    }
-                    else
-                    {
-                        welcomeText.SetActive(false);
-                        _fadingOut = false;
-                        _tFading = 0.0f;
-
-                        // trigger next question
-
-                        consentCheck.GetComponent<CanvasGroup>().alpha = 0.0f;
-                        consentCheck.SetActive(true);
-                        
-                        _fadingIn = true;
-                    }
-                }
-
-                if (_fadingIn)
-                {
-                    if (_tFading < 1.0f)
-                    {
-                        CanvasFadingIn(consentCheck);
-                    }
-                    else
-                    {
-                        _fadingIn = false;
-                        _tFading = 0.0f;
-                        displayWelcomeText = false;
-                    }
-                }
-            }
-        }
-
-        // consent check question
-        if (consentCheckAnswered)
-        {
-            
-            if (_fadingOut)
-            {
-                if (_tFading < 1.0f)
-                {
-
-                    CanvasFadingOut(consentCheck);
-
-                }
-                else
-                {
-                    consentCheck.SetActive(false);
-                    _fadingOut = false;
-                    _tFading = 0.0f;
-
-                    // trigger next question
-                    
-                    numVisitsQuestion.GetComponent<CanvasGroup>().alpha = 0.0f;
-                    numVisitsQuestion.SetActive(true);
-                    _fadingIn = true;
-                }
-            }
-            // fade in the next question
-            if (_fadingIn)
-            {
-                if (_tFading < 1.0f)
-                {
-
-                    CanvasFadingIn(numVisitsQuestion);
-
-                }
-                else
-                {
-                    _fadingIn = false;
-                    _tFading = 0.0f;
-                    
-                    consentCheckAnswered = false;
-                    
-                }
-            }
-        }
-
-        // how often visit exhibition question
-        // if not the first visit - trigger part 2
-        if (notFirstVisit)
-        {
-            if (_fadingOut && _tFading < 1.0f)
-            {
-
-                CanvasFadingOut(numVisitsQRound1);
-
-            }
-            else if(_fadingOut && !(_tFading < 1.0f))
-            {
-                numVisitsQRound1.SetActive(false);
-                _fadingOut = false;
-                _tFading = 0.0f;
-                _fadingIn = true;
-
-                numVisitsQRound2.GetComponent<CanvasGroup>().alpha = 0.0f;
-                numVisitsQRound2.SetActive(true);
-
-            }
-            else if (_fadingIn && _tFading < 1.0f)
-            {
-                CanvasFadingIn(numVisitsQRound2);
-                
-            }
-            else
-            {
-                _tFading = 0.0f;
-                _fadingIn = false;
-                notFirstVisit = false;
-            }
         
-        }
-
-        // if question is answered, save answer and trigger next question
-        if (numVisitsAnswered)
-        {
-            if (_fadingOut)
-            {
-                if (_tFading < 1.0f)
-                {
-                    CanvasFadingOut(numVisitsQuestion);
-                }
-                else
-                {
-                    numVisitsQuestion.SetActive(false);
-                    _fadingOut = false;
-                    _tFading = 0.0f;
-                
-                    // trigger next question
-                    _fadingIn = true;
-                    ageQuestion.GetComponent<CanvasGroup>().alpha = 0.0f;
-                    ageQuestion.SetActive(true);
-                }
-            }
-
-            if (_fadingIn)
-            {
-                if (_tFading < 1.0f)
-                {
-                    CanvasFadingIn(ageQuestion);
-                }
-                else
-                {
-
-                    _fadingIn = false;
-                    _tFading = 0.0f;
-
-                    numVisitsAnswered = false;
-                }
-                
-            }
-            
-        }
-        
-        // age question
-
-        if (ageQuestionAnswered)
-        {
-            if (_fadingOut)
-            {
-                if (_tFading < 1.0f)
-                {
-                    CanvasFadingOut(ageQuestion);
-                }
-                else
-                {
-                    ageQuestion.SetActive(false);
-                    _fadingOut = false;
-                    _tFading = 0.0f;
-                
-                    // trigger next question
-                    _fadingIn = true;
-                    genderQuestion.GetComponent<CanvasGroup>().alpha = 0.0f;
-                    genderQuestion.SetActive(true);
-                }
-                
-            }
-            
-            if (_fadingIn)
-            {
-                if (_tFading < 1.0f)
-                {
-                    CanvasFadingIn(genderQuestion);
-                }
-                else
-                {
-                    _fadingIn = false;
-                    _tFading = 0.0f;
-                    ageQuestionAnswered= false;
-                }
-            }
-        }
-        
-        
-        // gender question
-        if (genderQuestionAnswered)
-        {
-            if (_fadingOut)
-            {
-                if (_tFading < 1.0f)
-                {
-                    CanvasFadingOut(genderQuestion);
-                }
-                else
-                {
-                    genderQuestion.SetActive(false);
-                    _fadingOut = false;
-                    _tFading = 0.0f;
-
-                    // trigger next question
-                    _fadingIn = true;
-                    _movingUp = true;
-                    emotionQtransition = true;
-
-                    rng = new Random();
-                    Shuffle(emotionList);
-                    emotionQuestionText.GetComponent<TextMeshProUGUI>().text =
-                        "At the moment, how much are you " + emotionList[0] + "?";
-                    emotionQuestions.GetComponent<CanvasGroup>().alpha = 0.0f;
-                    emotionQuestions.SetActive(true);
-
-                    genderQuestionAnswered = false;
-                }
-
-            }
-        }
-
-        if (emotionQtransition)
-            {
-
-                if (_fadingIn)
-                {
-                    if (_tFading < 1.0f)
-                    {
-                        CanvasFadingIn(emotionQuestions);
-                    }
-                    else
-                    {
-                        _fadingIn = false;
-                        _tFading = 0.0f;
-                    }
-                }
-
-                if (_movingUp)
-                {
-                    if (_tMoving < 1.0f)
-                    {
-                        TablePullUp(emotionTable);
-                    }
-                    else
-                    {
-                        _movingUp = false;
-                        _tMoving = 0.0f;
-                    }
-                }
-
-                if (!_fadingIn & !_movingUp)
-                {
-                    emotionQtransition = false;
-                }
-            
-            }
-        
-        
-        // emotion questions
-        if (emotionQuestionAnswered)
-        {
-            if (emotionNumAnswered < 6)
-            {
-                if (_fadingOut)
-                {
-                    if (_tFading < 1.0f)
-                    {
-                        CanvasFadingOut(emotionQuestions);
-                    }
-                    else
-                    {
-                        _fadingOut = false;
-                        _tFading = 0.0f;
-                    }
-                }
-
-                if (!_fadingOut && !_fadingIn)
-                {
-                    emotionQuestionText.GetComponent<TextMeshProUGUI>().text =
-                        "At the moment, how much are you " + emotionList[emotionNumAnswered] + "?";
-                    _fadingIn = true;
-                    emotionNext.GetComponent<TextMeshProUGUI>().color = Color.black;
-
-                    emotionRatingList[emotionNumAnswered - 1] = currentEmotionRating;
-
-                    _handleBack = true;
-                }
-
-                if (_fadingIn)
-                {
-                    if (_tFading < 1.0f)
-                    {
-                        CanvasFadingIn(emotionQuestions);
-                    }
-                    else
-                    {
-                        _fadingIn = false;
-                        _tFading = 0.0f;
-                    }
-                }
-
-                if (_handleBack)
-                {
-                    if (_tHandle < 1.0f)
-                    {
-                        MoveHandleToStart(emotionHandle, emotionHandle.GetComponent<Transform>().position.x);
-                    }
-                    else
-                    {
-                        _tHandle = 0.0f;
-                        _handleBack = false;
-                    }
-                }
-
-                if (!_fadingIn & !_handleBack)
-                {
-                    emotionQuestionAnswered = false;
-                }
-                
-            }
-            
-            else
-            {
-                if (_fadingOut)
-                {
-                    if (_tFading < 1.0f)
-                    {
-                        CanvasFadingOut(emotionQuestions);
-                    }
-                    else
-                    {
-                        _fadingOut = false;
-                        _tFading = 0.0f;
-                    }
-                }
-
-                if (_movingDown)
-                {
-                    if (_tMoving < 1.0f)
-                    {
-                        TablePullDown(emotionTable);
-                    }
-                    else
-                    {
-                        _movingDown = false;
-                        _tMoving = 0.0f;
-                    }
-                }
-
-                if (!_fadingOut & !_movingDown)
-                {
-                    genderQuestionAnswered = false;
-                    
-                    
-                    // trigger next question/part
-                    _fadingIn = true;
-                    relationQuestion.GetComponent<CanvasGroup>().alpha = 0.0f;
-                    relationQuestion.SetActive(true);
-
-                }
-                
-                if (_fadingIn)
-                {
-                    if (_tFading < 1.0f)
-                    {
-                        CanvasFadingIn(relationQuestion);
-                    }
-                    else
-                    {
-                        _fadingIn = false;
-                        _tFading = 0.0f;
-                        emotionQuestionAnswered = false;
-                    }
-                }
-            }
-        }
-
-
-        if (relationQuestionAnswered)
-        {
-            if (_fadingOut)
-            {
-                if (_tFading < 1.0f)
-                {
-                    CanvasFadingOut(relationQuestion);
-                }
-                else
-                {
-                    relationQuestion.SetActive(false);
-                    _fadingOut = false;
-                    _tFading = 0.0f;
-                
-                    // trigger next question
-
-                    _fadingIn = true;
-                    _movingUp = true;
-                    emotionQtransition = true;
-
-                    connectionQuestion.GetComponent<CanvasGroup>().alpha = 0.0f;
-                    connectionQuestion.SetActive(true);
-
-                    relationQuestionAnswered = false;
-                }
-            }
-        }
-        
-        if (connectionTransition)
-        {
-            if (_fadingIn)
-            {
-                if (_tFading < 1.0f)
-                {
-                    CanvasFadingIn(connectionQuestion);
-                }
-                else
-                {
-                    _fadingIn = false;
-                    _tFading = 0.0f;
-                }
-            }
-
-            if (_movingUp)
-            {
-                if (_tMoving < 1.0f)
-                {
-                    TablePullUp(connectionTable);
-                }
-                else
-                {
-                    _movingUp = false;
-                    _tMoving = 0.0f;
-                }
-            }
-
-            if (!_fadingIn & !_movingUp)
-            {
-                emotionQtransition = false;
-            }
-
-        }
-
-        if (connectionQuestionAnswered)
-        {
-            if (_fadingOut)
-            {
-                if (_tFading < 1.0f)
-                {
-                    CanvasFadingOut(connectionQuestion);
-                }
-                else
-                {
-                    _fadingOut = false;
-                    _tFading = 0.0f;
-                }
-            }
-
-            if (_movingDown)
-            {
-                if (_tMoving < 1.0f)
-                {
-                    TablePullDown(connectionTable);
-                }
-                else
-                {
-                    _movingDown = false;
-                    _tMoving = 0.0f;
-                }
-            }
-
-            if (!_fadingOut & !_movingDown)
-            {
-                _fadingIn = true;
-                connectionQuestion.SetActive(false);
-                relationQuestion.GetComponent<CanvasGroup>().alpha = 0.0f;
-                relationQuestion.SetActive(true);
-            }
-
-            if (_fadingIn)
-            {
-                if (_tFading < 1.0f)
-                {
-                    // CanvasFadingIn(relationQuestion);
-                }
-                else
-                {
-                    _fadingIn = false;
-                    _tFading = 0.0f;
-                    connectionQuestionAnswered = false;
-                }
-            }
-        }
-
-        if (eyeInfoFadeOut)
-        {
-            // trigger calibration
-            if (_fadingOut)
-            {
-                if (_tFading < 1.0f)
-                {
-                    CanvasFadingOut(eyeInformation);
-                }
-                else
-                {
-                    eyeInformation.SetActive(false);
-                    _fadingOut = false;
-                    _tFading = 0.0f;
-                }
-
-            }
-        }
-
-        if (fadeOutAvatarSelection)
-        {
-            if (_fadingOut)
-            {
-                if (_tFading < 1.0f)
-                {
-                    CanvasFadingOut(avatarSelection);
-                }
-                else
-                {
-                    avatarSelection.SetActive(false);
-                    _fadingOut = false;
-                    _tFading = 0.0f;
-
-                    _fadingIn = true;
-                    trainingInformation.GetComponent<CanvasGroup>().alpha = 0.0f;
-                    trainingInformation.SetActive(true);
-                }
-            }
-
-            if (_fadingIn)
-            {
-                if (_tFading < 1.0f)
-                {
-                    CanvasFadingIn(trainingInformation);
-                }
-                else
-                {
-                    _fadingIn = false;
-                    _tFading = 0.0f;
-                    fadeOutAvatarSelection = false;
-                }
-            }
-        }
-
-        if (fadeOutTrainingInfo)
-        {
-            if (_fadingOut)
-            {
-                if (_tFading < 1.0f)
-                {
-                    CanvasFadingOut(trainingInformation);
-                }
-                else
-                {
-                    trainingInformation.SetActive(false);
-                    _fadingOut = false;
-                    _tFading = 0.0f;
-                }
-
-            }
-        }
     }
 
     #region Language
@@ -872,50 +239,86 @@ public class QuestionsManager : MonoBehaviour
     #endregion
 
     #region QuestionTransitionEfffects
-
-    private void CanvasFadingOut(GameObject canvasGroup)
+    
+    private IEnumerator CanvasGroupFadingOut(GameObject canvasGroup)
     {
+        float timer = 0.0f;
+        while (timer <= fadingOutDuration)
+        {
+            canvasGroup.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(1, 0, timer / fadingOutDuration);
 
-        canvasGroup.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(1, 0, _tFading);
-        _tFading += 0.6f*Time.deltaTime;
+            timer += Time.deltaTime;
+            yield return null;
+        }
 
-
-    }
-
-    private void CanvasFadingIn(GameObject canvasGroup)
-    {
-        canvasGroup.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(0, 1, _tFading);
-        _tFading += 1.0f*Time.deltaTime;
-        
+        canvasGroup.GetComponent<CanvasGroup>().alpha = 0;
+        yield return null;
     }
     
-    private void TablePullUp(GameObject table)
+    private IEnumerator CanvasGroupFadingIn(GameObject canvasGroup)
+    {
+        float timer = 0.0f;
+        while (timer <= fadingInDuration)
+        {
+            canvasGroup.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(0, 1, timer / fadingInDuration);
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        canvasGroup.GetComponent<CanvasGroup>().alpha = 1;
+        yield return null;
+    }
+
+    private IEnumerator MoveTableUp(GameObject table)
     {
         float x = table.GetComponent<Transform>().position.x;
         float z = table.GetComponent<Transform>().position.z;
-        table.GetComponent<Transform>().position = new Vector3(x,Mathf.Lerp(-51.7f, targetHeight, _tMoving),z);
-        _tMoving += 1.0f*Time.deltaTime;
 
+        float timer = 0.0f;
+        while (timer <= movingTableDuration)
+        {
+            table.GetComponent<Transform>().position = new Vector3(x,Mathf.Lerp(-51.7f, targetHeight, timer/movingTableDuration),z);
+        }
+        
+        table.GetComponent<Transform>().position = new Vector3(x, targetHeight, z);
+        yield return null;
     }
 
-    private void TablePullDown(GameObject table)
+    private IEnumerator MoveTableDown(GameObject table)
     {
         float x = table.GetComponent<Transform>().position.x;
         float y = table.GetComponent<Transform>().position.y;
         float z = table.GetComponent<Transform>().position.z;
-        table.GetComponent<Transform>().position = new Vector3(x,Mathf.Lerp(y, -51.7f, _tMoving),z);
-        _tMoving += 1.0f*Time.deltaTime;
         
-    }
+        float timer = 0.0f;
+        while (timer <= movingTableDuration)
+        {
+            table.GetComponent<Transform>().position = new Vector3(x, Mathf.Lerp(y, -51.7f, timer/movingTableDuration), z);
+        }
 
-    private void MoveHandleToStart(GameObject handle, float destinationPosition)
+        table.GetComponent<Transform>().position = new Vector3(x, -51.7f, z);
+        yield return null;
+    }
+    
+
+    private IEnumerator ResetTableHandle(GameObject handle, float destinationPosition)
     {
         float currentX =  handle.GetComponent<Transform>().position.x;
         float y = handle.GetComponent<Transform>().position.y;
         float z = handle.GetComponent<Transform>().position.z;
-        handle.GetComponent<Transform>().position = new Vector3(Mathf.Lerp(currentX, destinationPosition, _tHandle),y, z);
-        _tHandle += 1.0f*Time.deltaTime;
         
+        float timer = 0.0f;
+        while (timer <= handleResetDuration)
+        {
+            handle.GetComponent<Transform>().position =
+                new Vector3(Mathf.Lerp(currentX, destinationPosition, timer/handleResetDuration), y, z);
+        }
+
+        handle.GetComponent<Transform>().position =
+            new Vector3(destinationPosition, y, z);
+
+        yield return null;
     }
     
     #endregion
@@ -969,18 +372,130 @@ public class QuestionsManager : MonoBehaviour
     {
         Debug.Log("Selection English");
         english = true;
-        languageQuestionAnswered = true;
-        _fadingOut = true;
-
+        StartCoroutine(LanguageSelectionAnswered());
     }
 
     public void SelectionGerman()
     {
         Debug.Log("Selection German");
         german = true;
-        languageQuestionAnswered = true;
-        _fadingOut = true;
+        StartCoroutine(LanguageSelectionAnswered());
+    }
 
+    IEnumerator LanguageSelectionAnswered()
+    {
+        AssignLanguageVariables();
+
+        StartCoroutine(CanvasGroupFadingOut(languageSelection));
+        yield return new WaitForSeconds(fadingOutDuration);
+        
+        languageSelection.SetActive(false);
+        
+        cameraHeight = cameraVR.GetComponent<Transform>().position.y +50.0f;
+        
+        
+        if (cameraHeight < heightThreshold)
+        {
+            _heightQuestion.GetComponent<CanvasGroup>().alpha = 0.0f;
+            _heightQuestion.SetActive(true);
+            StartCoroutine(CanvasGroupFadingIn(_heightQuestion));
+        }
+        else
+        {
+            // trigger next question
+            StartCoroutine(FadeInWelcomeText());
+        }
+
+        yield return null;
+    }
+
+    private void AssignLanguageVariables()
+    {
+        if (english)
+        {
+            _heightQuestion = heightQuestionE;
+
+            _welcomeText = welcomeTextE;
+            _welcomeNext = welcomeNextE;
+                
+            _consentCheck = consentCheckE;
+            _consentInputField = consentInputFieldE;
+
+            _numVisitsQuestion = numVisitsQuestionE;
+            _numVisitsQRound1 = numVisitsQRound1E;
+             _numVisitsQRound2 = numVisitsQRound2E;
+            _numVisitInput = numVisitInputE;
+
+            _ageQuestion = ageQuestionE;
+            _ageInput = ageInputE;
+
+            _genderQuestion = genderQuestionE;
+
+            _emotionList = emotionListE;
+            _emotionQuestions = emotionQuestionsE;
+            _emotionQuestionText = emotionQuestionTextE;
+            _emotionTable = emotionTableE;
+            _emotionHandle = emotionHandleE;
+            _emotionHandleOrigin = emotionHandleOriginE;
+            _emotionNext = emotionNextE;
+
+            _relationQuestion = relationQuestionE;
+
+            _connectionQuestion = connectionQuestionE;
+            _connectionTable = connectionTableE;
+            _connectionHandle = connectionHandleE;
+            _connectionHandleOrigin =  connectionHandleOriginE;
+
+            _eyeInformation = eyeInformationE;
+
+            _avatarSelection = avatarSelectionE;
+
+            _trainingInformation = trainingInformationE;
+                        
+        }
+
+        if (german)
+        {
+            _heightQuestion = heightQuestionG;
+
+            _welcomeText = welcomeTextG;
+            _welcomeNext = welcomeNextG;
+                
+            _consentCheck = consentCheckG;
+            _consentInputField = consentInputFieldG;
+
+            _numVisitsQuestion = numVisitsQuestionG;
+            _numVisitsQRound1 = numVisitsQRound1G;
+            _numVisitsQRound2 = numVisitsQRound2G;
+            _numVisitInput = numVisitInputG;
+
+            _ageQuestion = ageQuestionG;
+            _ageInput = ageInputG;
+
+            _genderQuestion = genderQuestionG;
+
+            _emotionList = emotionListG;
+            _emotionQuestions = emotionQuestionsG;
+            _emotionQuestionText = emotionQuestionTextG;
+            _emotionTable = emotionTableG;
+            _emotionHandle = emotionHandleG;
+            _emotionHandleOrigin = emotionHandleOriginG;
+            _emotionNext = emotionNextG;
+
+            _relationQuestion = relationQuestionG;
+
+            _connectionQuestion = connectionQuestionG;
+            _connectionTable = connectionTableG;
+            _connectionHandle = connectionHandleG;
+            _connectionHandleOrigin =  connectionHandleOriginG;
+
+            _eyeInformation = eyeInformationG;
+
+            _avatarSelection = avatarSelectionG;
+
+            _trainingInformation = trainingInformationG;
+        }
+        
     }
 
     #endregion
@@ -1010,22 +525,72 @@ public class QuestionsManager : MonoBehaviour
         {
             Debug.Log("Something went wrong in height question");
         }
+        StartCoroutine(HeightQuestionAnswered());
+    }
 
-        heightQuestionAnswered = true;
-        _fadingOut = true;
+    private IEnumerator HeightQuestionAnswered()
+    {
+
+        StartCoroutine(CanvasGroupFadingOut(_heightQuestion));
+        yield return new WaitForSeconds(fadingOutDuration);
+        _heightQuestion.SetActive(false);
+        
+        if (inWheelchair | smallBodySize)
+        {
+            canvasUIAll.GetComponent<Transform>().position = new Vector3(0.0f,-48.56f,0.0f); // original value is y = -48.46
+        }
+
+        StartCoroutine(FadeInWelcomeText());
+        yield return null;
     }
 
     #endregion
 
     #region WelcomeText
 
+    private IEnumerator FadeInWelcomeText()
+    {
+        _welcomeText.GetComponent<CanvasGroup>().alpha = 0.0f;
+        _welcomeText.SetActive(true);
+        StartCoroutine(CanvasGroupFadingIn(_welcomeText));
+        yield return new WaitForSeconds(fadingInDuration);
+        
+        // start audio read out
+
+        yield return new WaitForSeconds(welcomeNextThreshold);
+        
+        // fade in next button
+        _welcomeNext.GetComponent<CanvasGroup>().alpha = 0.0f;
+        _welcomeNext.SetActive(true);
+        StartCoroutine(CanvasGroupFadingIn(_welcomeNext));
+        yield return new WaitForSeconds(fadingInDuration);
+        
+        // wait for the rest of the threshold time before transitioning to next question, if not already done
+        yield return new WaitForSeconds(welcomeTextExitThreshold);
+        if (!welcomeNextTrigger)
+        {
+            StartCoroutine(WelcomeTextFadeOut());
+        }
+        yield return null;
+    }
     public void WelcomeNext()
     {
         welcomeNextTrigger = true;
-        _fadingOut = true;
-        _tFading = 0.0f;
+        StartCoroutine(WelcomeTextFadeOut());
+
     }
-    
+
+    private IEnumerator WelcomeTextFadeOut()
+    {
+        StartCoroutine(CanvasGroupFadingOut(_welcomeText));
+        yield return new WaitForSeconds(fadingOutDuration);
+        _welcomeText.SetActive(false);
+
+        _consentCheck.GetComponent<CanvasGroup>().alpha = 0.0f;
+        _consentCheck.SetActive(true);
+        StartCoroutine(CanvasGroupFadingIn(_consentCheck));
+        yield return null;
+    }
 
     #endregion
 
@@ -1033,18 +598,29 @@ public class QuestionsManager : MonoBehaviour
     
     public void ConsentKeyBoardInput(TextMeshProUGUI keyInput)
     {
-        consentInputField.GetComponentInChildren<TextMeshProUGUI>().text += keyInput.text;
+        _consentInputField.GetComponentInChildren<TextMeshProUGUI>().text += keyInput.text;
     }
     public void ConsentKeyboardNext(GameObject nextButton)
     {
         // save the data
         ColorBlock cb = nextButton.GetComponent<Button>().colors;
 
-        consentInputField.GetComponent<Button>().colors = cb;
-        
-        consentCheckAnswered = true;
-        _fadingOut = true;
-        
+        _consentInputField.GetComponent<Button>().colors = cb;
+
+        StartCoroutine(ConsentCheckAnswered());
+    }
+
+    private IEnumerator ConsentCheckAnswered()
+    {
+
+        StartCoroutine(CanvasGroupFadingOut(_consentCheck));
+        yield return new WaitForSeconds(fadingOutDuration);
+        _consentCheck.SetActive(false);
+
+        _numVisitsQuestion.GetComponent<CanvasGroup>().alpha = 0.0f;
+        _numVisitsQuestion.SetActive(true);
+        StartCoroutine(CanvasGroupFadingIn(_numVisitsQuestion));
+        yield return null;
     }
     
     #endregion
@@ -1054,9 +630,7 @@ public class QuestionsManager : MonoBehaviour
     public void FirstTimeVisit()
     {
         numberOfVisits = 1;
-        numVisitsAnswered = true;
-        _fadingOut = true;
-
+        StartCoroutine(NumVisitQuestionAnswered());
     }
 
     public void MarkSelectionText(GameObject text)
@@ -1066,13 +640,13 @@ public class QuestionsManager : MonoBehaviour
 
     public void NotFirstTime()
     {
-        notFirstVisit = true;
-        _fadingOut = true;
+        StartCoroutine(FadeInNumVisitsKeyboard());
+
     }
 
     public void NumVisitKeyBoardInput(TextMeshProUGUI keyInput)
     {
-        numVisitInput.GetComponentInChildren<TextMeshProUGUI>().text += keyInput.text;
+        _numVisitInput.GetComponentInChildren<TextMeshProUGUI>().text += keyInput.text;
     }
 
     public void NumVisitsEnter(GameObject inputNumField)
@@ -1083,11 +657,32 @@ public class QuestionsManager : MonoBehaviour
         inputNumField.GetComponent<Button>().colors = cb;
 
         numberOfVisits = int.Parse(inputNumField.GetComponentInChildren<TextMeshProUGUI>().text);
-        numVisitsAnswered = true;
-        _fadingOut = true;
-        
+        StartCoroutine(NumVisitQuestionAnswered());
     }
-    
+
+    private IEnumerator FadeInNumVisitsKeyboard()
+    {
+        StartCoroutine(CanvasGroupFadingOut(_numVisitsQRound1));
+        yield return new WaitForSeconds(fadingOutDuration);
+        _numVisitsQRound1.SetActive(false);
+
+        _numVisitsQRound2.GetComponent<CanvasGroup>().alpha = 0.0f;
+        _numVisitsQRound2.SetActive(true);
+        StartCoroutine(CanvasGroupFadingIn(_numVisitsQRound2));
+        yield return null;
+    }
+
+    private IEnumerator NumVisitQuestionAnswered()
+    {
+        StartCoroutine(CanvasGroupFadingOut(_numVisitsQuestion));
+        yield return new WaitForSeconds(fadingOutDuration);
+        _numVisitsQuestion.SetActive(false);
+        
+        _ageQuestion.GetComponent<CanvasGroup>().alpha = 0.0f;
+        _ageQuestion.SetActive(true);
+        StartCoroutine(CanvasGroupFadingIn(_ageQuestion));
+        yield return null;
+    }
 
     #endregion
 
@@ -1095,7 +690,7 @@ public class QuestionsManager : MonoBehaviour
 
     public void AgeNumPad(TextMeshProUGUI keyInput)
     {
-        ageInput.GetComponentInChildren<TextMeshProUGUI>().text += keyInput.text;
+        _ageInput.GetComponentInChildren<TextMeshProUGUI>().text += keyInput.text;
     }
 
     public void AgeEnter(GameObject numAgeInput)
@@ -1106,8 +701,21 @@ public class QuestionsManager : MonoBehaviour
         numAgeInput.GetComponent<Button>().colors = cb;
 
         age = int.Parse(numAgeInput.GetComponentInChildren<TextMeshProUGUI>().text);
-        ageQuestionAnswered = true;
-        _fadingOut = true;
+        StartCoroutine(AgeQuestionAnswered());
+    }
+
+    private IEnumerator AgeQuestionAnswered()
+    {
+
+        StartCoroutine(CanvasGroupFadingOut(_ageQuestion));
+        yield return new WaitForSeconds(fadingOutDuration);
+        _ageQuestion.SetActive(false);
+        
+        // fade in next question
+        _genderQuestion.GetComponent<CanvasGroup>().alpha = 0.0f;
+        _genderQuestion.SetActive(true);
+
+        StartCoroutine(CanvasGroupFadingIn(_genderQuestion));
     }
 
     #endregion
@@ -1117,8 +725,38 @@ public class QuestionsManager : MonoBehaviour
     public void GenderInput(TextMeshProUGUI genderInput)
     {
         gender = genderInput.text;
-        genderQuestionAnswered = true;
-        _fadingOut = true;
+    }
+
+    private IEnumerator GenderQuestionAnswered()
+    {
+        StartCoroutine(CanvasGroupFadingOut(_genderQuestion));
+        yield return new WaitForSeconds(fadingOutDuration);
+        _genderQuestion.SetActive(false);
+        
+        // start with emotion question
+        rng = new Random();
+        Shuffle(_emotionList);
+        if (english)
+        {
+            _emotionQuestionText.GetComponent<TextMeshProUGUI>().text =
+                "At the moment, how much are you " + _emotionList[0] + "?";
+            
+        }
+
+        if (german)
+        {
+            _emotionQuestionText.GetComponent<TextMeshProUGUI>().text =
+                "In diesem Moment, wie sehr sind Sie " + _emotionList[0] + "?";
+        }
+
+        _emotionQuestions.GetComponent<CanvasGroup>().alpha = 0.0f;
+        _emotionQuestions.SetActive(true);
+        
+        // fade in text and move up table
+        StartCoroutine(CanvasGroupFadingIn(_emotionQuestions));
+        StartCoroutine(MoveTableUp(_emotionTable));
+        
+        yield return null;
     }
 
     #endregion
@@ -1127,14 +765,70 @@ public class QuestionsManager : MonoBehaviour
 
     public void EmotionEnter()
     {
-        emotionQuestionAnswered = true;
         emotionNumAnswered += 1;
-        _fadingOut = true;
-        
+
         if (emotionNumAnswered >= 6)
         {
-            _movingDown = true;
+            StartCoroutine(FadeInNextEmotion());
         }
+        else
+        {
+            EmotionQuestionFinished();
+        }
+    }
+
+    private IEnumerator FadeInNextEmotion()
+    {
+        // fade out answered question and select text for next question
+        StartCoroutine(CanvasGroupFadingOut(_emotionQuestions));
+        yield return new WaitForSeconds(fadingOutDuration);
+
+        if (english)
+        {
+            _emotionQuestionText.GetComponent<TextMeshProUGUI>().text =
+                "At the moment, how much are you " + _emotionList[emotionNumAnswered] + "?";
+            
+        }
+
+        if (german)
+        {
+            _emotionQuestionText.GetComponent<TextMeshProUGUI>().text =
+                "In diesem Moment, wie sehr sind Sie " + _emotionList[emotionNumAnswered] + "?";
+        }
+
+        _emotionNext.GetComponent<TextMeshProUGUI>().color = Color.black;
+
+        emotionRatingList[emotionNumAnswered - 1] = currentEmotionRating;
+
+        // fade back in and reset handle
+        StartCoroutine(CanvasGroupFadingIn(_emotionQuestions));
+        StartCoroutine(ResetTableHandle(_emotionHandle, _emotionHandleOrigin.GetComponent<Transform>().position.x));
+        
+        yield return null;
+    }
+
+    private IEnumerator EmotionQuestionFinished()
+    {
+
+        StartCoroutine(CanvasGroupFadingOut(_emotionQuestions));
+
+        StartCoroutine(MoveTableDown(_emotionTable));
+
+        if (fadingOutDuration < movingTableDuration)
+        {
+            yield return new WaitForSeconds(movingTableDuration);
+        }
+        else
+        {
+            yield return new WaitForSeconds(fadingOutDuration);
+        }
+        
+        // reset handle position
+        _emotionHandle.GetComponent<Transform>().position = _emotionHandleOrigin.GetComponent<Transform>().position;
+
+        StartCoroutine(CanvasGroupFadingIn(_relationQuestion));
+        
+        yield return null;
     }
 
     #endregion
@@ -1144,9 +838,25 @@ public class QuestionsManager : MonoBehaviour
     public void RelationInput(TextMeshProUGUI relationInput)
     {
         relation = relationInput.text;
-        relationQuestionAnswered = true;
-        _fadingOut = true;
+        StartCoroutine(RelationQuestionAnswered());
     }
+
+    private IEnumerator RelationQuestionAnswered()
+    {
+        StartCoroutine(CanvasGroupFadingOut(_relationQuestion));
+        yield return new WaitForSeconds(fadingOutDuration);
+        _relationQuestion.SetActive(false);
+        
+        // trigger connection question
+        _connectionQuestion.GetComponent<CanvasGroup>().alpha = 0.0f;
+        _connectionQuestion.SetActive(true);
+        StartCoroutine(CanvasGroupFadingIn(_connectionQuestion));
+        StartCoroutine(MoveTableUp(_connectionTable));
+        
+
+        yield return null;
+    }
+    
 
     #endregion
 
@@ -1154,20 +864,49 @@ public class QuestionsManager : MonoBehaviour
 
     public void ConnectionEnter()
     {
-        connectionQuestionAnswered = true;
-        _fadingOut = true;
-        _movingDown = true;
+        StartCoroutine(ConnectionQuestionAnswered());
+    }
+
+    private IEnumerator ConnectionQuestionAnswered()
+    {
+        StartCoroutine(CanvasGroupFadingOut(_connectionQuestion));
+        StartCoroutine(MoveTableDown(_connectionTable));
+
+        if (fadingOutDuration < movingTableDuration)
+        {
+            yield return new WaitForSeconds(movingTableDuration);
+        }
+        else
+        {
+            yield return new WaitForSeconds(fadingOutDuration);
+        }
+        
+        _connectionQuestion.SetActive(false);
+        
+        // trigger next part
+        _eyeInformation.GetComponent<CanvasGroup>().alpha = 0.0f;
+        _eyeInformation.SetActive(true);
+        StartCoroutine(CanvasGroupFadingIn(_eyeInformation));
+        
+        
+        yield return null;
     }
 
     #endregion
-
+ 
     #region EyeCallibrationInformation
 
     public void CalibrationInfoFinished()
     {
-        eyeInfoFadeOut = true;
-        _fadingOut = true;
+        StartCoroutine(FadeOutEyeInformation());
+    }
 
+
+    private IEnumerator FadeOutEyeInformation()
+    {
+        StartCoroutine(CanvasGroupFadingOut(_eyeInformation));
+        yield return new WaitForSeconds(fadingOutDuration);
+        _eyeInformation.SetActive(false);
     }
 
     #endregion
@@ -1176,14 +915,26 @@ public class QuestionsManager : MonoBehaviour
 
     public void AvatarSelectionNext()
     {
-        fadeOutAvatarSelection = true;
-        _fadingOut = true;
+        StartCoroutine(FadeOutAvatarSelection());
+
+    }
+
+    private IEnumerator FadeOutAvatarSelection()
+    {
+        StartCoroutine(CanvasGroupFadingOut(_avatarSelection));
+        yield return new WaitForSeconds(fadingOutDuration);
+        _avatarSelection.SetActive(false);
+        
+        // trigger training
+        _trainingInformation.GetComponent<CanvasGroup>().alpha = 0.0f;
+        _trainingInformation.SetActive(true);
+        StartCoroutine(CanvasGroupFadingIn(_trainingInformation));
+        
     }
 
     public void StartTrainingButton()
     {
-        fadeOutTrainingInfo = true;
-        _fadingOut = true;
+
     }
 
     #endregion
