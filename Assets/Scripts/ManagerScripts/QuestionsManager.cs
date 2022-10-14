@@ -499,7 +499,7 @@ public class QuestionsManager : MonoBehaviour
     }
 
     #endregion
-
+    
     #region HeightQuestion
 
     public void HeightSelection(int heightCondition)
