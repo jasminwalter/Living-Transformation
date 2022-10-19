@@ -11,16 +11,9 @@ public class ObjectTransitions : MonoBehaviour
 
     private new SkinnedMeshRenderer _rend;
     public GameObject obj2Mesh;
-    
-    // public Material placeholderMat;
-    //
-    public Material[] newMats;
-    //
-    // public Material defaultMat;
-    // public Material objectDark;
-    // public Material objectColor;
-    // public Material objectGlow;
 
+    public Material[] newMats;
+    
     public int transitions;
     public bool upwards;
     public bool makeTransition = false;
@@ -29,21 +22,35 @@ public class ObjectTransitions : MonoBehaviour
     public float slowDownDuration = 1.0f;
     public float speedUpDuration = 2.0f;
 
-    public float fadeBlackDuration = 2.0f;
-    public float fadeBack2Normal = 2.0f;
-    public Color fadeColor;
 
-    public float fadeOutDuration = 2.0f;
-    public float fadeInDuration = 2.0f;
+
+
 
     private float shrinkingDuration = 0.7f;
     private float growingDuration = 2.0f;
     private float shakeDuration = 2.0f;
     
-    public Material material1;
-    public Material material2;
-    public float duration = 2.0f;
-    public Renderer rend;
+    
+    /// variables from other transition tries
+    
+    // public float fadeBlackDuration = 2.0f;
+    // public float fadeBack2Normal = 2.0f;
+    // public Color fadeColor;
+    
+    // public Material placeholderMat;
+    
+    // public Material defaultMat;
+    // public Material objectDark;
+    // public Material objectColor;
+    // public Material objectGlow;
+    
+    // public float fadeOutDuration = 2.0f;
+    // public float fadeInDuration = 2.0f;
+    
+    // public Material material1;
+    // public Material material2;
+    // public float duration = 2.0f;
+    // public Renderer rend;
     
     
 
@@ -262,74 +269,74 @@ public class ObjectTransitions : MonoBehaviour
 
     #region Unused Transition Effects
 
-        private IEnumerator FadeToBlackMaterial()
-    {
-        
-        float timer = 0.0f;
-        
-        while (timer <= fadeBlackDuration)
-        {
-            // fade out color
-            Color newColor = fadeColor;
-            newColor = Color.Lerp(Color.white, Color.black, timer / fadeBlackDuration);
-            _rend.material.color = newColor;
-            
-            float newFloat = Mathf.Lerp(1.0f, 0.0f, timer / fadeBlackDuration);
-            _rend.material.SetFloat("_Glossiness",newFloat);
-            // _rend.material.Lerp(objectColor, objectGlow, timer/fadeBlackDuration);
-            
-            timer += Time.deltaTime;
-            yield return null;
-        }
-
-            
-        _rend.material.color = Color.black;
-    
-    
-    
-        yield return null;
-    }
-
-    private IEnumerator SwitchMaterials()
-    {
-        float timer = 0.0f;
-        
-        while (timer <= fadeBlackDuration)
-        {
-
-            // Material newColor = objectColor;
-            // newColor.Lerp(objectColor, objectGlow, timer / fadeBlackDuration);
-            // _rend.material = newColor;
-            
-            timer += Time.deltaTime;
-            yield return null;
-        }
-
-
-        // _rend.material = objectGlow;
-    }
-    
-    
-    private IEnumerator FadeToWhiteMaterial()
-    {
-        
-        float timer = 0.0f;
-        
-        while (timer <= fadeBack2Normal)
-        {
-            Color newColor = fadeColor;
-            newColor = Color.Lerp(Color.black, Color.white, timer / fadeBack2Normal);
-            _rend.material.color = newColor;
-            
-            timer += Time.deltaTime;
-            yield return null;
-        }
-
-
-        _rend.material.color = Color.white;
-    
-        yield return null;
-    }
+    //     private IEnumerator FadeToBlackMaterial()
+    // {
+    //     
+    //     float timer = 0.0f;
+    //     
+    //     while (timer <= fadeBlackDuration)
+    //     {
+    //         // fade out color
+    //         Color newColor = fadeColor;
+    //         newColor = Color.Lerp(Color.white, Color.black, timer / fadeBlackDuration);
+    //         _rend.material.color = newColor;
+    //         
+    //         float newFloat = Mathf.Lerp(1.0f, 0.0f, timer / fadeBlackDuration);
+    //         _rend.material.SetFloat("_Glossiness",newFloat);
+    //         // _rend.material.Lerp(objectColor, objectGlow, timer/fadeBlackDuration);
+    //         
+    //         timer += Time.deltaTime;
+    //         yield return null;
+    //     }
+    //
+    //         
+    //     _rend.material.color = Color.black;
+    //
+    //
+    //
+    //     yield return null;
+    // }
+    //
+    // private IEnumerator SwitchMaterials()
+    // {
+    //     float timer = 0.0f;
+    //     
+    //     while (timer <= fadeBlackDuration)
+    //     {
+    //
+    //         // Material newColor = objectColor;
+    //         // newColor.Lerp(objectColor, objectGlow, timer / fadeBlackDuration);
+    //         // _rend.material = newColor;
+    //         
+    //         timer += Time.deltaTime;
+    //         yield return null;
+    //     }
+    //
+    //
+    //     // _rend.material = objectGlow;
+    // }
+    //
+    //
+    // private IEnumerator FadeToWhiteMaterial()
+    // {
+    //     
+    //     float timer = 0.0f;
+    //     
+    //     while (timer <= fadeBack2Normal)
+    //     {
+    //         Color newColor = fadeColor;
+    //         newColor = Color.Lerp(Color.black, Color.white, timer / fadeBack2Normal);
+    //         _rend.material.color = newColor;
+    //         
+    //         timer += Time.deltaTime;
+    //         yield return null;
+    //     }
+    //
+    //
+    //     _rend.material.color = Color.white;
+    //
+    //     yield return null;
+    // }
     
     // private IEnumerator FadeOutMaterial()
     // {
