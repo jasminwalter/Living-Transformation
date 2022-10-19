@@ -9,14 +9,14 @@ public class TestSwitchMaterials : MonoBehaviour
     public float duration = 2.0f;
     public Renderer rend;
     public bool start = false;
-    public Material switchingMaterial;
     public float fadeBlackDuration = 2.0f;
     public Color fadeColor;
+    public GameObject obj2Mesh;
     
     // Start is called before the first frame update
     void Start()
     {
-        rend = GetComponent<Renderer>();
+        rend = obj2Mesh.GetComponent<SkinnedMeshRenderer>();
         rend.material = material1;
     }
 
@@ -48,9 +48,12 @@ public class TestSwitchMaterials : MonoBehaviour
             Color newColor = fadeColor;
             newColor = Color.Lerp(Color.white, Color.black, timer / fadeBlackDuration);
             // rend.material.color = newColor;
-            rend.material.SetColor("_Color", newColor);
+            rend.material.SetColor("_BaseColor", newColor);
             float newFloat = Mathf.Lerp(1.0f, 0.0f, timer / fadeBlackDuration);
-            rend.material.SetFloat("_Glossiness",newFloat);
+            rend.material.SetFloat("_Smoothness",newFloat);
+            rend.material.SetFloat("_BumpScale", newFloat);
+            rend.material.SetFloat("_OcclusionStrength",newFloat);
+            rend.material.SetFloat("_Metallic", newFloat);
             // _rend.material.Lerp(objectColor, objectGlow, timer/fadeBlackDuration);
             
             timer += Time.deltaTime;
