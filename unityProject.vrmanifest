@@ -5,7 +5,7 @@
       "app_key": "application.generated.unity.livingtransformation.exe",
       "launch_type": "url",
       "url": "steam://launch/",
-      "action_manifest_path": "D:\\JasminsWorkspace\\Living-Transformation\\Assets\\StreamingAssets\\SteamVR\\actions.json",
+      "action_manifest_path": "C:\\JasminsWorkspace\\Living-Transformation\\Assets\\StreamingAssets\\SteamVR\\actions.json",
       "strings": {
         "en_us": {
           "name": "Living Transformation [Testing]"

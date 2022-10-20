@@ -9,6 +9,7 @@ public class ExperimentManager : MonoBehaviour
     
     public Transform LocalGazeSphere;
     public Transform RemoteGazeSphere;
+    public Transform RemoteGazeSphe2;
     public Transform localPlayer;
     public Transform remotePlayer;
     public Transform startPositionExperiment;
@@ -70,6 +71,8 @@ public class ExperimentManager : MonoBehaviour
     {
 
         RemoteGazeSphere.position = Vector3.Lerp(RemoteGazeSphere.position,incomingState.GazeSpherePosition,Time.deltaTime * InterpolationFactor);
+
+        RemoteGazeSphe2.position = incomingState.GazeSpherePosition;
         remotePlayer.position = Vector3.Lerp(remotePlayer.position,incomingState.playerPosition,Time.deltaTime * InterpolationFactor);
 
         //RemoteResponseGiven = incomingState.responseGiven;
