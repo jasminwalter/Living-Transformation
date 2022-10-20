@@ -223,6 +223,8 @@ public class EyeTrackingManager : MonoBehaviour
         {
             // StartRecording();
             // testGazeSphere = false;
+            int layer = 1 << LayerMask.NameToLayer("Default");
+            
             Transform hmdTransform = Player.instance.hmdTransform;;
             SRanipal_Eye_v2.GetVerboseData(out VerboseData verboseData); 
             var eyePositionCombinedWorld = verboseData.combined.eye_data.gaze_origin_mm / 1000 + hmdTransform.position;
@@ -230,7 +232,7 @@ public class EyeTrackingManager : MonoBehaviour
             var eyeDirectionCombinedWorld = hmdTransform.rotation * coordinateAdaptedGazeDirectionCombined;
             
             RaycastHit firstHit;
-            if (Physics.Raycast(eyePositionCombinedWorld, eyeDirectionCombinedWorld, out firstHit, Mathf.Infinity))
+            if (Physics.Raycast(eyePositionCombinedWorld, eyeDirectionCombinedWorld, out firstHit, Mathf.Infinity,layer, QueryTriggerInteraction.Ignore))
             {
                 localGazeSphere.transform.position = firstHit.point;
             
