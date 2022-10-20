@@ -13,6 +13,13 @@ public class ObjectTransitions : MonoBehaviour
     public GameObject obj2Mesh;
 
     public Material[] newMats;
+
+    private float[] smoothnessOriginalList = new float[]{0.0f, 0.0f, 0.0f};
+    private float[] bumpScaleOriginalList = new float[]{0.0f, 0.0f, 0.0f};
+    private float[] occlusionOriginalList = new float[]{0.0f, 0.0f, 0.0f};
+    private float[] metallicOriginalList = new float[]{0.0f, 0.0f, 0.0f};
+    private float glowAlphaOriginal = 0.0f;
+    
     
     public int transitions;
     public bool upwards;
@@ -31,11 +38,13 @@ public class ObjectTransitions : MonoBehaviour
     private float shakeDuration = 2.0f;
     
     
+    private float fade2BlackDuration = 3.7f;
+    private float fade2WhiteDuration = 3.0f;
+    private Color fadeColor;
+    
     /// variables from other transition tries
     
-    // public float fadeBlackDuration = 2.0f;
-    // public float fadeBack2Normal = 2.0f;
-    // public Color fadeColor;
+
     
     // public Material placeholderMat;
     
@@ -66,6 +75,18 @@ public class ObjectTransitions : MonoBehaviour
         upwards = true;
 
         objectAnim1 = gameObject.GetComponent<Animator>();
+        
+        // assign all initial values of the materials to lists
+        for (int i = 0; i < 3; i++)
+        {
+            smoothnessOriginalList[i] = newMats[i].GetFloat("_Smoothness");
+            bumpScaleOriginalList[i] = newMats[i].GetFloat("_BumpScale");
+            occlusionOriginalList[i] = newMats[i].GetFloat("_OcclusionStrength");
+            metallicOriginalList[i] = newMats[i].GetFloat("_Metallic");
+        }
+
+        glowAlphaOriginal = newMats[2].color.a;
+        Debug.Log("Alpha" + glowAlphaOriginal);
     }
 
     // Update is called once per frame
@@ -115,22 +136,6 @@ public class ObjectTransitions : MonoBehaviour
         StartCoroutine(SlowDownAnimation(objectAnim));
         yield return new WaitForSeconds(slowDownDuration);
 
-        if (upwards)
-        {
-            transitions++;
-            if(transitions == 2)
-            {
-                upwards = false;
-            }
-        }
-        else
-        {
-            transitions--;
-            if (transitions == 0)
-            {
-                upwards = true;
-            }
-        }
         // Fade to black transition
         // StartCoroutine(FadeToBlackMaterial());
         // yield return new WaitForSeconds(fadeBlackDuration);
@@ -159,13 +164,36 @@ public class ObjectTransitions : MonoBehaviour
         StartCoroutine(ShakeObject());
         yield return new WaitForSeconds(shakeDuration);
         
-        StartCoroutine(ShrinkModel());
-        yield return new WaitForSeconds(shrinkingDuration);
+        // StartCoroutine(ShrinkModel());
+        // yield return new WaitForSeconds(shrinkingDuration);
+        StartCoroutine(FadeToBlackMaterial());
+        yield return new WaitForSeconds(fade2BlackDuration);
+        
+        // select upcoming material
+        if (upwards)
+        {
+            transitions++;
+            if(transitions == 2)
+            {
+                upwards = false;
+            }
+        }
+        else
+        {
+            transitions--;
+            if (transitions == 0)
+            {
+                upwards = true;
+            }
+        }
         
         ChangeLiveMat(transitions);
-        
-        StartCoroutine(GrowModel());
-        yield return new WaitForSeconds(growingDuration);
+
+        // fade new material in
+        StartCoroutine(FadeToWhiteMaterial());
+        yield return new WaitForSeconds(fade2WhiteDuration);
+        // StartCoroutine(GrowModel());
+        // yield return new WaitForSeconds(growingDuration);
 
         
         StartCoroutine(SpeedUpAnimation(objectAnim));
@@ -266,37 +294,119 @@ public class ObjectTransitions : MonoBehaviour
         
         yield return null;
     }
+    
+    private IEnumerator FadeToBlackMaterial()
+    {
+        
+        float timer = 0.0f;
+        
+        while (timer <= fade2BlackDuration)
+        {
+            // fade out color
+            Color newColor = fadeColor;
+            newColor = Color.Lerp(Color.white, Color.black, timer / fade2BlackDuration);
+            
+            if (transitions == 2)
+            {
+                newColor.a = Mathf.Lerp(glowAlphaOriginal, 1.0f, timer / fade2BlackDuration);   
+            }
+            
+            _rend.material.color = newColor;
+            
+            // other properties of material
+            float newSmoothVal = Mathf.Lerp(smoothnessOriginalList[transitions], 0.0f, timer / fade2BlackDuration);
+            _rend.material.SetFloat("_Smoothness",newSmoothVal);
+            
+            float newBumpVal = Mathf.Lerp(bumpScaleOriginalList[transitions], 0.0f, timer / fade2BlackDuration);
+            _rend.material.SetFloat("_BumpScale", newBumpVal);
+            
+            float newOccVal = Mathf.Lerp(occlusionOriginalList[transitions], 0.0f, timer / fade2BlackDuration);
+            _rend.material.SetFloat("_OcclusionStrength",newOccVal);
+            
+            float newMetallVal = Mathf.Lerp(metallicOriginalList[transitions], 0.0f, timer / fade2BlackDuration);
+            _rend.material.SetFloat("_Metallic", newMetallVal);
+            
+            
+            
 
+            // _rend.material.Lerp(objectColor, objectGlow, timer/fadeBlackDuration);
+            
+            timer += Time.deltaTime;
+            yield return null;
+        }
+    
+            
+        _rend.material.color = Color.black;
+        _rend.material.SetFloat("_Smoothness",0.0f);
+        _rend.material.SetFloat("_BumpScale", 0.0f);
+        _rend.material.SetFloat("_OcclusionStrength",0.0f);
+        _rend.material.SetFloat("_Metallic", 0.0f);
+    
+    
+    
+        yield return null;
+    }
+    
+    private IEnumerator FadeToWhiteMaterial()
+    {
+        
+        float timer = 0.0f;
+        
+        while (timer <= fade2WhiteDuration)
+        {
+            Color newColor = fadeColor;
+            newColor = Color.Lerp(Color.black, Color.white, timer / fade2WhiteDuration);
+            if (transitions == 2)
+            {
+                newColor.a = Mathf.Lerp(1.0f, glowAlphaOriginal, timer / fade2BlackDuration);   
+            }
+            _rend.material.color = newColor;
+            
+            
+            // other properties of material
+            float newSmoothVal = Mathf.Lerp(0.0f,smoothnessOriginalList[transitions], timer / fade2BlackDuration);
+            _rend.material.SetFloat("_Smoothness",newSmoothVal);
+            
+            float newBumpVal = Mathf.Lerp(0.0f, bumpScaleOriginalList[transitions], timer / fade2BlackDuration);
+            _rend.material.SetFloat("_BumpScale", newBumpVal);
+            
+            float newOccVal = Mathf.Lerp(0.0f, occlusionOriginalList[transitions], timer / fade2BlackDuration);
+            _rend.material.SetFloat("_OcclusionStrength",newOccVal);
+            
+            float newMetallVal = Mathf.Lerp(0.0f, metallicOriginalList[transitions], timer / fade2BlackDuration);
+            _rend.material.SetFloat("_Metallic", newMetallVal);
+            
+            
+            timer += Time.deltaTime;
+            yield return null;
+        }
+    
+    
+        // make sure they have reached the correct values
+        if (transitions == 2)
+        {
+            Color tempVar = Color.white;
+            tempVar.a = glowAlphaOriginal;
+            _rend.material.color = tempVar;
+        }
+        else
+        { 
+            _rend.material.color = Color.white;   
+        }
+
+        
+        _rend.material.SetFloat("_Smoothness",smoothnessOriginalList[transitions]);
+        _rend.material.SetFloat("_BumpScale", bumpScaleOriginalList[transitions]);
+        _rend.material.SetFloat("_OcclusionStrength",occlusionOriginalList[transitions]);
+        _rend.material.SetFloat("_Metallic", metallicOriginalList[transitions]);
+    
+        yield return null;
+    }
+    
+    
     #region Unused Transition Effects
 
-    //     private IEnumerator FadeToBlackMaterial()
-    // {
-    //     
-    //     float timer = 0.0f;
-    //     
-    //     while (timer <= fadeBlackDuration)
-    //     {
-    //         // fade out color
-    //         Color newColor = fadeColor;
-    //         newColor = Color.Lerp(Color.white, Color.black, timer / fadeBlackDuration);
-    //         _rend.material.color = newColor;
-    //         
-    //         float newFloat = Mathf.Lerp(1.0f, 0.0f, timer / fadeBlackDuration);
-    //         _rend.material.SetFloat("_Glossiness",newFloat);
-    //         // _rend.material.Lerp(objectColor, objectGlow, timer/fadeBlackDuration);
-    //         
-    //         timer += Time.deltaTime;
-    //         yield return null;
-    //     }
-    //
-    //         
-    //     _rend.material.color = Color.black;
-    //
-    //
-    //
-    //     yield return null;
-    // }
-    //
+    
     // private IEnumerator SwitchMaterials()
     // {
     //     float timer = 0.0f;
@@ -317,26 +427,7 @@ public class ObjectTransitions : MonoBehaviour
     // }
     //
     //
-    // private IEnumerator FadeToWhiteMaterial()
-    // {
-    //     
-    //     float timer = 0.0f;
-    //     
-    //     while (timer <= fadeBack2Normal)
-    //     {
-    //         Color newColor = fadeColor;
-    //         newColor = Color.Lerp(Color.black, Color.white, timer / fadeBack2Normal);
-    //         _rend.material.color = newColor;
-    //         
-    //         timer += Time.deltaTime;
-    //         yield return null;
-    //     }
-    //
-    //
-    //     _rend.material.color = Color.white;
-    //
-    //     yield return null;
-    // }
+    
     
     // private IEnumerator FadeOutMaterial()
     // {

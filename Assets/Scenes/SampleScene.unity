@@ -124438,12 +124438,31 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 4315059348bdde34cb021a7adb3cbf41, type: 2}
   - {fileID: 2100000, guid: c9539b34bcadc7c4dbeadd5ade6f5e26, type: 2}
   - {fileID: 2100000, guid: 1a9fc45cee0346b49aca63fd7d319863, type: 2}
+  smoothnessOriginalList:
+  - 0
+  - 0
+  - 0
+  bumpScaleOriginalList:
+  - 0
+  - 0
+  - 0
+  occlusionOriginalList:
+  - 0
+  - 0
+  - 0
+  metallicOriginalList:
+  - 0
+  - 0
+  - 0
   transitions: 0
   upwards: 0
   makeTransition: 0
   objectAnim1: {fileID: 513042611}
   slowDownDuration: 1
   speedUpDuration: 2
+  fade2BlackDuration: 0.7
+  fade2WhiteDuration: 2
+  fadeColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!4 &934938465515729661
 Transform:
   m_ObjectHideFlags: 0
@@ -126639,12 +126658,31 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 2141a242d47e07147865a1fddabaf890, type: 2}
   - {fileID: 2100000, guid: 1c117947b97ce644f8fce83dac6f09c7, type: 2}
   - {fileID: 2100000, guid: 0eac560a2800c944fb1067f175ec35f1, type: 2}
+  smoothnessOriginalList:
+  - 0
+  - 0
+  - 0
+  bumpScaleOriginalList:
+  - 0
+  - 0
+  - 0
+  occlusionOriginalList:
+  - 0
+  - 0
+  - 0
+  metallicOriginalList:
+  - 0
+  - 0
+  - 0
   transitions: 0
   upwards: 0
   makeTransition: 0
   objectAnim1: {fileID: 1547891798369784711}
   slowDownDuration: 1
   speedUpDuration: 2
+  fade2BlackDuration: 0.7
+  fade2WhiteDuration: 2
+  fadeColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!95 &1547891798369784711
 Animator:
   serializedVersion: 3
@@ -127781,7 +127819,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c9539b34bcadc7c4dbeadd5ade6f5e26, type: 2}
+  - {fileID: 2100000, guid: 4315059348bdde34cb021a7adb3cbf41, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -134102,12 +134140,31 @@ MonoBehaviour:
   - {fileID: 2100000, guid: ea79cf0531db15543896ceb5fad49884, type: 2}
   - {fileID: 2100000, guid: 324de1c753e583e4fb357a4982717a84, type: 2}
   - {fileID: 2100000, guid: d9edd8a853d47554094f052d94f9f49c, type: 2}
+  smoothnessOriginalList:
+  - 0
+  - 0
+  - 0
+  bumpScaleOriginalList:
+  - 0
+  - 0
+  - 0
+  occlusionOriginalList:
+  - 0
+  - 0
+  - 0
+  metallicOriginalList:
+  - 0
+  - 0
+  - 0
   transitions: 0
   upwards: 0
   makeTransition: 0
   objectAnim1: {fileID: 0}
   slowDownDuration: 1
   speedUpDuration: 2
+  fade2BlackDuration: 0.7
+  fade2WhiteDuration: 2
+  fadeColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!95 &8734138824673584682
 Animator:
   serializedVersion: 3
