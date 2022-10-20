@@ -54,7 +54,7 @@ public class ExperimentManager : MonoBehaviour
     public NetworkManager NetMan;
     
     public TextMesh infoTextVR;
-
+    
     public TextMesh infoTextFallback;
 
     public GameObject playerSteam;
@@ -190,61 +190,61 @@ public class ExperimentManager : MonoBehaviour
 
     private void Update()
     {
-        if (startExperimentPress)
-        {
-            localStartExperiment = true;
-            
-            startExperimentPress = false;
-        }
-
-        // if only local start experiment true
-        if (localStartExperiment & !remoteStartExperiment)
-        {
-            // activate both text meshs
-            infoTextVR.text = "waiting for partner";
-            infoTextVR.gameObject.SetActive(true);
-            infoTextFallback.text = "waiting for partner";
-            infoTextFallback.gameObject.SetActive(true);
-        }
-        
-        // if only remote start experiment true
-        if (!localStartExperiment & remoteStartExperiment)
-        {
-            // activate both text meshs
-            infoTextVR.text = "partner is ready";
-            infoTextVR.gameObject.SetActive(true);
-            infoTextFallback.text = "partner is ready";
-            infoTextFallback.gameObject.SetActive(true);
-        }
-
-        // if both participants have pressed start experiment
-        if (localStartExperiment & remoteStartExperiment)
-        {
-            // deactivate both info texts
-            infoTextVR.gameObject.SetActive(false);
-            infoTextFallback.gameObject.SetActive(false);
-
-            
-            // then teleport players
-            localPlayer.position = startPositionExperiment.position;
-            localPlayer.localEulerAngles = new Vector3(0, 0, 0);
-            // _spawnManager.inExperimentRoom = true;
-
-
-            if (NetMan.IsServer() && !randomSeedSet)
-            {
-                Random rnd = new Random();
-                randomSeed = rnd.Next(0, 10000000);
-                // _spawnManager.SetRandomObject((float) randomSeed);
-                NetMan.BroadCastRandomState((float) randomSeed);
-                randomSeedSet = true;
-
-            }
-
-            // localStartExperiment = false;
-            // remoteStartExperiment = false; // should be set by network, but to make sure
-
-        }
+        // if (startExperimentPress)
+        // {
+        //     localStartExperiment = true;
+        //     
+        //     startExperimentPress = false;
+        // }
+        //
+        // // if only local start experiment true
+        // if (localStartExperiment & !remoteStartExperiment)
+        // {
+        //     // activate both text meshs
+        //     infoTextVR.text = "waiting for partner";
+        //     infoTextVR.gameObject.SetActive(true);
+        //     infoTextFallback.text = "waiting for partner";
+        //     infoTextFallback.gameObject.SetActive(true);
+        // }
+        //
+        // // if only remote start experiment true
+        // if (!localStartExperiment & remoteStartExperiment)
+        // {
+        //     // activate both text meshs
+        //     infoTextVR.text = "partner is ready";
+        //     infoTextVR.gameObject.SetActive(true);
+        //     infoTextFallback.text = "partner is ready";
+        //     infoTextFallback.gameObject.SetActive(true);
+        // }
+        //
+        // // if both participants have pressed start experiment
+        // if (localStartExperiment & remoteStartExperiment)
+        // {
+        //     // deactivate both info texts
+        //     infoTextVR.gameObject.SetActive(false);
+        //     infoTextFallback.gameObject.SetActive(false);
+        //
+        //     
+        //     // then teleport players
+        //     localPlayer.position = startPositionExperiment.position;
+        //     localPlayer.localEulerAngles = new Vector3(0, 0, 0);
+        //     // _spawnManager.inExperimentRoom = true;
+        //
+        //
+        //     if (NetMan.IsServer() && !randomSeedSet)
+        //     {
+        //         Random rnd = new Random();
+        //         randomSeed = rnd.Next(0, 10000000);
+        //         // _spawnManager.SetRandomObject((float) randomSeed);
+        //         NetMan.BroadCastRandomState((float) randomSeed);
+        //         randomSeedSet = true;
+        //
+        //     }
+        //
+        //     // localStartExperiment = false;
+        //     // remoteStartExperiment = false; // should be set by network, but to make sure
+        //
+        // }
         
         if (NetMan.GetState() == ENetworkState.Running)
         {
