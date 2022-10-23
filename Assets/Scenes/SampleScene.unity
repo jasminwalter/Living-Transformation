@@ -77582,6 +77582,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Test5_GERig_sepHead_blendshapes
       objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 0387a22c6a5773b43b51661ada5fb034,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: f17f2b075c933fc4e91de8df74bc7cd3, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0387a22c6a5773b43b51661ada5fb034, type: 3}
 --- !u!1 &1442260426
