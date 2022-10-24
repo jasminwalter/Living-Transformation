@@ -105,10 +105,7 @@ public class EyeTrackingManager : MonoBehaviour
     // English instructions
     [Header("English Instructions")] 
     
-    private float _instructionThresholdShort = 3.0f;
 
-    private float _instructionThresholdLong = 8.0f;
-    
     public GameObject instCalSuccessE;
     public GameObject instCalFailE;
     
@@ -137,6 +134,12 @@ public class EyeTrackingManager : MonoBehaviour
     private GameObject _instructionValidationFail;
     
     private GameObject _instructionCalValProblem;
+
+    // threshold variables
+    private float _instructionThresholdShort = 3.0f;
+
+    private float _instructionThresholdLong = 8.0f;
+
     
 
     #endregion
