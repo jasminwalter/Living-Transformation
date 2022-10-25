@@ -152,11 +152,25 @@ public class UserState : NetworkData
         sizeof(byte) + // header     (ENetDataType.UserState)
         sizeof(float) * 3 + // Vector3    GazeSpherePosition;
         sizeof(float) * 3 + // Vector3    PlayerPosition
+        sizeof(float) * 3 + // Vector3  camera pos
+        sizeof(float) * 3 + // Vector3  camera rot
+        sizeof(float) * 3 + // Vector3  rightHand pos
+        sizeof(float) * 3 + // Vector3  rightHand rot
+        sizeof(float) * 3 + // Vector3  leftHand pos
+        sizeof(float) * 3 + // Vector3; leftHand rot 
         sizeof(float) * 1 + // to float converted booleans   responseGiven, trialAnswer, playerReady
-        sizeof(float) * 1;  // bool        startExperiment         
+        sizeof(float) * 1;  // bool     startExperiment 
 
     public Vector3 GazeSpherePosition;
     public Vector3 playerPosition;
+    
+    // player info
+    public Vector3 VRCameraPosition;
+    public Vector3 VRCameraRotation;
+    public Vector3 VRRightHandPosition;
+    public Vector3 VRRightHandRotation;
+    public Vector3 VRLeftHandPosition;
+    public Vector3 VRLeftHandRotation;
 
     public bool playerReady;
     public bool startExperiment;
@@ -173,8 +187,16 @@ public class UserState : NetworkData
 
         SerializationHelper.FromBytes(data, ref head, ref GazeSpherePosition);
         SerializationHelper.FromBytes(data, ref head, ref playerPosition);
+        SerializationHelper.FromBytes(data, ref head, ref VRCameraPosition);
+        SerializationHelper.FromBytes(data, ref head, ref VRCameraRotation);
+        SerializationHelper.FromBytes(data, ref head, ref VRRightHandPosition);
+        SerializationHelper.FromBytes(data, ref head, ref VRRightHandRotation);
+        SerializationHelper.FromBytes(data, ref head, ref VRLeftHandPosition);
+        SerializationHelper.FromBytes(data, ref head, ref VRLeftHandRotation);
+        
         SerializationHelper.FromBytes(data, ref head, ref playerReady);
         SerializationHelper.FromBytes(data, ref head, ref startExperiment);
+        
     }
 
     public byte[] Serialize()
@@ -185,6 +207,14 @@ public class UserState : NetworkData
 
         SerializationHelper.ToBytes(ref GazeSpherePosition, Cache, ref head);
         SerializationHelper.ToBytes(ref playerPosition, Cache, ref head);
+        
+        SerializationHelper.ToBytes(ref VRCameraPosition, Cache, ref head);
+        SerializationHelper.ToBytes(ref VRCameraRotation, Cache, ref head);
+        SerializationHelper.ToBytes(ref VRRightHandPosition, Cache, ref head);
+        SerializationHelper.ToBytes(ref VRRightHandRotation, Cache, ref head);
+        SerializationHelper.ToBytes(ref VRLeftHandPosition, Cache, ref head);
+        SerializationHelper.ToBytes(ref VRLeftHandRotation, Cache, ref head);
+        
         SerializationHelper.ToBytes(Convert.ToSingle(playerReady), Cache, ref head);
         SerializationHelper.ToBytes(Convert.ToSingle(startExperiment), Cache, ref head);
 

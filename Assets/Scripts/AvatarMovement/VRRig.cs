@@ -18,17 +18,22 @@ public class VRMap
 }
 public class VRRig : MonoBehaviour
 {
+    public float turnSmoothness = 1.0f;
     public VRMap head;
+    public VRMap bodyHip;
     public VRMap leftHand;
     public VRMap rightHand;
 
     public Transform headConstraint;
+    public Transform bodyConstraint;
 
     public Vector3 headBodyOffset;
+    
+    
     // Start is called before the first frame update
     void Start()
     {
-        headBodyOffset = transform.position - headConstraint.position;
+        //headBodyOffset = transform.position - headConstraint.position;
 
     }
 
@@ -36,7 +41,11 @@ public class VRRig : MonoBehaviour
     void FixedUpdate()
     {
         transform.position = headConstraint.position + headBodyOffset;
-        transform.forward = Vector3.ProjectOnPlane(headConstraint.up, Vector3.up).normalized;
+        // transform.rotation = headConstraint.up;
+        // transform.forward = Vector3.ProjectOnPlane(headConstraint.forward, Vector3.up).normalized;
+        // transform.forward = Vector3.Lerp(transform.forward, Vector3.ProjectOnPlane(headConstraint.up, Vector3.up).normalized, Time.deltaTime*turnSmoothness);
+        transform.forward = Vector3.Lerp(transform.forward, Vector3.ProjectOnPlane(headConstraint.forward, Vector3.up).normalized, Time.deltaTime*turnSmoothness);
+
 
         head.Map();
         leftHand.Map();
