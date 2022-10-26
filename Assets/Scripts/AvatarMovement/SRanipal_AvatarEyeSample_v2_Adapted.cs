@@ -225,18 +225,31 @@ namespace ViveSR
                         if (eyeShape == EyeShape_v2.Eye_Left_Blink || eyeShape == EyeShape_v2.Eye_Right_Blink)
                         {
                             eyeShapeTable.skinnedMeshRenderer.SetBlendShapeWeight(i, weighting[eyeShape] * 100f);
-                            ExperimentManager.Instance().localEyeShapeTable[i] = weighting[eyeShape];
                         }
                         else
                         {
                             AnimationCurve curve = EyebrowAnimationCurves[(int)eyeShape];
                             eyeShapeTable.skinnedMeshRenderer.SetBlendShapeWeight(i, curve.Evaluate(weighting[eyeShape]) * 100f);
-                            
-                            ExperimentManager.Instance().localEyeShapeTable[i] = weighting[eyeShape];
-                            ExperimentManager.Instance().localEyeShape2IntTable[i] = (int)eyeShape;
                         }
                     }
+
+                    ExperimentManager.Instance().eyeShapePart1_local.x = weighting[eyeShapeTable.eyeShapes[9]];
+                    ExperimentManager.Instance().eyeShapePart1_local.y = weighting[eyeShapeTable.eyeShapes[10]];
+                    ExperimentManager.Instance().eyeShapePart1_local.z = weighting[eyeShapeTable.eyeShapes[11]];
+                    ExperimentManager.Instance().eyeShapePart1_local.w = weighting[eyeShapeTable.eyeShapes[12]];
+                    ExperimentManager.Instance().eyeShapePart2_local.x = weighting[eyeShapeTable.eyeShapes[13]];
+                    ExperimentManager.Instance().eyeShapePart2_local.y = weighting[eyeShapeTable.eyeShapes[14]];
+                    ExperimentManager.Instance().eyeShapePart2_local.z = weighting[eyeShapeTable.eyeShapes[15]];
+                    ExperimentManager.Instance().eyeShapePart2_local.w = weighting[eyeShapeTable.eyeShapes[16]];
+                    ExperimentManager.Instance().eyeShapePart3_local.x = weighting[eyeShapeTable.eyeShapes[17]];
+                    ExperimentManager.Instance().eyeShapePart3_local.y = weighting[eyeShapeTable.eyeShapes[18]];
+                    ExperimentManager.Instance().eyeShapePart3_local.z = weighting[eyeShapeTable.eyeShapes[19]];
+                    ExperimentManager.Instance().eyeShapePart3_local.w = weighting[eyeShapeTable.eyeShapes[20]];
+                    
+
+
                 }
+                
 
                 private void CreateEyeAnchors()
                 {

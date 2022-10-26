@@ -59,13 +59,15 @@ public class NetworkManager : MonoBehaviour
 
 
     
+
     // public void BroadcastExperimentState(Transform gazeSphereTransform, Transform playerPosTransform, 
     //     Vector3 VRCameraPosition, Quaternion VRCameraRotation, Vector3 VRRightHandPosition, Quaternion VRRightHandRotation,
-    //     Vector3 VRLeftHandPosition, Quaternion VRLeftHandRotation, bool playerReady, bool startExperiment) 
+    //     Vector3 VRLeftHandPosition, Quaternion VRLeftHandRotation, List<float> EyeShapeTable, List<float> EyeShape2IntTable,
+    //     bool playerReady, bool startExperiment) //, bool responseGiven,bool trialAnswer)
     public void BroadcastExperimentState(Transform gazeSphereTransform, Transform playerPosTransform, 
         Vector3 VRCameraPosition, Quaternion VRCameraRotation, Vector3 VRRightHandPosition, Quaternion VRRightHandRotation,
-        Vector3 VRLeftHandPosition, Quaternion VRLeftHandRotation, List<float> EyeShapeTable, List<float> EyeShape2IntTable,
-        bool playerReady, bool startExperiment) //, bool responseGiven,bool trialAnswer)
+        Vector3 VRLeftHandPosition, Quaternion VRLeftHandRotation, Quaternion eyeShapePart1, Quaternion eyeShapePart2, Quaternion eyeShapePart3,
+        Quaternion eyeBlinkVal1, Quaternion eyeBlinkVal2, Vector3 eyeBlinkVal3, bool playerReady, bool startExperiment) 
     {
         SendingUserState.GazeSpherePosition = gazeSphereTransform.position;
         SendingUserState.playerPosition = playerPosTransform.position;
@@ -77,9 +79,17 @@ public class NetworkManager : MonoBehaviour
         SendingUserState.VRLeftHandPosition = VRLeftHandPosition;
         SendingUserState.VRLeftHandRotation = VRLeftHandRotation;
 
-        SendingUserState.EyeShapeTable = EyeShapeTable;
-        SendingUserState.EyeShape2IntTable =EyeShape2IntTable;
-        
+        SendingUserState.eyeShapePart1 = eyeShapePart1;
+        SendingUserState.eyeShapePart2 = eyeShapePart2;
+        SendingUserState.eyeShapePart3 = eyeShapePart3;
+
+        SendingUserState.EyeBlinkVal1 = eyeBlinkVal1;
+        SendingUserState.EyeBlinkVal2 = eyeBlinkVal2;
+        SendingUserState.EyeBlinkVal3 = eyeBlinkVal3;
+
+        // SendingUserState.EyeShapeTable = EyeShapeTable;
+        // SendingUserState.EyeShape2IntTable =EyeShape2IntTable;
+        //
         SendingUserState.playerReady = playerReady;
         SendingUserState.startExperiment = startExperiment;
 

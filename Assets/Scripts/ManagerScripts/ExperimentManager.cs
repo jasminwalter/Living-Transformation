@@ -34,10 +34,27 @@ public class ExperimentManager : MonoBehaviour
     public Transform LocalGazeSphere;
     public Transform RemoteGazeSphere;
     
-    public List<float> localEyeShapeTable;
-    public List<float> remoteEyeShapeTable;
-    public List<float> localEyeShape2IntTable;
-    public List<float> remoteEyeShape2IntTable;
+    // public List<float> localEyeShapeTable;
+    // public List<float> remoteEyeShapeTable;
+    // public List<float> localEyeShape2IntTable;
+    // public List<float> remoteEyeShape2IntTable;
+
+    public Quaternion eyeShapePart1_local;
+    public Quaternion eyeShapePart2_local;
+    public Quaternion eyeShapePart3_local;
+    
+    public Quaternion eyeShapePart1_remote;
+    public Quaternion eyeShapePart2_remote;
+    public Quaternion eyeShapePart3_remote;
+
+    public Quaternion EyeBlinkVal1_local;
+    public Quaternion EyeBlinkVal2_local;
+    public Vector3 EyeBlinkVal3_local;
+    
+    public Quaternion EyeBlinkVal1_remote;
+    public Quaternion EyeBlinkVal2_remote;
+    public Vector3 EyeBlinkVal3_remote;
+
 
     public bool inExhibitionArea = false;
     
@@ -100,8 +117,16 @@ public class ExperimentManager : MonoBehaviour
         VRHandLeft_remote.position = Vector3.Lerp(VRHandLeft_remote.position,incomingState.VRLeftHandPosition,Time.deltaTime * InterpolationFactor);;
         VRHandLeft_remote.rotation = Quaternion.Lerp(VRHandLeft_remote.rotation,incomingState.VRLeftHandRotation,Time.deltaTime * InterpolationFactor);;
 
-        remoteEyeShapeTable = incomingState.EyeShapeTable;
-        remoteEyeShape2IntTable = incomingState.EyeShape2IntTable;
+        eyeShapePart1_remote = incomingState.eyeShapePart1;
+        eyeShapePart2_remote = incomingState.eyeShapePart2;
+        eyeShapePart3_remote = incomingState.eyeShapePart3;
+
+        EyeBlinkVal1_remote = incomingState.EyeBlinkVal1;
+        EyeBlinkVal2_remote = incomingState.EyeBlinkVal2;
+        EyeBlinkVal3_remote = incomingState.EyeBlinkVal3;
+
+        // remoteEyeShapeTable = incomingState.EyeShapeTable;
+        // remoteEyeShape2IntTable = incomingState.EyeShape2IntTable;
 
 
         //RemoteResponseGiven = incomingState.responseGiven;
@@ -280,13 +305,16 @@ public class ExperimentManager : MonoBehaviour
         {
             if(inExhibitionArea)
             {
-                NetMan.BroadcastExperimentState(LocalGazeSphere, localPlayer, VRCamera_local.position, 
-                    VRCamera_local.rotation, VRHandRight_local.position, VRHandRight_local.rotation,
-                    VRHandLeft_local.position, VRHandLeft_local.rotation, localEyeShapeTable, localEyeShape2IntTable,
-                    LocalPlayerReady, localStartExperiment);
                 // NetMan.BroadcastExperimentState(LocalGazeSphere, localPlayer, VRCamera_local.position, 
                 //     VRCamera_local.rotation, VRHandRight_local.position, VRHandRight_local.rotation,
-                //     VRHandLeft_local.position, VRHandLeft_local.rotation, LocalPlayerReady, localStartExperiment);
+                //     VRHandLeft_local.position, VRHandLeft_local.rotation, localEyeShapeTable, localEyeShape2IntTable,
+                //     LocalPlayerReady, localStartExperiment);
+                NetMan.BroadcastExperimentState(LocalGazeSphere, localPlayer, VRCamera_local.position, 
+                    VRCamera_local.rotation, VRHandRight_local.position, VRHandRight_local.rotation,
+                    VRHandLeft_local.position, VRHandLeft_local.rotation, eyeShapePart1_local,
+                    eyeShapePart2_local,eyeShapePart3_local, EyeBlinkVal1_local, EyeBlinkVal2_local,
+                    EyeBlinkVal3_local, LocalPlayerReady, localStartExperiment);
+  
             }
 
         }
