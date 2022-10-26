@@ -100,8 +100,8 @@ public class ExperimentManager : MonoBehaviour
         VRHandLeft_remote.position = Vector3.Lerp(VRHandLeft_remote.position,incomingState.VRLeftHandPosition,Time.deltaTime * InterpolationFactor);;
         VRHandLeft_remote.rotation = Quaternion.Lerp(VRHandLeft_remote.rotation,incomingState.VRLeftHandRotation,Time.deltaTime * InterpolationFactor);;
 
-        // remoteEyeShapeTable = incomingState.EyeShapeTable;
-        // remoteEyeShape2IntTable = incomingState.EyeShape2IntTable;
+        remoteEyeShapeTable = incomingState.EyeShapeTable;
+        remoteEyeShape2IntTable = incomingState.EyeShape2IntTable;
 
 
         //RemoteResponseGiven = incomingState.responseGiven;
@@ -280,13 +280,13 @@ public class ExperimentManager : MonoBehaviour
         {
             if(inExhibitionArea)
             {
-                // NetMan.BroadcastExperimentState(LocalGazeSphere, localPlayer, VRCamera_local.position, 
-                //     VRCamera_local.rotation, VRHandRight_local.position, VRHandRight_local.rotation,
-                //     VRHandLeft_local.position, VRHandLeft_local.rotation, localEyeShapeTable, localEyeShape2IntTable,
-                //     LocalPlayerReady, localStartExperiment);
                 NetMan.BroadcastExperimentState(LocalGazeSphere, localPlayer, VRCamera_local.position, 
                     VRCamera_local.rotation, VRHandRight_local.position, VRHandRight_local.rotation,
-                    VRHandLeft_local.position, VRHandLeft_local.rotation, LocalPlayerReady, localStartExperiment);
+                    VRHandLeft_local.position, VRHandLeft_local.rotation, localEyeShapeTable, localEyeShape2IntTable,
+                    LocalPlayerReady, localStartExperiment);
+                // NetMan.BroadcastExperimentState(LocalGazeSphere, localPlayer, VRCamera_local.position, 
+                //     VRCamera_local.rotation, VRHandRight_local.position, VRHandRight_local.rotation,
+                //     VRHandLeft_local.position, VRHandLeft_local.rotation, LocalPlayerReady, localStartExperiment);
             }
 
         }

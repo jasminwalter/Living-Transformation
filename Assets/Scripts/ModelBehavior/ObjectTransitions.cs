@@ -26,8 +26,8 @@ public class ObjectTransitions : MonoBehaviour
     public bool makeTransition = false;
 
     private Animator objectAnim;
-    public float slowDownDuration = 1.0f;
-    public float speedUpDuration = 2.0f;
+    private float slowDownDuration = 1.0f;
+    private float speedUpDuration = 2.0f;
 
     
 
@@ -185,6 +185,12 @@ public class ObjectTransitions : MonoBehaviour
             }
         }
         
+        newMats[transitions].color = Color.black;
+        newMats[transitions].SetFloat("_Smoothness",0.0f);
+        newMats[transitions].SetFloat("_BumpScale", 0.0f);
+        newMats[transitions].SetFloat("_OcclusionStrength",0.0f);
+        newMats[transitions].SetFloat("_Metallic", 0.0f);
+        
         ChangeLiveMat(transitions);
 
         // fade new material in
@@ -237,7 +243,7 @@ public class ObjectTransitions : MonoBehaviour
         float timer = 0.0f;
         
         Vector3 directionOfShake = transform.up;
-        float amplitude = 0.02f; // the amount it moves
+        float amplitude = 0.01f; // the amount it moves
         float frequency = 20.0f;
         
         
@@ -356,22 +362,22 @@ public class ObjectTransitions : MonoBehaviour
             newColor = Color.Lerp(Color.black, Color.white, timer / fade2WhiteDuration);
             if (transitions == 2)
             {
-                newColor.a = Mathf.Lerp(1.0f, glowAlphaOriginal, timer / fade2BlackDuration);   
+                newColor.a = Mathf.Lerp(1.0f, glowAlphaOriginal, timer / fade2WhiteDuration);   
             }
             _rend.material.color = newColor;
             
             
             // other properties of material
-            float newSmoothVal = Mathf.Lerp(0.0f,smoothnessOriginalList[transitions], timer / fade2BlackDuration);
+            float newSmoothVal = Mathf.Lerp(0.0f,smoothnessOriginalList[transitions], timer / fade2WhiteDuration);
             _rend.material.SetFloat("_Smoothness",newSmoothVal);
             
-            float newBumpVal = Mathf.Lerp(0.0f, bumpScaleOriginalList[transitions], timer / fade2BlackDuration);
+            float newBumpVal = Mathf.Lerp(0.0f, bumpScaleOriginalList[transitions], timer / fade2WhiteDuration);
             _rend.material.SetFloat("_BumpScale", newBumpVal);
             
-            float newOccVal = Mathf.Lerp(0.0f, occlusionOriginalList[transitions], timer / fade2BlackDuration);
+            float newOccVal = Mathf.Lerp(0.0f, occlusionOriginalList[transitions], timer / fade2WhiteDuration);
             _rend.material.SetFloat("_OcclusionStrength",newOccVal);
             
-            float newMetallVal = Mathf.Lerp(0.0f, metallicOriginalList[transitions], timer / fade2BlackDuration);
+            float newMetallVal = Mathf.Lerp(0.0f, metallicOriginalList[transitions], timer / fade2WhiteDuration);
             _rend.material.SetFloat("_Metallic", newMetallVal);
             
             
@@ -401,6 +407,17 @@ public class ObjectTransitions : MonoBehaviour
         yield return null;
     }
     
+    void OnApplicationQuit()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            newMats[i].color = Color.white;
+            newMats[i].SetFloat("_Smoothness", smoothnessOriginalList[i]);
+            newMats[i].SetFloat("_BumpScale",  bumpScaleOriginalList[i]);
+            newMats[i].SetFloat("_OcclusionStrength", occlusionOriginalList[i]);
+            newMats[i].SetFloat("_Metallic", metallicOriginalList[i]);
+        }
+    }
     
     #region Unused Transition Effects
 

@@ -13644,11 +13644,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 645445504}
-        m_MethodName: ConsentKeyBoardInput
+        m_MethodName: layout_window_menu
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 796686989}
-          m_ObjectArgumentAssemblyTypeName: TMPro.TextMeshProUGUI, Unity.TextMeshPro
+          m_ObjectArgumentAssemblyTypeName: C:\JasminsWorkspace\Living-Transformation\.
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -95488,18 +95488,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onHandClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 645445504}
-        m_MethodName: ConsentKeyBoardInput
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 884762839}
-          m_ObjectArgumentAssemblyTypeName: TMPro.TextMeshProUGUI, Unity.TextMeshPro
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1642587545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125832,8 +125821,6 @@ MonoBehaviour:
   transitions: 0
   upwards: 0
   makeTransition: 0
-  slowDownDuration: 1
-  speedUpDuration: 2
 --- !u!95 &1547891798369784711
 Animator:
   serializedVersion: 3
@@ -130660,8 +130647,6 @@ MonoBehaviour:
   transitions: 0
   upwards: 0
   makeTransition: 0
-  slowDownDuration: 1
-  speedUpDuration: 2
 --- !u!95 &8494177461720987592
 Animator:
   serializedVersion: 3
@@ -130842,8 +130827,6 @@ MonoBehaviour:
   transitions: 0
   upwards: 0
   makeTransition: 0
-  slowDownDuration: 1
-  speedUpDuration: 2
 --- !u!95 &8734138824673584682
 Animator:
   serializedVersion: 3

@@ -57,14 +57,15 @@ public class NetworkManager : MonoBehaviour
         NetComp.BroadcastNetworkData(ENetChannel.Reliable, new ExperimentState { Status = status });
     }
 
+
+    
     // public void BroadcastExperimentState(Transform gazeSphereTransform, Transform playerPosTransform, 
     //     Vector3 VRCameraPosition, Quaternion VRCameraRotation, Vector3 VRRightHandPosition, Quaternion VRRightHandRotation,
-    //     Vector3 VRLeftHandPosition, Quaternion VRLeftHandRotation, List<float> EyeShapeTable, List<float> EyeShape2IntTable,
-    //     bool playerReady, bool startExperiment) //, bool responseGiven,bool trialAnswer)
-    
+    //     Vector3 VRLeftHandPosition, Quaternion VRLeftHandRotation, bool playerReady, bool startExperiment) 
     public void BroadcastExperimentState(Transform gazeSphereTransform, Transform playerPosTransform, 
         Vector3 VRCameraPosition, Quaternion VRCameraRotation, Vector3 VRRightHandPosition, Quaternion VRRightHandRotation,
-        Vector3 VRLeftHandPosition, Quaternion VRLeftHandRotation, bool playerReady, bool startExperiment) 
+        Vector3 VRLeftHandPosition, Quaternion VRLeftHandRotation, List<float> EyeShapeTable, List<float> EyeShape2IntTable,
+        bool playerReady, bool startExperiment) //, bool responseGiven,bool trialAnswer)
     {
         SendingUserState.GazeSpherePosition = gazeSphereTransform.position;
         SendingUserState.playerPosition = playerPosTransform.position;
@@ -76,8 +77,8 @@ public class NetworkManager : MonoBehaviour
         SendingUserState.VRLeftHandPosition = VRLeftHandPosition;
         SendingUserState.VRLeftHandRotation = VRLeftHandRotation;
 
-        // SendingUserState.EyeShapeTable = EyeShapeTable;
-        // SendingUserState.EyeShape2IntTable =EyeShape2IntTable;
+        SendingUserState.EyeShapeTable = EyeShapeTable;
+        SendingUserState.EyeShape2IntTable =EyeShape2IntTable;
         
         SendingUserState.playerReady = playerReady;
         SendingUserState.startExperiment = startExperiment;

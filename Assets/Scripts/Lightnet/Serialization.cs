@@ -37,36 +37,36 @@ public static class SerializationHelper
         vector.z = FromBytes(data, ref offset);
     }
     
-    public static void FromBytes(byte[] data, ref int offset, ref List<float> listy)
+    public static void FromBytes(byte[] data, ref int offset, ref List<float> list)
     {
-        // for (int i = 0; i < listy.Count; ++i)
-        // {
-        //     listy[i] = FromBytes(data,  ref offset);
-        // }
-        listy[0] = FromBytes(data,  ref offset);
-        listy[1] = FromBytes(data,  ref offset);
-        listy[2] = FromBytes(data,  ref offset);
-        listy[3] = FromBytes(data,  ref offset);
-        listy[4] = FromBytes(data,  ref offset);
-        listy[5] = FromBytes(data,  ref offset);
-        listy[6] = FromBytes(data,  ref offset);
-        listy[7] = FromBytes(data,  ref offset);
-        listy[8] = FromBytes(data,  ref offset);
-        listy[9] = FromBytes(data,  ref offset);
-        listy[10] = FromBytes(data,  ref offset);
-        listy[11] = FromBytes(data,  ref offset);
-        listy[12] = FromBytes(data,  ref offset);
-        listy[13] = FromBytes(data,  ref offset);
-        listy[14] = FromBytes(data,  ref offset);
-        listy[15] = FromBytes(data,  ref offset);
-        listy[16] = FromBytes(data,  ref offset);
-        listy[17] = FromBytes(data,  ref offset);
-        listy[18] = FromBytes(data,  ref offset);
-        listy[19] = FromBytes(data,  ref offset);
-        listy[20] = FromBytes(data,  ref offset);
-        listy[21] = FromBytes(data,  ref offset);
-        listy[22] = FromBytes(data,  ref offset);
-        listy[23] = FromBytes(data,  ref offset);
+        for (int i = 0; i < list.Count; ++i)
+        {
+            list[i] = FromBytes(data,  ref offset);
+        }
+        // list[0] = FromBytes(data,  ref offset);
+        // list[1] = FromBytes(data,  ref offset);
+        // list[2] = FromBytes(data,  ref offset);
+        // list[3] = FromBytes(data,  ref offset);
+        // list[4] = FromBytes(data,  ref offset);
+        // list[5] = FromBytes(data,  ref offset);
+        // list[6] = FromBytes(data,  ref offset);
+        // list[7] = FromBytes(data,  ref offset);
+        // list[8] = FromBytes(data,  ref offset);
+        // list[9] = FromBytes(data,  ref offset);
+        // list[10] = FromBytes(data,  ref offset);
+        // list[11] = FromBytes(data,  ref offset);
+        // list[12] = FromBytes(data,  ref offset);
+        // list[13] = FromBytes(data,  ref offset);
+        // list[14] = FromBytes(data,  ref offset);
+        // list[15] = FromBytes(data,  ref offset);
+        // list[16] = FromBytes(data,  ref offset);
+        // list[17] = FromBytes(data,  ref offset);
+        // list[18] = FromBytes(data,  ref offset);
+        // list[19] = FromBytes(data,  ref offset);
+        // list[20] = FromBytes(data,  ref offset);
+        // list[21] = FromBytes(data,  ref offset);
+        // list[22] = FromBytes(data,  ref offset);
+        // list[23] = FromBytes(data,  ref offset);
         
 
     }
@@ -119,34 +119,34 @@ public static class SerializationHelper
     
     public static void ToBytes(ref List<float> listy, byte[] data, ref int offset)
     {
-        // for (int i = 0; i < listy.Count; ++i)
-        // {
-        //     ToBytes(listy[i], data, ref offset);
-        // }
-        ToBytes(listy[0], data, ref offset);
-        ToBytes(listy[1], data, ref offset);
-        ToBytes(listy[2], data, ref offset);
-        ToBytes(listy[3], data, ref offset);
-        ToBytes(listy[4], data, ref offset);
-        ToBytes(listy[5], data, ref offset);
-        ToBytes(listy[6], data, ref offset);
-        ToBytes(listy[7], data, ref offset);
-        ToBytes(listy[8], data, ref offset);
-        ToBytes(listy[9], data, ref offset);
-        ToBytes(listy[10], data, ref offset);
-        ToBytes(listy[11], data, ref offset);
-        ToBytes(listy[12], data, ref offset);
-        ToBytes(listy[13], data, ref offset);
-        ToBytes(listy[14], data, ref offset);
-        ToBytes(listy[15], data, ref offset);
-        ToBytes(listy[16], data, ref offset);
-        ToBytes(listy[17], data, ref offset);
-        ToBytes(listy[18], data, ref offset);
-        ToBytes(listy[19], data, ref offset);
-        ToBytes(listy[20], data, ref offset);
-        ToBytes(listy[21], data, ref offset);
-        ToBytes(listy[22], data, ref offset);
-        ToBytes(listy[23], data, ref offset);
+        for (int i = 0; i < listy.Count; ++i)
+        {
+            ToBytes(listy[i], data, ref offset);
+        }
+        // ToBytes(listy[0], data, ref offset);
+        // ToBytes(listy[1], data, ref offset);
+        // ToBytes(listy[2], data, ref offset);
+        // ToBytes(listy[3], data, ref offset);
+        // ToBytes(listy[4], data, ref offset);
+        // ToBytes(listy[5], data, ref offset);
+        // ToBytes(listy[6], data, ref offset);
+        // ToBytes(listy[7], data, ref offset);
+        // ToBytes(listy[8], data, ref offset);
+        // ToBytes(listy[9], data, ref offset);
+        // ToBytes(listy[10], data, ref offset);
+        // ToBytes(listy[11], data, ref offset);
+        // ToBytes(listy[12], data, ref offset);
+        // ToBytes(listy[13], data, ref offset);
+        // ToBytes(listy[14], data, ref offset);
+        // ToBytes(listy[15], data, ref offset);
+        // ToBytes(listy[16], data, ref offset);
+        // ToBytes(listy[17], data, ref offset);
+        // ToBytes(listy[18], data, ref offset);
+        // ToBytes(listy[19], data, ref offset);
+        // ToBytes(listy[20], data, ref offset);
+        // ToBytes(listy[21], data, ref offset);
+        // ToBytes(listy[22], data, ref offset);
+        // ToBytes(listy[23], data, ref offset);
     }
 
     public static void ToBytes(ref Quaternion quat, byte[] data, ref int offset)
@@ -220,13 +220,13 @@ public class UserState : NetworkData
         sizeof(float) * 3 + // Vector3    GazeSpherePosition;
         sizeof(float) * 3 + // Vector3    PlayerPosition
         sizeof(float) * 3 + // Vector3  camera pos
-        sizeof(float) * 3 + // Vector3  camera rot
+        sizeof(float) * 4 + // Vector3  camera rot
         sizeof(float) * 3 + // Vector3  rightHand pos
-        sizeof(float) * 3 + // Vector3  rightHand rot
+        sizeof(float) * 4 + // Vector3  rightHand rot
         sizeof(float) * 3 + // Vector3  leftHand pos
-        sizeof(float) * 3 + // Vector3; leftHand rot 
-        // sizeof(float) * 24 + // List EyeShapeTable 
-        // sizeof(float) * 24 + // List EyeShape2IntTable 
+        sizeof(float) * 4 + // Vector3; leftHand rot 
+        sizeof(float) * 24 + // List EyeShapeTable 
+        sizeof(float) * 24 + // List EyeShape2IntTable 
         sizeof(float) * 1 + // to float converted booleans   responseGiven, trialAnswer, playerReady
         sizeof(float) * 1;  // bool     startExperiment 
 
@@ -241,8 +241,8 @@ public class UserState : NetworkData
     public Vector3 VRLeftHandPosition;
     public Quaternion VRLeftHandRotation;
     //
-    // public List<float> EyeShapeTable;
-    // public List<float> EyeShape2IntTable;
+    public List<float> EyeShapeTable;
+    public List<float> EyeShape2IntTable;
 
     public bool playerReady;
     public bool startExperiment;
@@ -266,8 +266,8 @@ public class UserState : NetworkData
         SerializationHelper.FromBytes(data, ref head, ref VRLeftHandPosition);
         SerializationHelper.FromBytes(data, ref head, ref VRLeftHandRotation);
         
-        // SerializationHelper.FromBytes(data, ref head, ref EyeShapeTable);
-        // SerializationHelper.FromBytes(data, ref head, ref EyeShape2IntTable);
+        SerializationHelper.FromBytes(data, ref head, ref EyeShapeTable);
+        SerializationHelper.FromBytes(data, ref head, ref EyeShape2IntTable);
         
         SerializationHelper.FromBytes(data, ref head, ref playerReady);
         SerializationHelper.FromBytes(data, ref head, ref startExperiment);
@@ -290,8 +290,8 @@ public class UserState : NetworkData
         SerializationHelper.ToBytes(ref VRLeftHandPosition, Cache, ref head);
         SerializationHelper.ToBytes(ref VRLeftHandRotation, Cache, ref head);
         
-        // SerializationHelper.ToBytes(ref EyeShapeTable, Cache, ref head);
-        // SerializationHelper.ToBytes(ref EyeShape2IntTable, Cache, ref head);
+        SerializationHelper.ToBytes(ref EyeShapeTable, Cache, ref head);
+        SerializationHelper.ToBytes(ref EyeShape2IntTable, Cache, ref head);
         
         SerializationHelper.ToBytes(Convert.ToSingle(playerReady), Cache, ref head);
         SerializationHelper.ToBytes(Convert.ToSingle(startExperiment), Cache, ref head);
