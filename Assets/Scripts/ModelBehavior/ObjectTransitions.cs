@@ -10,7 +10,7 @@ public class ObjectTransitions : MonoBehaviour
 {
 
     private new SkinnedMeshRenderer _rend;
-    public GameObject obj2Mesh;
+    public GameObject objMesh;
 
     public Material[] newMats;
 
@@ -25,21 +25,19 @@ public class ObjectTransitions : MonoBehaviour
     public bool upwards;
     public bool makeTransition = false;
 
-    public Animator objectAnim1;
+    private Animator objectAnim;
     public float slowDownDuration = 1.0f;
     public float speedUpDuration = 2.0f;
 
-
-
-
+    
 
     private float shrinkingDuration = 0.7f;
     private float growingDuration = 2.0f;
     private float shakeDuration = 2.0f;
     
     
-    private float fade2BlackDuration = 3.7f;
-    private float fade2WhiteDuration = 3.0f;
+    private float fade2BlackDuration = 2.0f;
+    private float fade2WhiteDuration = 2.0f;
     private Color fadeColor;
     
     /// variables from other transition tries
@@ -70,11 +68,11 @@ public class ObjectTransitions : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _rend = obj2Mesh.GetComponent<SkinnedMeshRenderer>();
+        _rend = objMesh.GetComponent<SkinnedMeshRenderer>();
         transitions = 0;
         upwards = true;
 
-        objectAnim1 = gameObject.GetComponent<Animator>();
+        objectAnim = gameObject.GetComponent<Animator>();
         
         // assign all initial values of the materials to lists
         for (int i = 0; i < 3; i++)
@@ -104,7 +102,7 @@ public class ObjectTransitions : MonoBehaviour
         // }
         if (makeTransition)
         {
-            StartCoroutine(Transitioning(objectAnim1));
+            StartCoroutine(Transitioning(objectAnim));
             makeTransition = false;
 
             // / other transition effects
