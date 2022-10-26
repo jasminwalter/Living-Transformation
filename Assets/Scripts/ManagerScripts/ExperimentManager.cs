@@ -6,12 +6,41 @@ using Random = System.Random;
 
 public class ExperimentManager : MonoBehaviour
 {
+    private static ExperimentManager _Instance;
+    public static ExperimentManager Instance()
+    {
+        Debug.Assert(_Instance!=null);
+        return _Instance;
+    }
     
-    public Transform LocalGazeSphere;
-    public Transform RemoteGazeSphere;
+    // Player
+    [Header("Player Vars")]
+
     public Transform localPlayer;
     public Transform remotePlayer;
+
+    public Transform VRCamera_local;
+    public Transform VRHandRight_local;
+    public Transform VRHandLeft_local;
+    
+    public Transform VRCamera_remote;
+    public Transform VRHandRight_remote;
+    public Transform VRHandLeft_remote;
+    
     public Transform startPositionExperiment;
+    
+    // Eye Tracking Networking Vars
+    [Header("ET Vars")]
+    public Transform LocalGazeSphere;
+    public Transform RemoteGazeSphere;
+    
+    public List<float> localEyeShapeTable;
+    public List<float> remoteEyeShapeTable;
+    public List<float> localEyeShape2IntTable;
+    public List<float> remoteEyeShape2IntTable;
+
+    public bool inExhibitionArea = false;
+    
     
     public bool LocalResponseGiven;
     public bool RemoteResponseGiven;
@@ -30,19 +59,7 @@ public class ExperimentManager : MonoBehaviour
     public int randomSeed;
 
     // private SpawningManager _spawnManager;
-    
-    
-    
-    
-    //---------------------------------------------
 
-    private static ExperimentManager _Instance;
-    public static ExperimentManager Instance()
-    {
-        Debug.Assert(_Instance!=null);
-        return _Instance;
-    }
-    
     [Header("Experiment Settings"), Range(1.0f, 10.0f)]
     public float WarmUpTime = 3.0f;
 
@@ -57,8 +74,8 @@ public class ExperimentManager : MonoBehaviour
     public TextMesh infoTextFallback;
 
     public GameObject playerSteam;
-   
-    
+
+
 
     private EExperimentStatus Status;
     private float WarmUpTimer;
@@ -73,6 +90,19 @@ public class ExperimentManager : MonoBehaviour
 
         RemoteGazeSphere.position = incomingState.GazeSpherePosition;
         remotePlayer.position = Vector3.Lerp(remotePlayer.position,incomingState.playerPosition,Time.deltaTime * InterpolationFactor);
+
+        VRCamera_remote.position = Vector3.Lerp(VRCamera_remote.position,incomingState.VRCameraPosition,Time.deltaTime * InterpolationFactor);;
+        VRCamera_remote.rotation = Quaternion.Lerp(VRCamera_remote.rotation,incomingState.VRCameraRotation,Time.deltaTime * InterpolationFactor);;
+
+        VRHandRight_remote.position = Vector3.Lerp(VRHandRight_remote.position,incomingState.VRRightHandPosition,Time.deltaTime * InterpolationFactor);;
+        VRHandRight_remote.rotation = Quaternion.Lerp(VRHandRight_remote.rotation,incomingState.VRRightHandRotation,Time.deltaTime * InterpolationFactor);;
+    
+        VRHandLeft_remote.position = Vector3.Lerp(VRHandLeft_remote.position,incomingState.VRLeftHandPosition,Time.deltaTime * InterpolationFactor);;
+        VRHandLeft_remote.rotation = Quaternion.Lerp(VRHandLeft_remote.rotation,incomingState.VRLeftHandRotation,Time.deltaTime * InterpolationFactor);;
+
+        remoteEyeShapeTable = incomingState.EyeShapeTable;
+        remoteEyeShape2IntTable = incomingState.EyeShape2IntTable;
+
 
         //RemoteResponseGiven = incomingState.responseGiven;
         //_spawnManager.trialAnswer = incomingState.trialAnswer;
@@ -185,6 +215,7 @@ public class ExperimentManager : MonoBehaviour
         
         localStartExperiment = false;
         remoteStartExperiment = false;
+        
     }
 
     private void Update()
@@ -247,8 +278,16 @@ public class ExperimentManager : MonoBehaviour
         
         if (NetMan.GetState() == ENetworkState.Running)
         {
-            NetMan.BroadcastExperimentState(LocalGazeSphere, localPlayer, LocalPlayerReady, localStartExperiment);
+            if(inExhibitionArea)
+            {
+                NetMan.BroadcastExperimentState(LocalGazeSphere, localPlayer, VRCamera_local.position, 
+                    VRCamera_local.rotation, VRHandRight_local.position, VRHandRight_local.rotation,
+                    VRHandLeft_local.position, VRHandLeft_local.rotation, localEyeShapeTable, localEyeShape2IntTable,
+                    LocalPlayerReady, localStartExperiment);
+                }
+
         }
+        
 
         if (Status == EExperimentStatus.WarmUp)
         {

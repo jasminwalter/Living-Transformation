@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public static class SerializationHelper
@@ -34,6 +35,14 @@ public static class SerializationHelper
         vector.x = FromBytes(data, ref offset);
         vector.y = FromBytes(data, ref offset);
         vector.z = FromBytes(data, ref offset);
+    }
+    
+    public static void FromBytes(byte[] data, ref int offset, ref List<float> listy)
+    {
+        for (int i = 0; i < listy.Count; ++i)
+        {
+            listy[i] = FromBytes(data,  ref offset);
+        }
     }
 
     public static void FromBytes(byte[] data, ref int offset, ref Quaternion quat)
@@ -80,6 +89,14 @@ public static class SerializationHelper
         ToBytes(vector.x, data, ref offset);
         ToBytes(vector.y, data, ref offset);
         ToBytes(vector.z, data, ref offset);
+    }
+    
+    public static void ToBytes(ref List<float> listy, byte[] data, ref int offset)
+    {
+        for (int i = 0; i < listy.Count; ++i)
+        {
+            ToBytes(listy[i], data, ref offset);
+        }
     }
 
     public static void ToBytes(ref Quaternion quat, byte[] data, ref int offset)
@@ -158,6 +175,8 @@ public class UserState : NetworkData
         sizeof(float) * 3 + // Vector3  rightHand rot
         sizeof(float) * 3 + // Vector3  leftHand pos
         sizeof(float) * 3 + // Vector3; leftHand rot 
+        sizeof(float) * 24 + // List EyeShapeTable 
+        sizeof(float) * 24 + // List EyeShape2IntTable 
         sizeof(float) * 1 + // to float converted booleans   responseGiven, trialAnswer, playerReady
         sizeof(float) * 1;  // bool     startExperiment 
 
@@ -166,11 +185,14 @@ public class UserState : NetworkData
     
     // player info
     public Vector3 VRCameraPosition;
-    public Vector3 VRCameraRotation;
+    public Quaternion VRCameraRotation;
     public Vector3 VRRightHandPosition;
-    public Vector3 VRRightHandRotation;
+    public Quaternion VRRightHandRotation;
     public Vector3 VRLeftHandPosition;
-    public Vector3 VRLeftHandRotation;
+    public Quaternion VRLeftHandRotation;
+
+    public List<float> EyeShapeTable;
+    public List<float> EyeShape2IntTable;
 
     public bool playerReady;
     public bool startExperiment;
@@ -194,6 +216,9 @@ public class UserState : NetworkData
         SerializationHelper.FromBytes(data, ref head, ref VRLeftHandPosition);
         SerializationHelper.FromBytes(data, ref head, ref VRLeftHandRotation);
         
+        SerializationHelper.FromBytes(data, ref head, ref EyeShapeTable);
+        SerializationHelper.FromBytes(data, ref head, ref EyeShape2IntTable);
+        
         SerializationHelper.FromBytes(data, ref head, ref playerReady);
         SerializationHelper.FromBytes(data, ref head, ref startExperiment);
         
@@ -214,6 +239,9 @@ public class UserState : NetworkData
         SerializationHelper.ToBytes(ref VRRightHandRotation, Cache, ref head);
         SerializationHelper.ToBytes(ref VRLeftHandPosition, Cache, ref head);
         SerializationHelper.ToBytes(ref VRLeftHandRotation, Cache, ref head);
+        
+        SerializationHelper.ToBytes(ref EyeShapeTable, Cache, ref head);
+        SerializationHelper.ToBytes(ref EyeShape2IntTable, Cache, ref head);
         
         SerializationHelper.ToBytes(Convert.ToSingle(playerReady), Cache, ref head);
         SerializationHelper.ToBytes(Convert.ToSingle(startExperiment), Cache, ref head);

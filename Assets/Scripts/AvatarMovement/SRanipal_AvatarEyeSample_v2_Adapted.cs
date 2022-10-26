@@ -110,13 +110,7 @@ namespace ViveSR
                                 bool isBlink = ((EyeShape_v2)i == EyeShape_v2.Eye_Left_Blink || (EyeShape_v2)i == EyeShape_v2.Eye_Right_Blink);
                                 EyeWeightings[(EyeShape_v2)i] = isBlink ? 1 : 0;
                             }
-
-                            if (showEyeWeighting)
-                            {
-                                Debug.Log("Eye Weightings Size" + EyeWeightings.Count);
-                                Debug.Log(EyeWeightings);
-                            }
-
+                            
 
                             UpdateEyeShapes(EyeWeightings);
 
@@ -204,14 +198,14 @@ namespace ViveSR
 
                 public void UpdateGazeRay(Vector3 gazeDirectionCombinedLocal)
                 {
-                    for (int i = 0; i < EyesModels.Length; ++i)
-                    {
-                        // Vector3 target = EyeAnchors[i].transform.TransformPoint(gazeDirectionCombinedLocal) + eyeRotationOffset;
-                        // EyesModels[i].LookAt(target);
-
-                        // avoid too narrow gaze by looking at local gaze sphere
-                        EyesModels[i].LookAt(localGazeSphere);
-                    }
+                    // for (int i = 0; i < EyesModels.Length; ++i)
+                    // {
+                    //     // Vector3 target = EyeAnchors[i].transform.TransformPoint(gazeDirectionCombinedLocal) + eyeRotationOffset;
+                    //     // EyesModels[i].LookAt(target);
+                    //
+                    //     // avoid too narrow gaze by looking at local gaze sphere
+                    //     EyesModels[i].LookAt(localGazeSphere);
+                    // }
                 }
 
                 public void UpdateEyeShapes(Dictionary<EyeShape_v2, float> eyeWeightings)
@@ -225,14 +219,21 @@ namespace ViveSR
                     for (int i = 0; i < eyeShapeTable.eyeShapes.Length; ++i)
                     {
                         EyeShape_v2 eyeShape = eyeShapeTable.eyeShapes[i];
+                        
                         if (eyeShape > EyeShape_v2.Max || eyeShape < 0) continue;
 
                         if (eyeShape == EyeShape_v2.Eye_Left_Blink || eyeShape == EyeShape_v2.Eye_Right_Blink)
+                        {
                             eyeShapeTable.skinnedMeshRenderer.SetBlendShapeWeight(i, weighting[eyeShape] * 100f);
+                            ExperimentManager.Instance().localEyeShapeTable[i] = weighting[eyeShape];
+                        }
                         else
                         {
                             AnimationCurve curve = EyebrowAnimationCurves[(int)eyeShape];
                             eyeShapeTable.skinnedMeshRenderer.SetBlendShapeWeight(i, curve.Evaluate(weighting[eyeShape]) * 100f);
+                            
+                            ExperimentManager.Instance().localEyeShapeTable[i] = weighting[eyeShape];
+                            ExperimentManager.Instance().localEyeShape2IntTable[i] = (int)eyeShape;
                         }
                     }
                 }
