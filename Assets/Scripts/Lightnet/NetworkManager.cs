@@ -57,10 +57,24 @@ public class NetworkManager : MonoBehaviour
         NetComp.BroadcastNetworkData(ENetChannel.Reliable, new ExperimentState { Status = status });
     }
 
-    public void BroadcastExperimentState(Transform gazeSphereTransform, Transform playerPosTransform,  bool playerReady, bool startExperiment) //, bool responseGiven,bool trialAnswer)
+    public void BroadcastExperimentState(Transform gazeSphereTransform, Transform playerPosTransform, 
+        Vector3 VRCameraPosition, Quaternion VRCameraRotation, Vector3 VRRightHandPosition, Quaternion VRRightHandRotation,
+        Vector3 VRLeftHandPosition, Quaternion VRLeftHandRotation, List<float> EyeShapeTable, List<float> EyeShape2IntTable,
+        bool playerReady, bool startExperiment) //, bool responseGiven,bool trialAnswer)
     {
         SendingUserState.GazeSpherePosition = gazeSphereTransform.position;
         SendingUserState.playerPosition = playerPosTransform.position;
+        
+        SendingUserState.VRCameraPosition = VRCameraPosition;
+        SendingUserState.VRCameraRotation = VRCameraRotation;
+        SendingUserState.VRRightHandPosition = VRRightHandPosition;
+        SendingUserState.VRRightHandRotation = VRRightHandRotation;
+        SendingUserState.VRLeftHandPosition = VRLeftHandPosition;
+        SendingUserState.VRLeftHandRotation = VRLeftHandRotation;
+
+        SendingUserState.EyeShapeTable = EyeShapeTable;
+        SendingUserState.EyeShape2IntTable =EyeShape2IntTable;
+        
         SendingUserState.playerReady = playerReady;
         SendingUserState.startExperiment = startExperiment;
 
