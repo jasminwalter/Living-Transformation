@@ -105,6 +105,7 @@ public class ExperimentManager : MonoBehaviour
 
         // RemoteGazeSphere.position = Vector3.Lerp(RemoteGazeSphere.position,incomingState.GazeSpherePosition,Time.deltaTime * InterpolationFactor);
 
+        Debug.Log("Received State " + incomingState.GazeSpherePosition.x);
         RemoteGazeSphere.position = incomingState.GazeSpherePosition;
         remotePlayer.position = Vector3.Lerp(remotePlayer.position,incomingState.playerPosition,Time.deltaTime * InterpolationFactor);
 
@@ -305,6 +306,7 @@ public class ExperimentManager : MonoBehaviour
         {
             if(inExhibitionArea)
             {
+                Debug.Log("BroadcastExperimentState");
                 // NetMan.BroadcastExperimentState(LocalGazeSphere, localPlayer, VRCamera_local.position, 
                 //     VRCamera_local.rotation, VRHandRight_local.position, VRHandRight_local.rotation,
                 //     VRHandLeft_local.position, VRHandLeft_local.rotation, localEyeShapeTable, localEyeShape2IntTable,

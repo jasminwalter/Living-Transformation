@@ -60493,7 +60493,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1082828243}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -49.971, z: 0.837}
+  m_LocalPosition: {x: 0, y: 0, z: 0.837}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1286912846}
@@ -123374,106 +123374,18 @@ MonoBehaviour:
   startPositionExperiment: {fileID: 1801135985}
   LocalGazeSphere: {fileID: 198054636}
   RemoteGazeSphere: {fileID: 563840970}
-  localEyeShapeTable:
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  remoteEyeShapeTable:
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  localEyeShape2IntTable:
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  remoteEyeShape2IntTable:
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
+  eyeShapePart1_local: {x: 0, y: 0, z: 0, w: 0}
+  eyeShapePart2_local: {x: 0, y: 0, z: 0, w: 0}
+  eyeShapePart3_local: {x: 0, y: 0, z: 0, w: 0}
+  eyeShapePart1_remote: {x: 0, y: 0, z: 0, w: 0}
+  eyeShapePart2_remote: {x: 0, y: 0, z: 0, w: 0}
+  eyeShapePart3_remote: {x: 0, y: 0, z: 0, w: 0}
+  EyeBlinkVal1_local: {x: 0, y: 0, z: 0, w: 0}
+  EyeBlinkVal2_local: {x: 0, y: 0, z: 0, w: 0}
+  EyeBlinkVal3_local: {x: 0, y: 0, z: 0}
+  EyeBlinkVal1_remote: {x: 0, y: 0, z: 0, w: 0}
+  EyeBlinkVal2_remote: {x: 0, y: 0, z: 0, w: 0}
+  EyeBlinkVal3_remote: {x: 0, y: 0, z: 0}
   inExhibitionArea: 0
   LocalResponseGiven: 0
   RemoteResponseGiven: 0

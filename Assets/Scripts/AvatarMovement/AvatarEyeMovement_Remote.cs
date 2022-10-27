@@ -133,41 +133,41 @@ namespace ViveSR
                 private void RenderModelEyeShape(EyeShapeTable_v2 eyeShapeTable, Dictionary<EyeShape_v2, float> weighting)
                 {
                     
-                    AnimationCurve curve = EyebrowAnimationCurves[(int)ExperimentManager.Instance().EyeBlinkVal1_local.x];
-                    eyeShapeTable.skinnedMeshRenderer.SetBlendShapeWeight(9, curve.Evaluate(ExperimentManager.Instance().eyeShapePart1_local.x) * 100f);
+                    AnimationCurve curve = EyebrowAnimationCurves[(int)ExperimentManager.Instance().EyeBlinkVal1_remote.x];
+                    eyeShapeTable.skinnedMeshRenderer.SetBlendShapeWeight(9, curve.Evaluate(ExperimentManager.Instance().eyeShapePart1_remote.x) * 100f);
 
-                    curve = EyebrowAnimationCurves[(int)ExperimentManager.Instance().EyeBlinkVal1_local.y];
-                    eyeShapeTable.skinnedMeshRenderer.SetBlendShapeWeight(10, curve.Evaluate(ExperimentManager.Instance().eyeShapePart1_local.y) * 100f);
+                    curve = EyebrowAnimationCurves[(int)ExperimentManager.Instance().EyeBlinkVal1_remote.y];
+                    eyeShapeTable.skinnedMeshRenderer.SetBlendShapeWeight(10, curve.Evaluate(ExperimentManager.Instance().eyeShapePart1_remote.y) * 100f);
                     
-                    curve = EyebrowAnimationCurves[(int)ExperimentManager.Instance().EyeBlinkVal1_local.z];
-                    eyeShapeTable.skinnedMeshRenderer.SetBlendShapeWeight(11, curve.Evaluate(ExperimentManager.Instance().eyeShapePart1_local.z) * 100f);
+                    curve = EyebrowAnimationCurves[(int)ExperimentManager.Instance().EyeBlinkVal1_remote.z];
+                    eyeShapeTable.skinnedMeshRenderer.SetBlendShapeWeight(11, curve.Evaluate(ExperimentManager.Instance().eyeShapePart1_remote.z) * 100f);
                     
-                    curve = EyebrowAnimationCurves[(int)ExperimentManager.Instance().EyeBlinkVal1_local.w];
-                    eyeShapeTable.skinnedMeshRenderer.SetBlendShapeWeight(12, curve.Evaluate(ExperimentManager.Instance().eyeShapePart1_local.w) * 100f);
+                    curve = EyebrowAnimationCurves[(int)ExperimentManager.Instance().EyeBlinkVal1_remote.w];
+                    eyeShapeTable.skinnedMeshRenderer.SetBlendShapeWeight(12, curve.Evaluate(ExperimentManager.Instance().eyeShapePart1_remote.w) * 100f);
                     
                     
                     
-                    curve = EyebrowAnimationCurves[(int)ExperimentManager.Instance().EyeBlinkVal2_local.x];
-                    eyeShapeTable.skinnedMeshRenderer.SetBlendShapeWeight(13, curve.Evaluate(ExperimentManager.Instance().eyeShapePart2_local.x) * 100f);
+                    curve = EyebrowAnimationCurves[(int)ExperimentManager.Instance().EyeBlinkVal2_remote.x];
+                    eyeShapeTable.skinnedMeshRenderer.SetBlendShapeWeight(13, curve.Evaluate(ExperimentManager.Instance().eyeShapePart2_remote.x) * 100f);
 
-                    curve = EyebrowAnimationCurves[(int)ExperimentManager.Instance().EyeBlinkVal2_local.y];
-                    eyeShapeTable.skinnedMeshRenderer.SetBlendShapeWeight(14, curve.Evaluate(ExperimentManager.Instance().eyeShapePart2_local.y) * 100f);
+                    curve = EyebrowAnimationCurves[(int)ExperimentManager.Instance().EyeBlinkVal2_remote.y];
+                    eyeShapeTable.skinnedMeshRenderer.SetBlendShapeWeight(14, curve.Evaluate(ExperimentManager.Instance().eyeShapePart2_remote.y) * 100f);
                     
-                    curve = EyebrowAnimationCurves[(int)ExperimentManager.Instance().EyeBlinkVal2_local.z];
-                    eyeShapeTable.skinnedMeshRenderer.SetBlendShapeWeight(15, curve.Evaluate(ExperimentManager.Instance().eyeShapePart2_local.z) * 100f);
+                    curve = EyebrowAnimationCurves[(int)ExperimentManager.Instance().EyeBlinkVal2_remote.z];
+                    eyeShapeTable.skinnedMeshRenderer.SetBlendShapeWeight(15, curve.Evaluate(ExperimentManager.Instance().eyeShapePart2_remote.z) * 100f);
                     
-                    curve = EyebrowAnimationCurves[(int)ExperimentManager.Instance().EyeBlinkVal2_local.w];
-                    eyeShapeTable.skinnedMeshRenderer.SetBlendShapeWeight(16, curve.Evaluate(ExperimentManager.Instance().eyeShapePart2_local.w) * 100f);
+                    curve = EyebrowAnimationCurves[(int)ExperimentManager.Instance().EyeBlinkVal2_remote.w];
+                    eyeShapeTable.skinnedMeshRenderer.SetBlendShapeWeight(16, curve.Evaluate(ExperimentManager.Instance().eyeShapePart2_remote.w) * 100f);
                     
                     
-                    curve = EyebrowAnimationCurves[(int)ExperimentManager.Instance().EyeBlinkVal3_local.x];
-                    eyeShapeTable.skinnedMeshRenderer.SetBlendShapeWeight(17, curve.Evaluate(ExperimentManager.Instance().eyeShapePart3_local.x) * 100f);
+                    curve = EyebrowAnimationCurves[(int)ExperimentManager.Instance().EyeBlinkVal3_remote.x];
+                    eyeShapeTable.skinnedMeshRenderer.SetBlendShapeWeight(17, curve.Evaluate(ExperimentManager.Instance().eyeShapePart3_remote.x) * 100f);
                     
-                    curve = EyebrowAnimationCurves[(int)ExperimentManager.Instance().EyeBlinkVal3_local.y];
-                    eyeShapeTable.skinnedMeshRenderer.SetBlendShapeWeight(18, curve.Evaluate(ExperimentManager.Instance().eyeShapePart3_local.y) * 100f);
+                    curve = EyebrowAnimationCurves[(int)ExperimentManager.Instance().EyeBlinkVal3_remote.y];
+                    eyeShapeTable.skinnedMeshRenderer.SetBlendShapeWeight(18, curve.Evaluate(ExperimentManager.Instance().eyeShapePart3_remote.y) * 100f);
                     
-                    eyeShapeTable.skinnedMeshRenderer.SetBlendShapeWeight(19, ExperimentManager.Instance().eyeShapePart3_local.z * 100f);
-                    eyeShapeTable.skinnedMeshRenderer.SetBlendShapeWeight(20, ExperimentManager.Instance().eyeShapePart3_local.w * 100f);
+                    eyeShapeTable.skinnedMeshRenderer.SetBlendShapeWeight(19, ExperimentManager.Instance().eyeShapePart3_remote.z * 100f);
+                    eyeShapeTable.skinnedMeshRenderer.SetBlendShapeWeight(20, ExperimentManager.Instance().eyeShapePart3_remote.w * 100f);
                     
                     
                     for (int i = 0; i < 24; ++i)
