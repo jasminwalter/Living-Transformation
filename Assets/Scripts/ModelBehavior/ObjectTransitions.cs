@@ -18,10 +18,12 @@ public class ObjectTransitions : MonoBehaviour
     private float[] bumpScaleOriginalList = new float[]{0.0f, 0.0f, 0.0f};
     private float[] occlusionOriginalList = new float[]{0.0f, 0.0f, 0.0f};
     private float[] metallicOriginalList = new float[]{0.0f, 0.0f, 0.0f};
-    private float glowAlphaOriginal = 0.0f;
+    private float glowAlphaOriginal;
+    private float maxTransparencyVal = 1;
     
     
     public int transitions;
+    public int previousTransitionsID;
     public bool upwards;
     public bool makeTransition = false;
 
@@ -84,7 +86,6 @@ public class ObjectTransitions : MonoBehaviour
         }
 
         glowAlphaOriginal = newMats[2].color.a;
-        Debug.Log("Alpha" + glowAlphaOriginal);
     }
 
     // Update is called once per frame
@@ -133,40 +134,15 @@ public class ObjectTransitions : MonoBehaviour
 
         StartCoroutine(SlowDownAnimation(objectAnim));
         yield return new WaitForSeconds(slowDownDuration);
-
-        // Fade to black transition
-        // StartCoroutine(FadeToBlackMaterial());
-        // yield return new WaitForSeconds(fadeBlackDuration);
-        //
-        //
-        // ChangeLiveMat(transitions);
-        //
-        // StartCoroutine(FadeToWhiteMaterial());
-        // yield return new WaitForSeconds(fadeBack2Normal);
-
-        // StartCoroutine(FadeToBlackMaterial());
-        // yield return new WaitForSeconds(fadeBlackDuration);
-        // StartCoroutine(FadeOutRoutine());
-        // yield return new WaitForSeconds(fadeOutDuration);
-
-        // Color newColorNext = fadeColor;
-        // newColorNext.a = 1;
-        //     
-        // newMats[transitions].SetColor("_Color", newColorNext);
-        //
-        // ChangeLiveMat(transitions);
-
-        //
-        // StartCoroutine(FadeInRoutine());
-        // yield return new WaitForSeconds(fadeInDuration);
+        
         StartCoroutine(ShakeObject());
         yield return new WaitForSeconds(shakeDuration);
         
-        // StartCoroutine(ShrinkModel());
-        // yield return new WaitForSeconds(shrinkingDuration);
+
         StartCoroutine(FadeToBlackMaterial());
         yield return new WaitForSeconds(fade2BlackDuration);
-        
+
+        previousTransitionsID = transitions;
         // select upcoming material
         if (upwards)
         {
@@ -184,14 +160,13 @@ public class ObjectTransitions : MonoBehaviour
                 upwards = true;
             }
         }
-        
-        newMats[transitions].color = Color.black;
-        newMats[transitions].SetFloat("_Smoothness",0.0f);
-        newMats[transitions].SetFloat("_BumpScale", 0.0f);
-        newMats[transitions].SetFloat("_OcclusionStrength",0.0f);
-        newMats[transitions].SetFloat("_Metallic", 0.0f);
-        
+
+
+        PrepareUpcomingMaterial(transitions);
+            
         ChangeLiveMat(transitions);
+
+        Return2defaultMaterial(previousTransitionsID);
 
         // fade new material in
         StartCoroutine(FadeToWhiteMaterial());
@@ -205,6 +180,8 @@ public class ObjectTransitions : MonoBehaviour
         yield return null;
     }
 
+   
+    
     private IEnumerator SlowDownAnimation(Animator currentAnim)
     {
         float timer = 0.0f;
@@ -263,42 +240,43 @@ public class ObjectTransitions : MonoBehaviour
         yield return null;
     }
 
-    private IEnumerator ShrinkModel()
+    private void PrepareUpcomingMaterial(int identifier)
     {
-        float timer = 0.0f;
-        
-        while (timer <= shrinkingDuration)
-        {
+        // fade out color
+        Color newColor = fadeColor;
+        newColor = Color.black;
             
-            float shrinkVal = Mathf.Lerp(1, 0, timer / shrinkingDuration);
-            this.GetComponent<Transform>().localScale = new Vector3(shrinkVal, shrinkVal, shrinkVal);
-            timer += Time.deltaTime;
-            yield return null;
+        if (identifier == 2)
+        {
+            newColor.a = maxTransparencyVal;
         }
         
-        this.GetComponent<Transform>().localScale = new Vector3(0, 0, 0);
-        
-        yield return null;
+        newMats[transitions].color = newColor;
+        newMats[transitions].SetFloat("_Smoothness",0.0f);
+        newMats[transitions].SetFloat("_BumpScale", 0.0f);
+        newMats[transitions].SetFloat("_OcclusionStrength",0.0f);
+        newMats[transitions].SetFloat("_Metallic", 0.0f);
+
     }
 
-    private IEnumerator GrowModel()
+    private void Return2defaultMaterial(int identifier)
     {
-        float timer = 0.0f;
-        
-        while (timer <= growingDuration)
-        {
+        // fade out color
+        Color newColor = fadeColor;
+        newColor = Color.white;
             
-            float shrinkVal = Mathf.Lerp(0, 1, timer / growingDuration);
-            this.GetComponent<Transform>().localScale = new Vector3(shrinkVal, shrinkVal, shrinkVal);
-            timer += Time.deltaTime;
-            yield return null;
+        if (identifier == 2)
+        {
+            newColor.a = glowAlphaOriginal;
         }
         
-        this.GetComponent<Transform>().localScale = new Vector3(1, 1, 1);
-        
-        yield return null;
+        newMats[identifier].color = newColor;
+        newMats[identifier].SetFloat("_Smoothness",smoothnessOriginalList[identifier]);
+        newMats[identifier].SetFloat("_BumpScale", bumpScaleOriginalList[identifier]);
+        newMats[identifier].SetFloat("_OcclusionStrength",occlusionOriginalList[identifier]);
+        newMats[identifier].SetFloat("_Metallic", metallicOriginalList[identifier]);
+
     }
-    
     private IEnumerator FadeToBlackMaterial()
     {
         
@@ -312,7 +290,7 @@ public class ObjectTransitions : MonoBehaviour
             
             if (transitions == 2)
             {
-                newColor.a = Mathf.Lerp(glowAlphaOriginal, 1.0f, timer / fade2BlackDuration);   
+                newColor.a = Mathf.Lerp(glowAlphaOriginal, maxTransparencyVal, timer / fade2BlackDuration);   
             }
             
             _rend.material.color = newColor;
@@ -331,23 +309,25 @@ public class ObjectTransitions : MonoBehaviour
             _rend.material.SetFloat("_Metallic", newMetallVal);
             
             
-            
-
-            // _rend.material.Lerp(objectColor, objectGlow, timer/fadeBlackDuration);
-            
             timer += Time.deltaTime;
             yield return null;
         }
     
+        
+        // make sure final values are reached
+        Color newColor2 = fadeColor;
+        newColor2 = Color.black;
             
-        _rend.material.color = Color.black;
+        if (transitions  == 2)
+        {
+            newColor2.a = maxTransparencyVal;
+        }
+        _rend.material.color = newColor2;
         _rend.material.SetFloat("_Smoothness",0.0f);
         _rend.material.SetFloat("_BumpScale", 0.0f);
         _rend.material.SetFloat("_OcclusionStrength",0.0f);
         _rend.material.SetFloat("_Metallic", 0.0f);
-    
-    
-    
+
         yield return null;
     }
     
@@ -360,9 +340,10 @@ public class ObjectTransitions : MonoBehaviour
         {
             Color newColor = fadeColor;
             newColor = Color.Lerp(Color.black, Color.white, timer / fade2WhiteDuration);
+            
             if (transitions == 2)
             {
-                newColor.a = Mathf.Lerp(1.0f, glowAlphaOriginal, timer / fade2WhiteDuration);   
+                newColor.a = Mathf.Lerp(maxTransparencyVal, glowAlphaOriginal, timer / fade2WhiteDuration);   
             }
             _rend.material.color = newColor;
             
@@ -386,19 +367,15 @@ public class ObjectTransitions : MonoBehaviour
         }
     
     
-        // make sure they have reached the correct values
-        if (transitions == 2)
+        // make sure final values are reached
+        Color newColor2 = fadeColor;
+        newColor2 = Color.white;
+            
+        if (transitions== 2)
         {
-            Color tempVar = Color.white;
-            tempVar.a = glowAlphaOriginal;
-            _rend.material.color = tempVar;
+            newColor2.a = glowAlphaOriginal;
         }
-        else
-        { 
-            _rend.material.color = Color.white;   
-        }
-
-        
+        _rend.material.color = newColor2;
         _rend.material.SetFloat("_Smoothness",smoothnessOriginalList[transitions]);
         _rend.material.SetFloat("_BumpScale", bumpScaleOriginalList[transitions]);
         _rend.material.SetFloat("_OcclusionStrength",occlusionOriginalList[transitions]);
@@ -407,20 +384,68 @@ public class ObjectTransitions : MonoBehaviour
         yield return null;
     }
     
-    void OnApplicationQuit()
+    public void Return2DefaultState4NewParticipant()
     {
         for (int i = 0; i < 3; i++)
         {
-            newMats[i].color = Color.white;
+            Color newColor = fadeColor;
+            newColor = Color.white;
+            
+            if (i == 2)
+            {
+                newColor.a = glowAlphaOriginal;
+            }
+          
+            newMats[i].color = newColor;
             newMats[i].SetFloat("_Smoothness", smoothnessOriginalList[i]);
             newMats[i].SetFloat("_BumpScale",  bumpScaleOriginalList[i]);
             newMats[i].SetFloat("_OcclusionStrength", occlusionOriginalList[i]);
             newMats[i].SetFloat("_Metallic", metallicOriginalList[i]);
         }
+
+        ChangeLiveMat(0);
+        transitions = 0;
+        upwards = true;
+        
+        
     }
     
     #region Unused Transition Effects
-
+    // private IEnumerator ShrinkModel()
+    // {
+    //     float timer = 0.0f;
+    //     
+    //     while (timer <= shrinkingDuration)
+    //     {
+    //         
+    //         float shrinkVal = Mathf.Lerp(1, 0, timer / shrinkingDuration);
+    //         this.GetComponent<Transform>().localScale = new Vector3(shrinkVal, shrinkVal, shrinkVal);
+    //         timer += Time.deltaTime;
+    //         yield return null;
+    //     }
+    //     
+    //     this.GetComponent<Transform>().localScale = new Vector3(0, 0, 0);
+    //     
+    //     yield return null;
+    // }
+    //
+    // private IEnumerator GrowModel()
+    // {
+    //     float timer = 0.0f;
+    //     
+    //     while (timer <= growingDuration)
+    //     {
+    //         
+    //         float shrinkVal = Mathf.Lerp(0, 1, timer / growingDuration);
+    //         this.GetComponent<Transform>().localScale = new Vector3(shrinkVal, shrinkVal, shrinkVal);
+    //         timer += Time.deltaTime;
+    //         yield return null;
+    //     }
+    //     
+    //     this.GetComponent<Transform>().localScale = new Vector3(1, 1, 1);
+    //     
+    //     yield return null;
+    // }
     
     // private IEnumerator SwitchMaterials()
     // {
