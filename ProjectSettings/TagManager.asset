@@ -4,12 +4,26 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - LocalSphereEye
-  - RemoteSphereEye
   - ArtPiece
   - projectile
   - FxTemporaire
   - Hand
+  - TeleportationPlatform
+  - Dome
+  - PlatformFloor
+  - Object1
+  - Object2
+  - Object3
+  - LocalGazeSphere
+  - RemoteGazeSphere
+  - AvatarHeadLocal
+  - AvatarBodyLocal
+  - AvatarRightArmLocal
+  - AvatarLeftArmLocal
+  - AvatarHeadRemote
+  - AvatarBodyRemote
+  - AvatarRightArmRemote
+  - AvatarLeftArmRemote
   layers:
   - Default
   - TransparentFX

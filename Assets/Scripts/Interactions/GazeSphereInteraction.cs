@@ -122,7 +122,7 @@ public class GazeSphereInteraction : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("GazeSphereLocal"))
+        if (other.CompareTag("LocalGazeSphere"))
         {
             gazeSphereCollision = true;
         }
@@ -157,7 +157,7 @@ public class GazeSphereInteraction : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("GazeSphere"))
+        if (other.CompareTag("LocalGazeSphere"))
         {
             gazeSphereCollision = false;
             if (transitionCountdown)

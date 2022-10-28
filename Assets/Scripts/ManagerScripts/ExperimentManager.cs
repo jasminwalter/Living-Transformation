@@ -100,11 +100,11 @@ public class ExperimentManager : MonoBehaviour
     [Header("Required References")]
     public NetworkManager NetMan;
     
-    public TextMesh infoTextVR;
-    
-    public TextMesh infoTextFallback;
-
-    public GameObject playerSteam;
+    // public TextMesh infoTextVR;
+    //
+    // public TextMesh infoTextFallback;
+    //
+    // public GameObject playerSteam;
 
 
 

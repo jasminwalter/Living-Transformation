@@ -15,12 +15,14 @@ public class ExhibitionManager : MonoBehaviour
 
     private GameObject exhibitionInfo2;
     
-    private GameObject exhibitionStartE;
+    // english
+    public GameObject exhibitionStartE;
 
     public GameObject exhibitionInfo1E;
 
     public GameObject exhibitionInfo2E;
     
+    // german
     public GameObject exhibitionStartG;
 
     public GameObject exhibitionInfo1G;
