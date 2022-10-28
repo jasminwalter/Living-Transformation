@@ -16,7 +16,7 @@ public class EyeTrackingManager : MonoBehaviour
 {
     
     public static EyeTrackingManager Instance { get; private set; }
-    public bool testGazeSphere = false;
+    public bool showGazeSphere = false;
     
     // public variables assigned in the inspector
 
@@ -63,6 +63,8 @@ public class EyeTrackingManager : MonoBehaviour
     public GameObject etInstructionCanvas;
     
     public GameObject avatarSelection;
+    public GameObject localAvatar;
+    public Vector3 footOffsetPrepRoom = new Vector3(0,0,0);
     
     
     public bool fadingOutToValidationRoom = false;
@@ -222,7 +224,7 @@ public class EyeTrackingManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (testGazeSphere)
+        if (showGazeSphere)
         {
             // StartRecording();
             // testGazeSphere = false;
@@ -612,6 +614,13 @@ public class EyeTrackingManager : MonoBehaviour
         validationRoomObjects.SetActive(false);
         preparationRoom.SetActive(true);
         avatarSelection.SetActive(true);
+        
+        // set the normal VR Hands inactive------------------------------------
+        // show avatar
+        localAvatar.SetActive(true);
+        localAvatar.GetComponent<VRFootIK>().footOffset = footOffsetPrepRoom;
+        localGazeSphere.SetActive(true);
+        showGazeSphere = true;
         
 
         // fade in

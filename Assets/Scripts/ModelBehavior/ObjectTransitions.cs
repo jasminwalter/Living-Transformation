@@ -91,31 +91,13 @@ public class ObjectTransitions : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // if (Input.GetKey(KeyCode.O))
-        // {
-        //     StartCoroutine(FadeToBlackMaterial());
-        //     
-        // }
-        //
-        // if (Input.GetKey(KeyCode.P))
-        // {
-        //     StartCoroutine(FadeToWhiteMaterial());
-        // }
-        if (makeTransition)
-        {
-            StartCoroutine(Transitioning(objectAnim));
-            makeTransition = false;
-
-            // / other transition effects
-            // ping-pong between the materials over the duration
-            // float lerp = Mathf.PingPong(Time.time, duration) / duration;
-            // rend.material.Lerp(material1, material2, lerp);
-
-            // StartCoroutine(Transitioning(objectAnim1));
-            // makeTransition = false;
-            // StartCoroutine(FadeToBlackMaterial());
-        }
+       
         
+    }
+
+    public void MakeTransition()
+    {
+        StartCoroutine(Transitioning(objectAnim));
     }
 
     public void ChangeLiveMat(int newMatNum)
@@ -176,7 +158,9 @@ public class ObjectTransitions : MonoBehaviour
 
         
         StartCoroutine(SpeedUpAnimation(objectAnim));
+        yield return new WaitForSeconds(speedUpDuration);
 
+        GazeSphereInteraction.Instance().coolOffPeriod = true;
         yield return null;
     }
 

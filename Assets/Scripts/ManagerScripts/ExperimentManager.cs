@@ -58,22 +58,36 @@ public class ExperimentManager : MonoBehaviour
 
     public bool inExhibitionArea = false;
     
-    
-    public bool LocalResponseGiven;
-    public bool RemoteResponseGiven;
+    // synchronization variables
 
-    public bool LocalPlayerReady;
-    public bool RemotePlayerReady;
+    public bool localLanguageSelected = false;
+    public bool remoteLanugageSelected = false;
 
-    public bool localStartExperiment;
-    public bool remoteStartExperiment;
-    
-    public bool startExperimentPress= false;
-    public bool useHDMI;
-    public bool withEyeTracking = false;
-    
-    public bool randomSeedSet = false;
-    public int randomSeed;
+    public bool localEnterExhibition = false;
+    public bool remoteEnterExhibition = false;
+
+    public bool localExhibitionExit = false;
+    public bool remoteExhibitionExit = false;
+
+    public bool localStartNewVisitor = false;
+    public bool remoteStartNewVisitor = false;
+
+
+    // public bool LocalResponseGiven;
+    // public bool RemoteResponseGiven;
+    //
+    // public bool LocalPlayerReady;
+    // public bool RemotePlayerReady;
+    //
+    // public bool localStartExperiment;
+    // public bool remoteStartExperiment;
+    //
+    // public bool startExperimentPress= false;
+    // public bool useHDMI;
+    // public bool withEyeTracking = false;
+    //
+    // public bool randomSeedSet = false;
+    // public int randomSeed;
 
     // private SpawningManager _spawnManager;
 
@@ -132,22 +146,30 @@ public class ExperimentManager : MonoBehaviour
 
         //RemoteResponseGiven = incomingState.responseGiven;
         //_spawnManager.trialAnswer = incomingState.trialAnswer;
-        RemotePlayerReady = incomingState.playerReady;
-        remoteStartExperiment = incomingState.startExperiment;
+        // RemotePlayerReady = incomingState.playerReady;
+        // remoteStartExperiment = incomingState.startExperiment;
 
     }
 
-    public void ReceivedRandomStateUpdate(RandomState incomingState)
+    public void ReceiveSynchroStateUpdate(SynchronizationState incomingState)
     {
-        randomSeed =  (int) incomingState.randomSeed;
-        // _spawnManager.SetRandomObject(incomingState.randomSeed);
+        remoteLanugageSelected = incomingState.languageSelection;
+        remoteEnterExhibition = incomingState.enterExhibition;
+        remoteExhibitionExit = incomingState.exitExhibition;
+        remoteStartNewVisitor = incomingState.newStartVisitor;
+
     }
-    
-    public void ReceivedResponseStateUpdate(ResponseState incomingState)
-    {
-        RemoteResponseGiven = incomingState.responseGiven;
-        // _spawnManager.trialAnswer = incomingState.trialAnswer;
-    }
+    // public void ReceivedRandomStateUpdate(RandomState incomingState)
+    // {
+    //     randomSeed =  (int) incomingState.randomSeed;
+    //     // _spawnManager.SetRandomObject(incomingState.randomSeed);
+    // }
+    //
+    // public void ReceivedResponseStateUpdate(ResponseState incomingState)
+    // {
+    //     RemoteResponseGiven = incomingState.responseGiven;
+    //     // _spawnManager.trialAnswer = incomingState.trialAnswer;
+    // }
 
     public void SetExperimentStatus(EExperimentStatus status)
     {
@@ -239,9 +261,9 @@ public class ExperimentManager : MonoBehaviour
 
         // _spawnManager = GetComponentInChildren<SpawningManager>();
         
-        localStartExperiment = false;
-        remoteStartExperiment = false;
-        
+        // localStartExperiment = false;
+        // remoteStartExperiment = false;
+        //
     }
 
     private void Update()
@@ -304,21 +326,16 @@ public class ExperimentManager : MonoBehaviour
         
         if (NetMan.GetState() == ENetworkState.Running)
         {
+            NetMan.BroadCastSynchronizationState(localLanguageSelected, localEnterExhibition, localExhibitionExit, localStartNewVisitor);
+            
             if(inExhibitionArea)
             {
-                Debug.Log("BroadcastExperimentState");
-                // NetMan.BroadcastExperimentState(LocalGazeSphere, localPlayer, VRCamera_local.position, 
-                //     VRCamera_local.rotation, VRHandRight_local.position, VRHandRight_local.rotation,
-                //     VRHandLeft_local.position, VRHandLeft_local.rotation, localEyeShapeTable, localEyeShape2IntTable,
-                //     LocalPlayerReady, localStartExperiment);
                 NetMan.BroadcastExperimentState(LocalGazeSphere, localPlayer, VRCamera_local.position, 
                     VRCamera_local.rotation, VRHandRight_local.position, VRHandRight_local.rotation,
                     VRHandLeft_local.position, VRHandLeft_local.rotation, eyeShapePart1_local,
                     eyeShapePart2_local,eyeShapePart3_local, EyeBlinkVal1_local, EyeBlinkVal2_local,
-                    EyeBlinkVal3_local, LocalPlayerReady, localStartExperiment);
-  
+                    EyeBlinkVal3_local);
             }
-
         }
         
 

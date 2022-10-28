@@ -15,8 +15,10 @@ public class NetworkManager : MonoBehaviour
     public NetworkComponent NetComp;
 
     private UserState SendingUserState = new UserState();
-    private RandomState SendingRandomState = new RandomState();
-    private ResponseState SendingResponseState = new ResponseState();
+
+    private SynchronizationState SendingSynchroState = new SynchronizationState();
+    // private RandomState SendingRandomState = new RandomState();
+    // private ResponseState SendingResponseState = new ResponseState();
     
     
 
@@ -67,7 +69,7 @@ public class NetworkManager : MonoBehaviour
     public void BroadcastExperimentState(Transform gazeSphereTransform, Transform playerPosTransform, 
         Vector3 VRCameraPosition, Quaternion VRCameraRotation, Vector3 VRRightHandPosition, Quaternion VRRightHandRotation,
         Vector3 VRLeftHandPosition, Quaternion VRLeftHandRotation, Quaternion eyeShapePart1, Quaternion eyeShapePart2, Quaternion eyeShapePart3,
-        Quaternion eyeBlinkVal1, Quaternion eyeBlinkVal2, Vector3 eyeBlinkVal3, bool playerReady, bool startExperiment) 
+        Quaternion eyeBlinkVal1, Quaternion eyeBlinkVal2, Vector3 eyeBlinkVal3) 
     {
         SendingUserState.GazeSpherePosition = gazeSphereTransform.position;
         SendingUserState.playerPosition = playerPosTransform.position;
@@ -86,29 +88,35 @@ public class NetworkManager : MonoBehaviour
         SendingUserState.EyeBlinkVal1 = eyeBlinkVal1;
         SendingUserState.EyeBlinkVal2 = eyeBlinkVal2;
         SendingUserState.EyeBlinkVal3 = eyeBlinkVal3;
-
-        // SendingUserState.EyeShapeTable = EyeShapeTable;
-        // SendingUserState.EyeShape2IntTable =EyeShape2IntTable;
-        //
-        SendingUserState.playerReady = playerReady;
-        SendingUserState.startExperiment = startExperiment;
+        
 
         NetComp.BroadcastNetworkData(ENetChannel.Unreliable, SendingUserState);
         
     }
 
-    public void BroadCastRandomState(float randomSeed)
+    public void BroadCastSynchronizationState(bool languageSelection, bool enterExhibition, bool exitExhibition, bool newStartVisitor)
     {
-        SendingRandomState.randomSeed = randomSeed;
-        NetComp.BroadcastNetworkData(ENetChannel.Unreliable, SendingRandomState);
+        SendingSynchroState.languageSelection = languageSelection;
+        SendingSynchroState.enterExhibition = enterExhibition;
+        SendingSynchroState.exitExhibition = exitExhibition;
+        SendingSynchroState.newStartVisitor = newStartVisitor;
+        
+        NetComp.BroadcastNetworkData(ENetChannel.Reliable, SendingSynchroState);
+
     }
 
-    public void BroadCastResponseState(bool responseGiven, bool trialAnswer)
-    {
-        SendingResponseState.responseGiven = responseGiven;
-        SendingResponseState.trialAnswer = trialAnswer;
-        NetComp.BroadcastNetworkData(ENetChannel.Reliable, SendingResponseState);
-    }
+    // public void BroadCastRandomState(float randomSeed)
+    // {
+    //     SendingRandomState.randomSeed = randomSeed;
+    //     NetComp.BroadcastNetworkData(ENetChannel.Unreliable, SendingRandomState);
+    // }
+    //
+    // public void BroadCastResponseState(bool responseGiven, bool trialAnswer)
+    // {
+    //     SendingResponseState.responseGiven = responseGiven;
+    //     SendingResponseState.trialAnswer = trialAnswer;
+    //     NetComp.BroadcastNetworkData(ENetChannel.Reliable, SendingResponseState);
+    // }
 
     // Start is called before the first frame update
     void Start()
@@ -162,12 +170,16 @@ public class NetworkManager : MonoBehaviour
             case ENetDataType.UserState:
                 ExperimentManager.Instance().ReceivedUserStateUpdate((UserState)data);
                 break;
-            case ENetDataType.RandomState:
-                ExperimentManager.Instance().ReceivedRandomStateUpdate((RandomState)data);
+
+            case ENetDataType.PartnerSynchronization:
+                ExperimentManager.Instance().ReceiveSynchroStateUpdate((SynchronizationState) data);
                 break;
-            case ENetDataType.ResponseState:
-                ExperimentManager.Instance().ReceivedResponseStateUpdate((ResponseState)data);
-                break;
+                // case ENetDataType.RandomState:
+            //     ExperimentManager.Instance().ReceivedRandomStateUpdate((RandomState)data);
+            //     break;
+            // case ENetDataType.ResponseState:
+            //     ExperimentManager.Instance().ReceivedResponseStateUpdate((ResponseState)data);
+            //     break;
             default:
                 throw new ArgumentOutOfRangeException();
         }

@@ -6,13 +6,26 @@ public class ExhibitionManager : MonoBehaviour
 {
 
     public static ExhibitionManager Instance { get; private set; }
+    public NetworkManager NetMan;
     
     [Header("UI Elements")]
-    public GameObject exhibitionStart;
+    private GameObject exhibitionStart;
 
-    public GameObject exhibitionInfo1;
+    private GameObject exhibitionInfo1;
 
-    public GameObject exhibitionInfo2;
+    private GameObject exhibitionInfo2;
+    
+    private GameObject exhibitionStartE;
+
+    public GameObject exhibitionInfo1E;
+
+    public GameObject exhibitionInfo2E;
+    
+    public GameObject exhibitionStartG;
+
+    public GameObject exhibitionInfo1G;
+
+    public GameObject exhibitionInfo2G;
 
     public float displayTime = 5.0f;
     
@@ -29,15 +42,23 @@ public class ExhibitionManager : MonoBehaviour
     public GameObject exitUIEnglish;
     public GameObject exitUIGerman;
 
+    [Header("Player Information")]
     public GameObject playerLocal;
+    public GameObject localRightHand;
+    public GameObject localLeftHand;
+    public GameObject avatarLocal;
+    public Vector3 avatarLocalFootOffset = new Vector3(0,0,0);
+    
     public GameObject playerRemote;
+    public GameObject avatarRemote;
 
     public GameObject localGazeSphere;
     public GameObject remoteGazeSphere;
     
     public GameObject startServer;
     public GameObject start2ndPlayer;
-    
+
+    public GameObject locationInPrepRoom;
     
     // Start is called before the first frame update
     void Start()
@@ -49,6 +70,23 @@ public class ExhibitionManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    private void AssignLangugageUI()
+    {
+        if (QuestionsManager.Instance.english)
+        {
+            exhibitionStart = exhibitionStartE;
+            exhibitionInfo1 = exhibitionInfo1E;
+            exhibitionInfo2 = exhibitionInfo2E;
+        }
+
+        if (QuestionsManager.Instance.german)
+        {
+            exhibitionStart = exhibitionStartG;
+            exhibitionInfo1 = exhibitionInfo1G;
+            exhibitionInfo2 = exhibitionInfo2G;
+        }
     }
 
     private IEnumerator fadeOutUI(GameObject uiElement)
@@ -98,6 +136,9 @@ public class ExhibitionManager : MonoBehaviour
         StartCoroutine(fadeOutUI(exhibitionStart));
         yield return new WaitForSeconds(fadeDuration);
         
+        // select UI based on language selection
+        AssignLangugageUI();
+        
         exhibitionStart.SetActive(false);
         exhibitionInfo1.GetComponent<CanvasGroup>().alpha = 0;
         exhibitionInfo1.SetActive(true);
@@ -143,14 +184,34 @@ public class ExhibitionManager : MonoBehaviour
         }
         
         // position player in exhibition
-        playerLocal.GetComponent<Transform>().position = startServer.GetComponent<Transform>().position;
+        if (NetMan.IsServer())
+        {
+            playerLocal.GetComponent<Transform>().position = startServer.GetComponent<Transform>().position;
+            avatarLocal.GetComponent<Transform>().position = startServer.GetComponent<Transform>().position;
+            
+            playerRemote.GetComponent<Transform>().position = start2ndPlayer.GetComponent<Transform>().position;
+            avatarRemote.GetComponent<Transform>().position = start2ndPlayer.GetComponent<Transform>().position;
 
+        }
+        else
+        {
+            playerLocal.GetComponent<Transform>().position = start2ndPlayer.GetComponent<Transform>().position;
+            avatarLocal.GetComponent<Transform>().position = start2ndPlayer.GetComponent<Transform>().position;
+            
+            playerRemote.GetComponent<Transform>().position = startServer.GetComponent<Transform>().position;
+            avatarRemote.GetComponent<Transform>().position = startServer.GetComponent<Transform>().position;
+        }
 
+        avatarLocal.GetComponent<VRFootIK>().footOffset = avatarLocalFootOffset;
+        
+        ExperimentManager.Instance().inExhibitionArea = true;
+        localGazeSphere.GetComponent<Transform>().position = new Vector3(0, 0, 0);
+        remoteGazeSphere.GetComponent<Transform>().position = new Vector3(0, 0, 0);
+        
         // fade in
         fadingCamera.FadeIn();
         yield return new WaitForSeconds(fadingCamera.fadeDuration);
-
-
+        
         yield return null;
     }
 
@@ -168,8 +229,25 @@ public class ExhibitionManager : MonoBehaviour
     {
         fadingCamera.FadeOut();
         yield return new WaitForSeconds(fadingCamera.fadeDuration);
+        
+        // set all exhibition areas inactive
         exhibition.SetActive(false);
+        ExperimentManager.Instance().inExhibitionArea = false;
+        EyeTrackingManager.Instance.showGazeSphere = false;
+
+        // set avatar and player to correct location
+        avatarLocal.GetComponent<Transform>().position = locationInPrepRoom.GetComponent<Transform>().position;
+        playerLocal.GetComponent<Transform>().position = locationInPrepRoom.GetComponent<Transform>().position;
+        
+        // disable the local avatar and gaze sphere
+        avatarLocal.SetActive(false);
+        localGazeSphere.SetActive(false);
+        
+        // set all aspects in Experiment Room to true and correct values
         preparationRoom.SetActive(true);
+        
+        // set active the normal VR Hands again------------------------------------
+        
         
         // set active - final question part 1
         
