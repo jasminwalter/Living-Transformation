@@ -166,6 +166,7 @@ public class QuestionsManager : MonoBehaviour
     public bool smallBodySize = false;
     public bool noHeightIssue = false;
 
+    public bool skipConsentCheck = false;
     public int numberOfVisits;
     public int age;
     public string gender;
@@ -586,16 +587,33 @@ public class QuestionsManager : MonoBehaviour
         yield return new WaitForSeconds(fadingOutDuration);
         _welcomeText.SetActive(false);
 
-        _consentCheck.GetComponent<CanvasGroup>().alpha = 0.0f;
-        _consentCheck.SetActive(true);
-        StartCoroutine(CanvasGroupFadingIn(_consentCheck));
+        if (skipConsentCheck)
+        {
+            StartCoroutine(FadeInNumVisits());
+        }
+        else
+        {
+            StartCoroutine(FadeInConsentCheck());
+        }
         yield return null;
     }
 
     #endregion
 
     #region ConsentCheckKeyboard
-    
+
+    public void EnableSkipConsentCheck()
+    {
+        skipConsentCheck = true;
+    }
+
+    private IEnumerator FadeInConsentCheck()
+    {
+        _consentCheck.GetComponent<CanvasGroup>().alpha = 0.0f;
+        _consentCheck.SetActive(true);
+        StartCoroutine(CanvasGroupFadingIn(_consentCheck));
+        yield return null;
+    }
     public void ConsentKeyBoardInput(TextMeshProUGUI keyInput)
     {
         _consentInputField.GetComponentInChildren<TextMeshProUGUI>().text += keyInput.text;
@@ -617,16 +635,24 @@ public class QuestionsManager : MonoBehaviour
         yield return new WaitForSeconds(fadingOutDuration);
         _consentCheck.SetActive(false);
 
+        StartCoroutine(FadeInNumVisits());
+        
+        yield return null;
+    }
+
+    #endregion
+    
+    #region NumVisits
+    
+    private IEnumerator FadeInNumVisits()
+    {
         _numVisitsQuestion.GetComponent<CanvasGroup>().alpha = 0.0f;
         _numVisitsQuestion.SetActive(true);
         StartCoroutine(CanvasGroupFadingIn(_numVisitsQuestion));
         yield return null;
+        
     }
     
-    #endregion
-    
-    #region NumVisits
-
     public void FirstTimeVisit()
     {
         numberOfVisits = 1;

@@ -41,28 +41,28 @@ public class ObjectTransitions : MonoBehaviour
     private float fade2BlackDuration = 2.0f;
     private float fade2WhiteDuration = 2.0f;
     private Color fadeColor;
-    
-    /// variables from other transition tries
-    
 
-    
+    /// variables from other transition tries
+
+
+
     // public Material placeholderMat;
-    
+
     // public Material defaultMat;
     // public Material objectDark;
     // public Material objectColor;
     // public Material objectGlow;
-    
+
     // public float fadeOutDuration = 2.0f;
     // public float fadeInDuration = 2.0f;
-    
+
     // public Material material1;
     // public Material material2;
     // public float duration = 2.0f;
     // public Renderer rend;
-    
-    
 
+
+    public bool testTransitions = false;
     
     
     
@@ -91,7 +91,12 @@ public class ObjectTransitions : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+
+        if (testTransitions)
+        {
+            MakeTransition();
+            testTransitions = false;
+        }
         
     }
 
@@ -235,11 +240,11 @@ public class ObjectTransitions : MonoBehaviour
             newColor.a = maxTransparencyVal;
         }
         
-        newMats[transitions].color = newColor;
-        newMats[transitions].SetFloat("_Smoothness",0.0f);
-        newMats[transitions].SetFloat("_BumpScale", 0.0f);
-        newMats[transitions].SetFloat("_OcclusionStrength",0.0f);
-        newMats[transitions].SetFloat("_Metallic", 0.0f);
+        newMats[identifier].color = newColor;
+        newMats[identifier].SetFloat("_Smoothness",0.0f);
+        newMats[identifier].SetFloat("_BumpScale", 0.0f);
+        newMats[identifier].SetFloat("_OcclusionStrength",0.0f);
+        newMats[identifier].SetFloat("_Metallic", 0.0f);
 
     }
 
@@ -393,7 +398,12 @@ public class ObjectTransitions : MonoBehaviour
         
         
     }
-    
+
+    public void OnApplicationQuit()
+    {
+        Return2DefaultState4NewParticipant();
+    }
+
     #region Unused Transition Effects
     // private IEnumerator ShrinkModel()
     // {
