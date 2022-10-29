@@ -164,8 +164,7 @@ public class ObjectTransitions : MonoBehaviour
         
         StartCoroutine(SpeedUpAnimation(objectAnim));
         yield return new WaitForSeconds(speedUpDuration);
-
-        GazeSphereInteraction.Instance().coolOffPeriod = true;
+        
         yield return null;
     }
 

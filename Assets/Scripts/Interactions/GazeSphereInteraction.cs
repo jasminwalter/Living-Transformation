@@ -24,7 +24,7 @@ public class GazeSphereInteraction : MonoBehaviour
     public float interactionTimer;
 
     public bool coolOffPeriod = false;
-    public float coolOffTimerDefault = 30.0f;
+    private float coolOffTimerDefault = 18.0f;
     public float coolOffTimer;
         
 
@@ -76,6 +76,7 @@ public class GazeSphereInteraction : MonoBehaviour
             }
             else
             {
+                
                 gazeSphereRemoteEffect.SetActive(false);
                 interactionEffect.SetActive(false);
                 // trigger object transitions depending on which object is viewed
@@ -94,7 +95,10 @@ public class GazeSphereInteraction : MonoBehaviour
                     object3.GetComponent<ObjectTransitions>().MakeTransition();
                 }
 
+                
+                transitionCountdown = false;
                 interactionTimer = interactionTimerDefault;
+                coolOffPeriod = true;
 
             }
         }
@@ -122,36 +126,36 @@ public class GazeSphereInteraction : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("LocalGazeSphere"))
+        if (!coolOffPeriod)
         {
-            gazeSphereCollision = true;
-            Debug.Log("Gaze Sphere Collision");
-        }
+            if (other.CompareTag("LocalGazeSphere"))
+            {
+                gazeSphereCollision = true;
+                Debug.Log("Gaze Sphere Collision");
+            }
 
-        if (other.CompareTag("Object1"))
-        {
-            isObject1 = true;
-            artObjectCollision = true;
-            Debug.Log("Object 1 collision");
-        }
-        
-        if (other.CompareTag("Object2"))
-        {
-            isObject2 = true;
-            artObjectCollision = true;
-            Debug.Log("Object 2 collision");
-        }
-        
-        if (other.CompareTag("Object3"))
-        {
-            isObject3 = true;
-            artObjectCollision = true;
-            Debug.Log("Object 3 collision");
-        }
+            if (other.CompareTag("Object1"))
+            {
+                isObject1 = true;
+                artObjectCollision = true;
+                Debug.Log("Object 1 collision");
+            }
 
-        if (artObjectCollision & gazeSphereCollision)
-        {
-            if (!coolOffPeriod)
+            if (other.CompareTag("Object2"))
+            {
+                isObject2 = true;
+                artObjectCollision = true;
+                Debug.Log("Object 2 collision");
+            }
+
+            if (other.CompareTag("Object3"))
+            {
+                isObject3 = true;
+                artObjectCollision = true;
+                Debug.Log("Object 3 collision");
+            }
+
+            if (artObjectCollision & gazeSphereCollision)
             {
                 interactionEffect.SetActive(true);
                 transitionCountdown = true;
