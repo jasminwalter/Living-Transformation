@@ -16,7 +16,7 @@ public class EyeTrackingManager : MonoBehaviour
 {
     
     public static EyeTrackingManager Instance { get; private set; }
-    public bool showGazeSphere = false;
+    private bool showGazeSphere = true;
     
     // public variables assigned in the inspector
 
@@ -645,12 +645,13 @@ public class EyeTrackingManager : MonoBehaviour
 
     public void StartCalibration()
     {
-        calibrationCount++;
-        calibrationTries++;
+        // calibrationCount++;
+        // calibrationTries++;
         
         calibrationResult = SRanipal_Eye_v2.LaunchEyeCalibration();
         Debug.Log("Calibration success: " + calibrationResult);
-        StartCoroutine(EvaluateCalibration());
+        showGazeSphere = true;
+        // StartCoroutine(EvaluateCalibration());
 
     }
 

@@ -13765,7 +13765,7 @@ GameObject:
   - component: {fileID: 287688378}
   - component: {fileID: 287688381}
   - component: {fileID: 287688380}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: FadingScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15843,17 +15843,6 @@ MonoBehaviour:
   onHandClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 617603663487035704}
-        m_MethodName: StartCalButton
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 645445504}
         m_MethodName: HighlightSelectionText
         m_Mode: 2
@@ -38682,7 +38671,6 @@ MonoBehaviour:
   inWheelchair: 0
   smallBodySize: 0
   noHeightIssue: 0
-  skipConsentCheck: 0
   numberOfVisits: 0
   age: 0
   gender: 
@@ -54204,17 +54192,6 @@ MonoBehaviour:
   onHandClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 617603663487035704}
-        m_MethodName: StartCalButton
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 645445504}
         m_MethodName: HighlightSelectionText
         m_Mode: 2
@@ -76428,7 +76405,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: d25809e99dfd2d74ea51d1374c58afe0,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3100114576813497124, guid: d25809e99dfd2d74ea51d1374c58afe0,
         type: 3}
@@ -78473,7 +78450,6 @@ MonoBehaviour:
   localRightHand: {fileID: 1552735125}
   localLeftHand: {fileID: 1552718759}
   avatarLocal: {fileID: 1264097817}
-  avatarLocalFootOffset: {x: 0, y: 0, z: 0}
   playerRemote: {fileID: 1082828243}
   avatarRemote: {fileID: 503129759}
   localGazeSphere: {fileID: 198054631}
@@ -90482,8 +90458,7 @@ MonoBehaviour:
   noSteamVRFallbackCamera: {fileID: 0}
   noSteamVRFallbackMaxDistanceNoItem: 10
   noSteamVRFallbackMaxDistanceWithItem: 0.5
-  renderModelPrefab: {fileID: 1000011547835092, guid: d5082f7d9f947374197e0a97786f4e40,
-    type: 3}
+  renderModelPrefab: {fileID: 0}
   renderModels: []
   mainRenderModel: {fileID: 0}
   hoverhighlightRenderModel: {fileID: 0}
@@ -90756,8 +90731,7 @@ MonoBehaviour:
   noSteamVRFallbackCamera: {fileID: 0}
   noSteamVRFallbackMaxDistanceNoItem: 10
   noSteamVRFallbackMaxDistanceWithItem: 0.5
-  renderModelPrefab: {fileID: 1000012617731570, guid: 837f93beb9a614743ae3a2c0ada7c388,
-    type: 3}
+  renderModelPrefab: {fileID: 0}
   renderModels: []
   mainRenderModel: {fileID: 0}
   hoverhighlightRenderModel: {fileID: 0}
@@ -92294,7 +92268,7 @@ MonoBehaviour:
   onHandClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1279678906}
         m_MethodName: EnterExhibition
         m_Mode: 1
         m_Arguments:
@@ -92305,7 +92279,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 645445504}
         m_MethodName: HighlightSelectionText
         m_Mode: 2
         m_Arguments:
@@ -124424,7 +124398,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08a0ddae492eadb4aa1cbadff36a1afd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showGazeSphere: 0
   isCalibratingSystem: 0
   calibrationTries: 0
   calibrationCount: 0

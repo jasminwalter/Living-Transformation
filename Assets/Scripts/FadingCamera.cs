@@ -22,6 +22,7 @@ public class FadingCamera : MonoBehaviour
 
     public void FadeIn()
     {
+        fadeScreen.SetActive(false);
         _fadingIn = true;
         Fade(1,0);
     }

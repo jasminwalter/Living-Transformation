@@ -53,7 +53,8 @@ public class ExhibitionManager : MonoBehaviour
     public GameObject localRightHand;
     public GameObject localLeftHand;
     public GameObject avatarLocal;
-    public Vector3 avatarLocalFootOffset = new Vector3(0,0,0);
+    // private Vector3 avatarLocalFootOffsetEx = new Vector3(0,0,0.11);
+    // private Vector3 avatarLocalFootOffsetPrep = new Vector3(0,0,0.11);
     
     public GameObject playerRemote;
     public GameObject avatarRemote;
@@ -208,7 +209,7 @@ public class ExhibitionManager : MonoBehaviour
             avatarRemote.GetComponent<Transform>().position = startServer.GetComponent<Transform>().position;
         }
 
-        avatarLocal.GetComponent<VRFootIK>().footOffset = avatarLocalFootOffset;
+        // avatarLocal.GetComponent<VRFootIK>().footOffset = avatarLocalFootOffset;
         
         ExperimentManager.Instance().inExhibitionArea = true;
         localGazeSphere.GetComponent<Transform>().position = new Vector3(0, 0, 0);
@@ -240,15 +241,15 @@ public class ExhibitionManager : MonoBehaviour
         // set all exhibition areas inactive
         exhibition.SetActive(false);
         ExperimentManager.Instance().inExhibitionArea = false;
-        EyeTrackingManager.Instance.showGazeSphere = false;
+        // EyeTrackingManager.Instance.showGazeSphere = false;
 
         // set avatar and player to correct location
         avatarLocal.GetComponent<Transform>().position = locationInPrepRoom.GetComponent<Transform>().position;
         playerLocal.GetComponent<Transform>().position = locationInPrepRoom.GetComponent<Transform>().position;
 
         // disable the local avatar and gaze sphere
-        avatarLocal.SetActive(false);
-        localGazeSphere.SetActive(false);
+        // avatarLocal.SetActive(false);
+        // localGazeSphere.SetActive(false);
         
         // set all aspects in Experiment Room to true and correct values
         preparationRoom.SetActive(true);
@@ -258,7 +259,7 @@ public class ExhibitionManager : MonoBehaviour
         
         // set active - final question part 1
 
-        languageSelectUIStartExhibition.SetAcive(true);
+        languageSelectUIStartExhibition.SetActive(true);
         
         
         // fade in

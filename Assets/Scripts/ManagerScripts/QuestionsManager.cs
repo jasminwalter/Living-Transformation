@@ -179,7 +179,7 @@ public class QuestionsManager : MonoBehaviour
     public bool smallBodySize = false;
     public bool noHeightIssue = false;
 
-    public bool skipConsentCheck = true;
+    private bool skipConsentCheck = true;
     public int numberOfVisits;
     public int age;
     public string gender;
@@ -770,6 +770,20 @@ public class QuestionsManager : MonoBehaviour
     public void GenderInput(TextMeshProUGUI genderInput)
     {
         gender = genderInput.text;
+        // StartCoroutine(GenderQuestionAnswered());
+        // trigger next part
+        StartCoroutine(SkipStuff());
+    }
+
+    private IEnumerator SkipStuff()
+    {
+        StartCoroutine(CanvasGroupFadingOut(_genderQuestion));
+        yield return new WaitForSeconds(fadingOutDuration);
+        _genderQuestion.SetActive(false);
+
+        _eyeInformation.GetComponent<CanvasGroup>().alpha = 0.0f;
+        _eyeInformation.SetActive(true);
+        StartCoroutine(CanvasGroupFadingIn(_eyeInformation));
     }
 
     private IEnumerator GenderQuestionAnswered()
@@ -954,6 +968,18 @@ public class QuestionsManager : MonoBehaviour
         StartCoroutine(CanvasGroupFadingOut(_eyeInformation));
         yield return new WaitForSeconds(fadingOutDuration);
         _eyeInformation.SetActive(false);
+
+        EyeTrackingManager.Instance.StartCalibration();
+
+        // trigger training
+        _trainingInformation1.GetComponent<CanvasGroup>().alpha = 0.0f;
+        _trainingInformation1.SetActive(true);
+        StartCoroutine(CanvasGroupFadingIn(_trainingInformation1));
+        
+        yield return null;
+
+
+
     }
 
     #endregion
@@ -978,6 +1004,7 @@ public class QuestionsManager : MonoBehaviour
         _trainingInformation1.SetActive(true);
         StartCoroutine(CanvasGroupFadingIn(_trainingInformation1));
         
+        yield return null;
     }
     #endregion
    
@@ -998,6 +1025,7 @@ public class QuestionsManager : MonoBehaviour
         _trainingInformation2.GetComponent<CanvasGroup>().alpha = 0.0f;
         _trainingInformation2.SetActive(true);
         StartCoroutine(CanvasGroupFadingIn(_trainingInformation2));
+        yield return null;
     }
 
     public void TrainingPart2Selection()
@@ -1015,6 +1043,7 @@ public class QuestionsManager : MonoBehaviour
         _startExhibition.GetComponent<CanvasGroup>().alpha = 0.0f;
         _startExhibition.SetActive(true);
         StartCoroutine(CanvasGroupFadingIn(_startExhibition));
+        yield return null;
     }
 
 
