@@ -63,6 +63,7 @@ public class EyeTrackingManager : MonoBehaviour
     public GameObject etInstructionCanvas;
     
     public GameObject avatarSelection;
+    public GameObject mirrorCamera;
     public GameObject localAvatar;
     public Vector3 footOffsetPrepRoom = new Vector3(0,0,0);
     
@@ -228,7 +229,7 @@ public class EyeTrackingManager : MonoBehaviour
         {
             // StartRecording();
             // testGazeSphere = false;
-            int layer = 1 << LayerMask.NameToLayer("Default");
+            int layerGazeSphereLocal = 1 << LayerMask.NameToLayer("LocalGazeSphere");
             
             Transform hmdTransform = Player.instance.hmdTransform;;
             SRanipal_Eye_v2.GetVerboseData(out VerboseData verboseData); 
@@ -237,7 +238,7 @@ public class EyeTrackingManager : MonoBehaviour
             var eyeDirectionCombinedWorld = hmdTransform.rotation * coordinateAdaptedGazeDirectionCombined;
             
             RaycastHit firstHit;
-            if (Physics.Raycast(eyePositionCombinedWorld, eyeDirectionCombinedWorld, out firstHit, Mathf.Infinity,layer, QueryTriggerInteraction.Ignore))
+            if (Physics.Raycast(eyePositionCombinedWorld, eyeDirectionCombinedWorld, out firstHit, Mathf.Infinity))
             {
                 localGazeSphere.transform.position = firstHit.point;
             
@@ -614,6 +615,7 @@ public class EyeTrackingManager : MonoBehaviour
         validationRoomObjects.SetActive(false);
         preparationRoom.SetActive(true);
         avatarSelection.SetActive(true);
+        mirrorCamera.SetActive(true);
         
         // set the normal VR Hands inactive------------------------------------
         // show avatar

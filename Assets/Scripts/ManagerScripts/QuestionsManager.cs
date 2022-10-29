@@ -63,7 +63,10 @@ public class QuestionsManager : MonoBehaviour
 
     public GameObject avatarSelectionE;
 
-    public GameObject trainingInformationE;
+    public GameObject trainingInformationE1;
+    public GameObject trainingInformationE2;
+    
+    public GameObject startExhibitionE;
 
     #endregion
     #region German
@@ -105,7 +108,11 @@ public class QuestionsManager : MonoBehaviour
 
     public GameObject avatarSelectionG;
 
-    public GameObject trainingInformationG;
+    public GameObject trainingInformationG1;
+    
+    public GameObject trainingInformationG2;
+    
+    public GameObject startExhibitionG;
     
     #endregion
 
@@ -149,10 +156,16 @@ public class QuestionsManager : MonoBehaviour
 
     private GameObject _avatarSelection;
 
-    private GameObject _trainingInformation;
+    private GameObject _trainingInformation1;
+    private GameObject _trainingInformation2;
+
+    private GameObject _startExhibition;
+    
     #endregion
     
     #endregion
+
+    public GameObject mirrorCamera; 
     
     // other public variables
     [Header("Saving variables")]
@@ -166,7 +179,7 @@ public class QuestionsManager : MonoBehaviour
     public bool smallBodySize = false;
     public bool noHeightIssue = false;
 
-    public bool skipConsentCheck = false;
+    public bool skipConsentCheck = true;
     public int numberOfVisits;
     public int age;
     public string gender;
@@ -451,8 +464,11 @@ public class QuestionsManager : MonoBehaviour
 
             _avatarSelection = avatarSelectionE;
 
-            _trainingInformation = trainingInformationE;
-                        
+            _trainingInformation1 = trainingInformationE1;
+            _trainingInformation2 = trainingInformationE2;
+    
+            _startExhibition = startExhibitionE;
+
         }
 
         if (german)
@@ -494,7 +510,10 @@ public class QuestionsManager : MonoBehaviour
 
             _avatarSelection = avatarSelectionG;
 
-            _trainingInformation = trainingInformationG;
+            _trainingInformation1 = trainingInformationG1;
+            _trainingInformation2 = trainingInformationG2;
+    
+            _startExhibition = startExhibitionG;
         }
         
     }
@@ -952,20 +971,60 @@ public class QuestionsManager : MonoBehaviour
         StartCoroutine(CanvasGroupFadingOut(_avatarSelection));
         yield return new WaitForSeconds(fadingOutDuration);
         _avatarSelection.SetActive(false);
+        mirrorCamera.SetActive(false);
         
         // trigger training
-        _trainingInformation.GetComponent<CanvasGroup>().alpha = 0.0f;
-        _trainingInformation.SetActive(true);
-        StartCoroutine(CanvasGroupFadingIn(_trainingInformation));
+        _trainingInformation1.GetComponent<CanvasGroup>().alpha = 0.0f;
+        _trainingInformation1.SetActive(true);
+        StartCoroutine(CanvasGroupFadingIn(_trainingInformation1));
         
     }
+    #endregion
+   
+    #region Training
 
-    public void StartTrainingButton()
+    public void TrainingPart1Selection()
     {
-
+        StartCoroutine(FadeOutPart1Training());
     }
 
+    private IEnumerator FadeOutPart1Training()
+    {
+        StartCoroutine(CanvasGroupFadingOut(_trainingInformation1));
+        yield return new WaitForSeconds(fadingOutDuration);
+        _trainingInformation1.SetActive(false);
+
+        // trigger training
+        _trainingInformation2.GetComponent<CanvasGroup>().alpha = 0.0f;
+        _trainingInformation2.SetActive(true);
+        StartCoroutine(CanvasGroupFadingIn(_trainingInformation2));
+    }
+
+    public void TrainingPart2Selection()
+    {
+        StartCoroutine(FadeOutPart2Training());
+    }
+
+    private IEnumerator FadeOutPart2Training()
+    {
+        StartCoroutine(CanvasGroupFadingOut(_trainingInformation2));
+        yield return new WaitForSeconds(fadingOutDuration);
+        _trainingInformation2.SetActive(false);
+
+        // trigger exhibition
+        _startExhibition.GetComponent<CanvasGroup>().alpha = 0.0f;
+        _startExhibition.SetActive(true);
+        StartCoroutine(CanvasGroupFadingIn(_startExhibition));
+    }
+
+
     #endregion
     #endregion
 
+    public void Return2DefaultNexPlayer()
+    {
+        
+        
+        
+    }
 }

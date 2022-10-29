@@ -31,6 +31,10 @@ public class ExhibitionManager : MonoBehaviour
 
     public float displayTime = 5.0f;
     
+    // end UI
+    [Header("language start")] public GameObject languageSelection;
+
+    public GameObject languageSelectUIStartExhibition;
     
     [Header("visual transition variables")]
 
@@ -229,6 +233,7 @@ public class ExhibitionManager : MonoBehaviour
 
     private IEnumerator ExitExhibitionRoutine()
     {
+        
         fadingCamera.FadeOut();
         yield return new WaitForSeconds(fadingCamera.fadeDuration);
         
@@ -240,7 +245,7 @@ public class ExhibitionManager : MonoBehaviour
         // set avatar and player to correct location
         avatarLocal.GetComponent<Transform>().position = locationInPrepRoom.GetComponent<Transform>().position;
         playerLocal.GetComponent<Transform>().position = locationInPrepRoom.GetComponent<Transform>().position;
-        
+
         // disable the local avatar and gaze sphere
         avatarLocal.SetActive(false);
         localGazeSphere.SetActive(false);
@@ -252,6 +257,8 @@ public class ExhibitionManager : MonoBehaviour
         
         
         // set active - final question part 1
+
+        languageSelectUIStartExhibition.SetAcive(true);
         
         
         // fade in

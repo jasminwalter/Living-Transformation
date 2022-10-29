@@ -119,7 +119,6 @@ public class ExperimentManager : MonoBehaviour
 
         // RemoteGazeSphere.position = Vector3.Lerp(RemoteGazeSphere.position,incomingState.GazeSpherePosition,Time.deltaTime * InterpolationFactor);
 
-        Debug.Log("Received State " + incomingState.GazeSpherePosition.x);
         RemoteGazeSphere.position = incomingState.GazeSpherePosition;
         remotePlayer.position = Vector3.Lerp(remotePlayer.position,incomingState.playerPosition,Time.deltaTime * InterpolationFactor);
 
