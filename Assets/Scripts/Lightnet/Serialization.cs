@@ -162,7 +162,7 @@ public enum ENetDataType : byte
 {
     UserState = 1,
     ExperimentState = 2,
-    PartnerSynchronization = 3
+    SynchronizationState = 3
     // RandomState = 3 ,
     // ResponseState = 4
 }
@@ -348,7 +348,7 @@ public class SynchronizationState : NetworkData
     {
         int head = 0;
         Debug.Assert(data.Length >= SIZE);
-        Debug.Assert((ENetDataType) data[head] == ENetDataType.UserState);
+        Debug.Assert((ENetDataType) data[head] == ENetDataType.SynchronizationState);
         head += sizeof(byte);
         
         SerializationHelper.FromBytes(data, ref head, ref languageSelection);
@@ -361,7 +361,7 @@ public class SynchronizationState : NetworkData
     public byte[] Serialize()
     {
         int head = 0;
-        Cache[head] = (byte) ENetDataType.UserState;
+        Cache[head] = (byte) ENetDataType.SynchronizationState;
         head += sizeof(byte);
         
         SerializationHelper.ToBytes(Convert.ToSingle(languageSelection), Cache, ref head);

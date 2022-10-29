@@ -17,6 +17,7 @@ public class NetworkManager : MonoBehaviour
     private UserState SendingUserState = new UserState();
 
     private SynchronizationState SendingSynchroState = new SynchronizationState();
+    
     // private RandomState SendingRandomState = new RandomState();
     // private ResponseState SendingResponseState = new ResponseState();
     
@@ -171,7 +172,7 @@ public class NetworkManager : MonoBehaviour
                 ExperimentManager.Instance().ReceivedUserStateUpdate((UserState)data);
                 break;
 
-            case ENetDataType.PartnerSynchronization:
+            case ENetDataType.SynchronizationState:
                 ExperimentManager.Instance().ReceiveSynchroStateUpdate((SynchronizationState) data);
                 break;
                 // case ENetDataType.RandomState:
