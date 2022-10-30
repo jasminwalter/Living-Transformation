@@ -9,11 +9,11 @@ public class ExhibitionManager : MonoBehaviour
     public NetworkManager NetMan;
     
     [Header("UI Elements")]
-    private GameObject exhibitionStart;
+    private GameObject _exhibitionStart;
 
-    private GameObject exhibitionInfo1;
+    private GameObject _exhibitionInfo1;
 
-    private GameObject exhibitionInfo2;
+    private GameObject _exhibitionInfo2;
     
     // english
     public GameObject exhibitionStartE;
@@ -32,8 +32,7 @@ public class ExhibitionManager : MonoBehaviour
     public float displayTime = 5.0f;
     
     // end UI
-    [Header("language start")] public GameObject languageSelection;
-
+    [Header("language start")]
     public GameObject languageSelectUIStartExhibition;
     
     [Header("visual transition variables")]
@@ -47,6 +46,10 @@ public class ExhibitionManager : MonoBehaviour
 
     public GameObject exitUIEnglish;
     public GameObject exitUIGerman;
+
+    public GameObject object1;
+    public GameObject object2;
+    public GameObject object3;
 
     [Header("Player Information")]
     public GameObject playerLocal;
@@ -66,7 +69,8 @@ public class ExhibitionManager : MonoBehaviour
     public GameObject start2ndPlayer;
 
     public GameObject locationInPrepRoom;
-    
+    public GameObject WaitingForPartner;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -76,23 +80,31 @@ public class ExhibitionManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (ExperimentManager.Instance().remoteEnterExhibition & ExperimentManager.Instance().localEnterExhibition)
+        {
+            StartCoroutine(EnterExhibitionPart2());
+        }
+
+        if (ExperimentManager.Instance().remoteExhibitionExit & ExperimentManager.Instance().localExhibitionExit)
+        {
+            StartCoroutine(ExitExhibitionPart2());
+        }
     }
 
     private void AssignLangugageUI()
     {
         if (QuestionsManager.Instance.english)
         {
-            exhibitionStart = exhibitionStartE;
-            exhibitionInfo1 = exhibitionInfo1E;
-            exhibitionInfo2 = exhibitionInfo2E;
+            _exhibitionStart = exhibitionStartE;
+            _exhibitionInfo1 = exhibitionInfo1E;
+            _exhibitionInfo2 = exhibitionInfo2E;
         }
 
         if (QuestionsManager.Instance.german)
         {
-            exhibitionStart = exhibitionStartG;
-            exhibitionInfo1 = exhibitionInfo1G;
-            exhibitionInfo2 = exhibitionInfo2G;
+            _exhibitionStart = exhibitionStartG;
+            _exhibitionInfo1 = exhibitionInfo1G;
+            _exhibitionInfo2 = exhibitionInfo2G;
         }
     }
 
@@ -109,7 +121,6 @@ public class ExhibitionManager : MonoBehaviour
         }
 
         uiElement.GetComponent<CanvasGroup>().alpha = 0;
-        
         yield return null;
     }
 
@@ -126,8 +137,8 @@ public class ExhibitionManager : MonoBehaviour
         }
 
         uiElement.GetComponent<CanvasGroup>().alpha = 1;
-        
         yield return null;
+        
     }
 
     #region EnteringExhibition
@@ -140,42 +151,52 @@ public class ExhibitionManager : MonoBehaviour
     private IEnumerator EnterExhibitionRoutine()
     {
         // display the other instructions
-        StartCoroutine(fadeOutUI(exhibitionStart));
+        StartCoroutine(fadeOutUI(_exhibitionStart));
         yield return new WaitForSeconds(fadeDuration);
-        
+
         // select UI based on language selection
         AssignLangugageUI();
-        
-        exhibitionStart.SetActive(false);
-        exhibitionInfo1.GetComponent<CanvasGroup>().alpha = 0;
-        exhibitionInfo1.SetActive(true);
-        
-        StartCoroutine(fadeInUI(exhibitionInfo1));
+
+        _exhibitionStart.SetActive(false);
+        _exhibitionInfo1.GetComponent<CanvasGroup>().alpha = 0;
+        _exhibitionInfo1.SetActive(true);
+
+        StartCoroutine(fadeInUI(_exhibitionInfo1));
         yield return new WaitForSeconds(fadeDuration);
-        
+
         // now wait for instructions to be displayed
 
         yield return new WaitForSeconds(displayTime);
-        
+
         // fade out info and fade in next
-        StartCoroutine(fadeOutUI(exhibitionInfo1));
+        StartCoroutine(fadeOutUI(_exhibitionInfo1));
         yield return new WaitForSeconds(fadeDuration);
-        exhibitionInfo1.SetActive(false);
-        
-        exhibitionInfo2.GetComponent<CanvasGroup>().alpha = 0;
-        exhibitionInfo2.SetActive(true);
-        StartCoroutine(fadeInUI(exhibitionInfo2));
+        _exhibitionInfo1.SetActive(false);
+
+        _exhibitionInfo2.GetComponent<CanvasGroup>().alpha = 0;
+        _exhibitionInfo2.SetActive(true);
+        StartCoroutine(fadeInUI(_exhibitionInfo2));
         yield return new WaitForSeconds(fadeDuration);
-        
+
         // wait for display of instructions
         yield return new WaitForSeconds(displayTime);
+
+        ExperimentManager.Instance().localEnterExhibition = true;
+        WaitingForPartner.SetActive(true);
+        yield return null;
+    }
+    
+    private IEnumerator EnterExhibitionPart2()
+    {
+        ExperimentManager.Instance().localEnterExhibition = false;
+        WaitingForPartner.SetActive(false);
 
         // fade out
         fadingCamera.FadeOut();
         yield return new WaitForSeconds(fadingCamera.fadeDuration);
         
         // switch rooms
-        exhibitionInfo2.SetActive(false);
+        _exhibitionInfo2.SetActive(false);
         preparationRoom.SetActive(false);
         exhibition.SetActive(true);
         
@@ -234,10 +255,14 @@ public class ExhibitionManager : MonoBehaviour
 
     private IEnumerator ExitExhibitionRoutine()
     {
-        
+
         fadingCamera.FadeOut();
         yield return new WaitForSeconds(fadingCamera.fadeDuration);
-        
+        object1.GetComponent<ObjectTransitions>().Return2DefaultState4NewParticipant();
+        object2.GetComponent<ObjectTransitions>().Return2DefaultState4NewParticipant();
+        object3.GetComponent<ObjectTransitions>().Return2DefaultState4NewParticipant();
+        QuestionsManager.Instance.Return2DefaultNexPlayer();
+
         // set all exhibition areas inactive
         exhibition.SetActive(false);
         ExperimentManager.Instance().inExhibitionArea = false;
@@ -250,21 +275,32 @@ public class ExhibitionManager : MonoBehaviour
         // disable the local avatar and gaze sphere
         // avatarLocal.SetActive(false);
         // localGazeSphere.SetActive(false);
-        
+
         // set all aspects in Experiment Room to true and correct values
         preparationRoom.SetActive(true);
-        
-        // set active the normal VR Hands again------------------------------------
-        
-        
-        // set active - final question part 1
 
+        // set active the normal VR Hands again------------------------------------
+
+
+        ExperimentManager.Instance().localExhibitionExit = true;
+        WaitingForPartner.SetActive(true);
+        
+        fadingCamera.FadeIn();
+        yield return new WaitForSeconds(fadingCamera.fadeDuration);
+    }
+    
+    private IEnumerator ExitExhibitionPart2()
+    {
+        ExperimentManager.Instance().localExhibitionExit = false;
+        WaitingForPartner.SetActive(false);
+
+    // set active - final question part 1
+
+        languageSelectUIStartExhibition.GetComponent<CanvasGroup>().alpha = 1;
         languageSelectUIStartExhibition.SetActive(true);
         
         
         // fade in
-        fadingCamera.FadeIn();
-        yield return new WaitForSeconds(fadingCamera.fadeDuration);
 
         
         yield return null;
@@ -272,11 +308,6 @@ public class ExhibitionManager : MonoBehaviour
     
 
     #endregion
-
     
-
-    
-
-
 
 }
