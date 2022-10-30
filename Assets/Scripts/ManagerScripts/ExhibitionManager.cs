@@ -71,6 +71,9 @@ public class ExhibitionManager : MonoBehaviour
     public GameObject locationInPrepRoom;
     public GameObject WaitingForPartner;
 
+    private int transfer2Exhibition = 0;
+    private int transfer2PrepRoom = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -82,13 +85,34 @@ public class ExhibitionManager : MonoBehaviour
     {
         if (ExperimentManager.Instance().remoteEnterExhibition & ExperimentManager.Instance().localEnterExhibition)
         {
-            StartCoroutine(EnterExhibitionPart2());
+            ExperimentManager.Instance().localLanguageSelected = true;
         }
 
         if (ExperimentManager.Instance().remoteExhibitionExit & ExperimentManager.Instance().localExhibitionExit)
         {
-            StartCoroutine(ExitExhibitionPart2());
+            ExperimentManager.Instance().localStartNewVisitor = true;
         }
+
+        if (ExperimentManager.Instance().remoteLanugageSelected)
+        {
+            if (transfer2Exhibition < 1)
+            {
+                StartCoroutine(EnterExhibitionPart2());
+                transfer2Exhibition++;
+            }
+            
+        }
+
+        if (ExperimentManager.Instance().remoteStartNewVisitor = true)
+        {
+            if (transfer2PrepRoom < 1)
+            {
+                StartCoroutine(ExitExhibitionPart2());
+                transfer2PrepRoom++;
+            }
+            
+        }
+        // ExperimentManager.Instance().localEnterExhibition = false;
     }
 
     private void AssignLangugageUI()
@@ -151,6 +175,7 @@ public class ExhibitionManager : MonoBehaviour
     private IEnumerator EnterExhibitionRoutine()
     {
         // display the other instructions
+        
         StartCoroutine(fadeOutUI(_exhibitionStart));
         yield return new WaitForSeconds(fadeDuration);
 
@@ -180,6 +205,9 @@ public class ExhibitionManager : MonoBehaviour
 
         // wait for display of instructions
         yield return new WaitForSeconds(displayTime);
+        
+        StartCoroutine(fadeOutUI(_exhibitionInfo2));
+        yield return new WaitForSeconds(fadeDuration);
 
         ExperimentManager.Instance().localEnterExhibition = true;
         WaitingForPartner.SetActive(true);
@@ -188,7 +216,6 @@ public class ExhibitionManager : MonoBehaviour
     
     private IEnumerator EnterExhibitionPart2()
     {
-        ExperimentManager.Instance().localEnterExhibition = false;
         WaitingForPartner.SetActive(false);
 
         // fade out
@@ -239,8 +266,18 @@ public class ExhibitionManager : MonoBehaviour
         // fade in
         fadingCamera.FadeIn();
         yield return new WaitForSeconds(fadingCamera.fadeDuration);
+
+        yield return new WaitForSeconds(60.0f);
+        
+        
+        // create defaults for leaving exhibition
+        ExperimentManager.Instance().localExhibitionExit = false;
+        ExperimentManager.Instance().localStartNewVisitor = false;
+        transfer2PrepRoom = 0;
+        
         
         yield return null;
+        
     }
 
     #endregion
@@ -302,6 +339,10 @@ public class ExhibitionManager : MonoBehaviour
         
         // fade in
 
+        // create defaults for entering exhibition
+        ExperimentManager.Instance().localEnterExhibition = false;
+        ExperimentManager.Instance().localLanguageSelected = false;
+        transfer2Exhibition = 0;
         
         yield return null;
     }
