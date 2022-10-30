@@ -29,7 +29,7 @@ public class ExhibitionManager : MonoBehaviour
 
     public GameObject exhibitionInfo2G;
 
-    public float displayTime = 5.0f;
+    public float displayTime = 7.0f;
     
     // end UI
     [Header("language start")]
@@ -83,35 +83,35 @@ public class ExhibitionManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (ExperimentManager.Instance().remoteEnterExhibition & ExperimentManager.Instance().localEnterExhibition)
-        {
-            ExperimentManager.Instance().localLanguageSelected = true;
-        }
-
-        if (ExperimentManager.Instance().remoteExhibitionExit & ExperimentManager.Instance().localExhibitionExit)
-        {
-            ExperimentManager.Instance().localStartNewVisitor = true;
-        }
-
-        if (ExperimentManager.Instance().remoteLanugageSelected)
-        {
-            if (transfer2Exhibition < 1)
-            {
-                StartCoroutine(EnterExhibitionPart2());
-                transfer2Exhibition++;
-            }
-            
-        }
-
-        if (ExperimentManager.Instance().remoteStartNewVisitor = true)
-        {
-            if (transfer2PrepRoom < 1)
-            {
-                StartCoroutine(ExitExhibitionPart2());
-                transfer2PrepRoom++;
-            }
-            
-        }
+        // if (ExperimentManager.Instance().remoteEnterExhibition & ExperimentManager.Instance().localEnterExhibition)
+        // {
+        //     ExperimentManager.Instance().localLanguageSelected = true;
+        // }
+        //
+        // if (ExperimentManager.Instance().remoteExhibitionExit & ExperimentManager.Instance().localExhibitionExit)
+        // {
+        //     ExperimentManager.Instance().localStartNewVisitor = true;
+        // }
+        //
+        // if (ExperimentManager.Instance().remoteLanugageSelected)
+        // {
+        //     if (transfer2Exhibition < 1)
+        //     {
+        //         StartCoroutine(EnterExhibitionPart2());
+        //         transfer2Exhibition++;
+        //     }
+        //     
+        // }
+        //
+        // if (ExperimentManager.Instance().remoteStartNewVisitor = true)
+        // {
+        //     if (transfer2PrepRoom < 1)
+        //     {
+        //         StartCoroutine(ExitExhibitionPart2());
+        //         transfer2PrepRoom++;
+        //     }
+        //     
+        // }
     }
 
     private void AssignLangugageUI()
@@ -205,18 +205,13 @@ public class ExhibitionManager : MonoBehaviour
         // wait for display of instructions
         yield return new WaitForSeconds(displayTime);
         
-        StartCoroutine(fadeOutUI(_exhibitionInfo2));
-        yield return new WaitForSeconds(fadeDuration);
+        // StartCoroutine(fadeOutUI(_exhibitionInfo2));
+        // yield return new WaitForSeconds(fadeDuration);
 
-        ExperimentManager.Instance().localEnterExhibition = true;
-        WaitingForPartner.SetActive(true);
-        yield return null;
-    }
-    
-    private IEnumerator EnterExhibitionPart2()
-    {
-        WaitingForPartner.SetActive(false);
-
+        // ExperimentManager.Instance().localEnterExhibition = true;
+        // WaitingForPartner.SetActive(true);
+        
+        //-------------------------------------------------------------------------------
         // fade out
         fadingCamera.FadeOut();
         yield return new WaitForSeconds(fadingCamera.fadeDuration);
@@ -265,126 +260,182 @@ public class ExhibitionManager : MonoBehaviour
         // fade in
         fadingCamera.FadeIn();
         yield return new WaitForSeconds(fadingCamera.fadeDuration);
-
-        yield return new WaitForSeconds(60.0f);
-        
-        
-        // create defaults for leaving exhibition
-        ExperimentManager.Instance().localExhibitionExit = false;
-        ExperimentManager.Instance().localStartNewVisitor = false;
-        transfer2PrepRoom = 0;
-        
         
         yield return null;
-        
     }
+    
+    // private IEnumerator EnterExhibitionPart2()
+    // {
+    //     WaitingForPartner.SetActive(false);
+    //
+    //     // fade out
+    //     fadingCamera.FadeOut();
+    //     yield return new WaitForSeconds(fadingCamera.fadeDuration);
+    //     
+    //     // switch rooms
+    //     _exhibitionInfo2.SetActive(false);
+    //     preparationRoom.SetActive(false);
+    //     exhibition.SetActive(true);
+    //     
+    //     // activate language specific elements
+    //     if (QuestionsManager.Instance.english)
+    //     {
+    //         exitUIEnglish.SetActive(true);
+    //     }
+    //
+    //     if (QuestionsManager.Instance.german)
+    //     {
+    //         exitUIGerman.SetActive(true);
+    //     }
+    //     
+    //     // position player in exhibition
+    //     if (NetMan.IsServer())
+    //     {
+    //         playerLocal.GetComponent<Transform>().position = startServer.GetComponent<Transform>().position;
+    //         avatarLocal.GetComponent<Transform>().position = startServer.GetComponent<Transform>().position;
+    //         
+    //         playerRemote.GetComponent<Transform>().position = start2ndPlayer.GetComponent<Transform>().position;
+    //         avatarRemote.GetComponent<Transform>().position = start2ndPlayer.GetComponent<Transform>().position;
+    //
+    //     }
+    //     else
+    //     {
+    //         playerLocal.GetComponent<Transform>().position = start2ndPlayer.GetComponent<Transform>().position;
+    //         avatarLocal.GetComponent<Transform>().position = start2ndPlayer.GetComponent<Transform>().position;
+    //         
+    //         playerRemote.GetComponent<Transform>().position = startServer.GetComponent<Transform>().position;
+    //         avatarRemote.GetComponent<Transform>().position = startServer.GetComponent<Transform>().position;
+    //     }
+    //
+    //     // avatarLocal.GetComponent<VRFootIK>().footOffset = avatarLocalFootOffset;
+    //     
+    //     ExperimentManager.Instance().inExhibitionArea = true;
+    //     localGazeSphere.GetComponent<Transform>().position = new Vector3(0, 0, 0);
+    //     remoteGazeSphere.GetComponent<Transform>().position = new Vector3(0, 0, 0);
+    //     
+    //     // fade in
+    //     fadingCamera.FadeIn();
+    //     yield return new WaitForSeconds(fadingCamera.fadeDuration);
+    //
+    //     yield return new WaitForSeconds(60.0f);
+    //     
+    //     
+    //     // create defaults for leaving exhibition
+    //     ExperimentManager.Instance().localExhibitionExit = false;
+    //     ExperimentManager.Instance().localStartNewVisitor = false;
+    //     transfer2PrepRoom = 0;
+    //     
+    //     
+    //     yield return null;
+    //     
+    // }
 
     #endregion
 
     #region ExitingExhibition
 
-    public void ExitExhibition()
-    {
-
-        StartCoroutine(ExitExhibitionRoutine());
-    }
-
-    private IEnumerator ExitExhibitionRoutine()
-    {
-        ExperimentManager.Instance().localExhibitionExit = true;
-
-        fadingCamera.FadeOut();
-        yield return new WaitForSeconds(fadingCamera.fadeDuration);
-        object1.GetComponent<ObjectTransitions>().Return2DefaultState4NewParticipant();
-        object2.GetComponent<ObjectTransitions>().Return2DefaultState4NewParticipant();
-        object3.GetComponent<ObjectTransitions>().Return2DefaultState4NewParticipant();
-        QuestionsManager.Instance.Return2DefaultNexPlayer();
-
-        // set all exhibition areas inactive
-        exhibition.SetActive(false);
-        ExperimentManager.Instance().inExhibitionArea = false;
-        // EyeTrackingManager.Instance.showGazeSphere = false;
-
-        // set avatar and player to correct location
-        avatarLocal.GetComponent<Transform>().position = locationInPrepRoom.GetComponent<Transform>().position;
-        playerLocal.GetComponent<Transform>().position = locationInPrepRoom.GetComponent<Transform>().position;
-
-        // disable the local avatar and gaze sphere
-        // avatarLocal.SetActive(false);
-        // localGazeSphere.SetActive(false);
-
-        // set all aspects in Experiment Room to true and correct values
-        preparationRoom.SetActive(true);
-
-        // set active the normal VR Hands again------------------------------------
-
-
-        
-        WaitingForPartner.SetActive(true);
-        
-        fadingCamera.FadeIn();
-        yield return new WaitForSeconds(fadingCamera.fadeDuration);
-    }
-    
-    private IEnumerator ExitExhibitionPart2()
-    {
-        WaitingForPartner.SetActive(false);
-
-    // set active - final question part 1
-
-        languageSelectUIStartExhibition.GetComponent<CanvasGroup>().alpha = 1;
-        languageSelectUIStartExhibition.SetActive(true);
-        
-        
-        // fade in
-
-        // create defaults for entering exhibition
-        ExperimentManager.Instance().localEnterExhibition = false;
-        ExperimentManager.Instance().localLanguageSelected = false;
-        transfer2Exhibition = 0;
-        
-        yield return null;
-    }
-
+    // public void ExitExhibition()
+    // {
+    //
+    //     StartCoroutine(ExitExhibitionRoutine());
+    // }
+    //
+    // private IEnumerator ExitExhibitionRoutine()
+    // {
+    //     ExperimentManager.Instance().localExhibitionExit = true;
+    //
+    //     fadingCamera.FadeOut();
+    //     yield return new WaitForSeconds(fadingCamera.fadeDuration);
+    //     object1.GetComponent<ObjectTransitions>().Return2DefaultState4NewParticipant();
+    //     object2.GetComponent<ObjectTransitions>().Return2DefaultState4NewParticipant();
+    //     object3.GetComponent<ObjectTransitions>().Return2DefaultState4NewParticipant();
+    //     QuestionsManager.Instance.Return2DefaultNexPlayer();
+    //
+    //     // set all exhibition areas inactive
+    //     exhibition.SetActive(false);
+    //     ExperimentManager.Instance().inExhibitionArea = false;
+    //     // EyeTrackingManager.Instance.showGazeSphere = false;
+    //
+    //     // set avatar and player to correct location
+    //     avatarLocal.GetComponent<Transform>().position = locationInPrepRoom.GetComponent<Transform>().position;
+    //     playerLocal.GetComponent<Transform>().position = locationInPrepRoom.GetComponent<Transform>().position;
+    //
+    //     // disable the local avatar and gaze sphere
+    //     // avatarLocal.SetActive(false);
+    //     // localGazeSphere.SetActive(false);
+    //
+    //     // set all aspects in Experiment Room to true and correct values
+    //     preparationRoom.SetActive(true);
+    //
+    //     // set active the normal VR Hands again------------------------------------
+    //
+    //
+    //     
+    //     WaitingForPartner.SetActive(true);
+    //     
+    //     fadingCamera.FadeIn();
+    //     yield return new WaitForSeconds(fadingCamera.fadeDuration);
+    // }
+    //
+    // private IEnumerator ExitExhibitionPart2()
+    // {
+    //     WaitingForPartner.SetActive(false);
+    //
+    // // set active - final question part 1
+    //
+    //     languageSelectUIStartExhibition.GetComponent<CanvasGroup>().alpha = 1;
+    //     languageSelectUIStartExhibition.SetActive(true);
+    //     
+    //     
+    //     // fade in
+    //
+    //     // create defaults for entering exhibition
+    //     ExperimentManager.Instance().localEnterExhibition = false;
+    //     ExperimentManager.Instance().localLanguageSelected = false;
+    //     transfer2Exhibition = 0;
+    //     
+    //     yield return null;
+    // }
+    //
     public void ForceExhibitionExit()
     {
         
-        ExperimentManager.Instance().localExhibitionExit = true;
+        // ExperimentManager.Instance().localExhibitionExit = true;
         
         object1.GetComponent<ObjectTransitions>().Return2DefaultState4NewParticipant();
         object2.GetComponent<ObjectTransitions>().Return2DefaultState4NewParticipant();
         object3.GetComponent<ObjectTransitions>().Return2DefaultState4NewParticipant();
         QuestionsManager.Instance.Return2DefaultNexPlayer();
-
+    
         // set all exhibition areas inactive
         exhibition.SetActive(false);
         ExperimentManager.Instance().inExhibitionArea = false;
         // EyeTrackingManager.Instance.showGazeSphere = false;
-
+    
         // set avatar and player to correct location
         avatarLocal.GetComponent<Transform>().position = locationInPrepRoom.GetComponent<Transform>().position;
         playerLocal.GetComponent<Transform>().position = locationInPrepRoom.GetComponent<Transform>().position;
-
+    
         // disable the local avatar and gaze sphere
         // avatarLocal.SetActive(false);
         // localGazeSphere.SetActive(false);
-
+    
         // set all aspects in Experiment Room to true and correct values
         preparationRoom.SetActive(true);
         
         
         // set active - final question part 1
-
+    
         languageSelectUIStartExhibition.GetComponent<CanvasGroup>().alpha = 1;
         languageSelectUIStartExhibition.SetActive(true);
         
         
         // fade in
-
+    
         // create defaults for entering exhibition
-        ExperimentManager.Instance().localEnterExhibition = false;
-        ExperimentManager.Instance().localLanguageSelected = false;
-        transfer2Exhibition = 0;
+        // ExperimentManager.Instance().localEnterExhibition = false;
+        // ExperimentManager.Instance().localLanguageSelected = false;
+        // transfer2Exhibition = 0;
         
     }
     
