@@ -237,7 +237,7 @@ public class EyeTrackingManager : MonoBehaviour
             var eyeDirectionCombinedWorld = hmdTransform.rotation * coordinateAdaptedGazeDirectionCombined;
             
             RaycastHit firstHit;
-            if (Physics.Raycast(eyePositionCombinedWorld, eyeDirectionCombinedWorld, out firstHit, Mathf.Infinity,layer, QueryTriggerInteraction.Ignore))
+            if (Physics.Raycast(eyePositionCombinedWorld, eyeDirectionCombinedWorld, out firstHit, Mathf.Infinity))
             {
                 localGazeSphere.transform.position = firstHit.point;
             

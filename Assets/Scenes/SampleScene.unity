@@ -8436,7 +8436,7 @@ GameObject:
   - component: {fileID: 198054634}
   - component: {fileID: 198054633}
   - component: {fileID: 198054632}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: local_gazeSphere
   m_TagString: LocalGazeSphere
   m_Icon: {fileID: 0}
@@ -8528,7 +8528,7 @@ Transform:
   m_GameObject: {fileID: 198054631}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.654, y: 0.37, z: 4.354}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 8
@@ -17305,7 +17305,7 @@ GameObject:
   - component: {fileID: 351864001}
   - component: {fileID: 351864003}
   - component: {fileID: 351864002}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: InteractionEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29802,7 +29802,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 756e1730aedb6814a8253a873711c9b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  footOffset: {x: 0, y: 0.315, z: 0}
+  footOffset: {x: 0, y: 0.11, z: 0}
   rightFootRotWeight: 1
   leftFootRotWeight: 1
   rightFootPosWeight: 1
@@ -34094,7 +34094,7 @@ GameObject:
   - component: {fileID: 563840967}
   - component: {fileID: 563840966}
   - component: {fileID: 563840971}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: remote_gazeSphere
   m_TagString: RemoteGazeSphere
   m_Icon: {fileID: 0}
@@ -34119,7 +34119,7 @@ MonoBehaviour:
   isObject2: 0
   isObject3: 0
   transitionCountdown: 0
-  interactionTimerDefault: 3
+  interactionTimerDefault: 1
   interactionTimer: 0
   coolOffPeriod: 0
   coolOffTimer: 0
@@ -34197,7 +34197,7 @@ Transform:
   m_GameObject: {fileID: 563840965}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 1.0709, y: 0, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children:
   - {fileID: 746451318}
   - {fileID: 351864001}
@@ -43497,7 +43497,7 @@ GameObject:
   - component: {fileID: 746451318}
   - component: {fileID: 746451320}
   - component: {fileID: 746451319}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: RemoteGazeSphereEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55453,7 +55453,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &896852209
 Transform:
   m_ObjectHideFlags: 0
@@ -89210,8 +89210,7 @@ MonoBehaviour:
   noSteamVRFallbackCamera: {fileID: 0}
   noSteamVRFallbackMaxDistanceNoItem: 10
   noSteamVRFallbackMaxDistanceWithItem: 0.5
-  renderModelPrefab: {fileID: 1000011547835092, guid: d5082f7d9f947374197e0a97786f4e40,
-    type: 3}
+  renderModelPrefab: {fileID: 0}
   renderModels: []
   mainRenderModel: {fileID: 0}
   hoverhighlightRenderModel: {fileID: 0}
@@ -89484,8 +89483,7 @@ MonoBehaviour:
   noSteamVRFallbackCamera: {fileID: 0}
   noSteamVRFallbackMaxDistanceNoItem: 10
   noSteamVRFallbackMaxDistanceWithItem: 0.5
-  renderModelPrefab: {fileID: 1000012617731570, guid: 837f93beb9a614743ae3a2c0ada7c388,
-    type: 3}
+  renderModelPrefab: {fileID: 0}
   renderModels: []
   mainRenderModel: {fileID: 0}
   hoverhighlightRenderModel: {fileID: 0}
@@ -123670,7 +123668,7 @@ MonoBehaviour:
   EyeBlinkVal1_remote: {x: 0, y: 0, z: 0, w: 0}
   EyeBlinkVal2_remote: {x: 0, y: 0, z: 0, w: 0}
   EyeBlinkVal3_remote: {x: 0, y: 0, z: 0}
-  inExhibitionArea: 0
+  inExhibitionArea: 1
   localLanguageSelected: 0
   remoteLanugageSelected: 0
   localEnterExhibition: 0
@@ -123776,7 +123774,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08a0ddae492eadb4aa1cbadff36a1afd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showGazeSphere: 0
+  showGazeSphere: 1
   isCalibratingSystem: 0
   calibrationTries: 0
   calibrationCount: 0
