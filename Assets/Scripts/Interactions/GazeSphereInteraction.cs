@@ -82,7 +82,7 @@ public class GazeSphereInteraction : MonoBehaviour
                 // gazeSphereRemoteEffect.SetActive(false);
                 // interactionEffect.SetActive(false);
                 // trigger object transitions depending on which object is viewed
-                if (NetworkManager.Instance().IsServer())
+                if (ExperimentManager.Instance().isServer)
                 {
                     if (isObject1)
                     {

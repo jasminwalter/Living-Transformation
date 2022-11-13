@@ -127607,9 +127607,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isServer: 0
-  object1: {fileID: 0}
-  object2: {fileID: 0}
-  object3: {fileID: 0}
+  object1: {fileID: 1547891798369784709}
+  object2: {fileID: 8494177461720987589}
+  object3: {fileID: 8734138824673584680}
   localPlayer: {fileID: 1552448787}
   remotePlayer: {fileID: 1082828244}
   VRCamera_local: {fileID: 1552426243}

@@ -13,7 +13,7 @@ public class ExperimentManager : MonoBehaviour
         return _Instance;
     }
 
-    public bool isServer;
+    public bool isServer = false;
     
     [Header("Objects")]
     
@@ -385,7 +385,7 @@ public class ExperimentManager : MonoBehaviour
         
         if (NetMan.GetState() == ENetworkState.Running)
         {
-            if (NetworkManager.Instance().IsServer())
+            if (isServer)
             {
                 NetMan.BroadCastSynchronizationState(localLanguageSelected, localEnterExhibition, localExhibitionExit, 
                     localStartNewVisitor, false,false,false,startTransitionObj1_other,
@@ -408,7 +408,7 @@ public class ExperimentManager : MonoBehaviour
                     EyeBlinkVal3_local);
 
 
-                if (NetworkManager.Instance().IsServer())
+                if (isServer)
                 {
                     if (startTransitionObj1_server)
                     {
