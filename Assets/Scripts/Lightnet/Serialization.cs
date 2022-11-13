@@ -335,12 +335,20 @@ public class SynchronizationState : NetworkData
 {
     private const int SIZE =
         sizeof(byte) + // header     (ENetDataType.UserState)
-        sizeof(float) * 4; // size of all 4 bools
+        sizeof(float) * 4 + // size of all 4 synchro bools
+        sizeof(float) * 6;  // size of all object vars
 
     public bool languageSelection;
     public bool enterExhibition;
     public bool exitExhibition;
     public bool newStartVisitor;
+
+    public bool triggerOther1;
+    public bool triggerOther2;
+    public bool triggerOther3;
+    public bool startOther1;
+    public bool startOther2;
+    public bool startOther3;
     
     byte[] Cache = new byte[SIZE];
 
@@ -355,6 +363,12 @@ public class SynchronizationState : NetworkData
         SerializationHelper.FromBytes(data, ref head, ref enterExhibition);
         SerializationHelper.FromBytes(data, ref head, ref exitExhibition);
         SerializationHelper.FromBytes(data, ref head, ref newStartVisitor);
+        SerializationHelper.FromBytes(data, ref head, ref triggerOther1);
+        SerializationHelper.FromBytes(data, ref head, ref triggerOther2);
+        SerializationHelper.FromBytes(data, ref head, ref triggerOther3);
+        SerializationHelper.FromBytes(data, ref head, ref startOther1);
+        SerializationHelper.FromBytes(data, ref head, ref startOther2);
+        SerializationHelper.FromBytes(data, ref head, ref startOther3);
         
     }
 
@@ -368,7 +382,12 @@ public class SynchronizationState : NetworkData
         SerializationHelper.ToBytes(Convert.ToSingle(enterExhibition), Cache, ref head);
         SerializationHelper.ToBytes(Convert.ToSingle(exitExhibition), Cache, ref head);
         SerializationHelper.ToBytes(Convert.ToSingle(newStartVisitor), Cache, ref head);
-        
+        SerializationHelper.ToBytes(Convert.ToSingle(triggerOther1), Cache, ref head);
+        SerializationHelper.ToBytes(Convert.ToSingle(triggerOther2), Cache, ref head);
+        SerializationHelper.ToBytes(Convert.ToSingle(triggerOther3), Cache, ref head);
+        SerializationHelper.ToBytes(Convert.ToSingle(startOther1), Cache, ref head);
+        SerializationHelper.ToBytes(Convert.ToSingle(startOther2), Cache, ref head);
+        SerializationHelper.ToBytes(Convert.ToSingle(startOther3), Cache, ref head);
         return Cache;
     }
 }

@@ -6,6 +6,13 @@ using UnityEngine.PlayerLoop;
 
 public class NetworkManager : MonoBehaviour
 {
+    private static NetworkManager _Instance;
+    public static NetworkManager Instance()
+    {
+        Debug.Assert(_Instance!=null);
+        return _Instance;
+    }
+    
     [Header("Network Settings")]
     public int PortReliable = 42069;
     public int PortUnreliable = 42169;
@@ -95,12 +102,20 @@ public class NetworkManager : MonoBehaviour
         
     }
 
-    public void BroadCastSynchronizationState(bool languageSelection, bool enterExhibition, bool exitExhibition, bool newStartVisitor)
+    public void BroadCastSynchronizationState(bool languageSelection, bool enterExhibition, bool exitExhibition,
+        bool newStartVisitor, bool triggerOther1,bool triggerOther2,bool triggerOther3, bool startOther1, 
+        bool startOther2,bool startOther3)
     {
         SendingSynchroState.languageSelection = languageSelection;
         SendingSynchroState.enterExhibition = enterExhibition;
         SendingSynchroState.exitExhibition = exitExhibition;
         SendingSynchroState.newStartVisitor = newStartVisitor;
+        SendingSynchroState.triggerOther1 = triggerOther1;
+        SendingSynchroState.triggerOther2 = triggerOther2;
+        SendingSynchroState.triggerOther3 = triggerOther3;
+        SendingSynchroState.startOther1 = startOther1;
+        SendingSynchroState.startOther2 = startOther2;
+        SendingSynchroState.startOther3 = startOther3;
         
         NetComp.BroadcastNetworkData(ENetChannel.Reliable, SendingSynchroState);
 

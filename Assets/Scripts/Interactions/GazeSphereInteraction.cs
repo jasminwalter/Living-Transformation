@@ -26,15 +26,17 @@ public class GazeSphereInteraction : MonoBehaviour
     public bool coolOffPeriod = false;
     private float coolOffTimerDefault = 12.0f;
     public float coolOffTimer;
+
+    public bool isServer;
         
 
     public GameObject gazeSphereRemoteEffect;
 
     public GameObject interactionEffect;
 
-    public GameObject object1;
-    public GameObject object2;
-    public GameObject object3;
+    // public GameObject object1;
+    // public GameObject object2;
+    // public GameObject object3;
     
     // Start is called before the first frame update
     
@@ -77,28 +79,56 @@ public class GazeSphereInteraction : MonoBehaviour
             else
             {
                 
-                gazeSphereRemoteEffect.SetActive(false);
-                interactionEffect.SetActive(false);
+                // gazeSphereRemoteEffect.SetActive(false);
+                // interactionEffect.SetActive(false);
                 // trigger object transitions depending on which object is viewed
-                if (isObject1)
+                if (NetworkManager.Instance().IsServer())
                 {
-                    object1.GetComponent<ObjectTransitions>().MakeTransition();
+                    if (isObject1)
+                    {
+                    
+                        // object1.GetComponent<ObjectTransitions>().MakeTransition();
+                        ExperimentManager.Instance().triggerTransitionObj1_server = true;
+                    }
+
+                    if (isObject2)
+                    {
+                        // object2.GetComponent<ObjectTransitions>().MakeTransition();
+                        ExperimentManager.Instance().triggerTransitionObj2_server = true;
+                    }
+
+                    if (isObject3)
+                    {
+                        // object3.GetComponent<ObjectTransitions>().MakeTransition();
+                        ExperimentManager.Instance().triggerTransitionObj3_server = true;
+                    }
+                }
+                else
+                {
+                    if (isObject1)
+                    {
+
+                        // object1.GetComponent<ObjectTransitions>().MakeTransition();
+                        ExperimentManager.Instance().triggerTransitionObj1_other = true;
+                    }
+
+                    if (isObject2)
+                    {
+                        // object2.GetComponent<ObjectTransitions>().MakeTransition();
+                        ExperimentManager.Instance().triggerTransitionObj2_other = true;
+                    }
+
+                    if (isObject3)
+                    {
+                        // object3.GetComponent<ObjectTransitions>().MakeTransition();
+                        ExperimentManager.Instance().triggerTransitionObj3_other = true;
+                    }
                 }
 
-                if (isObject2)
-                {
-                    object2.GetComponent<ObjectTransitions>().MakeTransition();
-                }
 
-                if (isObject3)
-                {
-                    object3.GetComponent<ObjectTransitions>().MakeTransition();
-                }
-
-                
-                transitionCountdown = false;
-                interactionTimer = interactionTimerDefault;
-                coolOffPeriod = true;
+                // transitionCountdown = false;
+                // interactionTimer = interactionTimerDefault;
+                // coolOffPeriod = true;
 
             }
         }
@@ -210,5 +240,16 @@ public class GazeSphereInteraction : MonoBehaviour
                 interactionTimer = interactionTimerDefault;
             }
         }
+    }
+
+    public void EndInteractionEffects()
+    {
+        gazeSphereRemoteEffect.SetActive(false);
+        interactionEffect.SetActive(false);
+    }
+
+    public void ResetInteractionTimer()
+    {
+        interactionTimer = interactionTimerDefault;
     }
 }

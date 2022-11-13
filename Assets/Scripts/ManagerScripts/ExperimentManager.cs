@@ -12,6 +12,14 @@ public class ExperimentManager : MonoBehaviour
         Debug.Assert(_Instance!=null);
         return _Instance;
     }
+
+    public bool isServer;
+    
+    [Header("Objects")]
+    
+    public GameObject object1;
+    public GameObject object2;
+    public GameObject object3;
     
     // Player
     [Header("Player Vars")]
@@ -72,6 +80,27 @@ public class ExperimentManager : MonoBehaviour
     public bool localStartNewVisitor = false;
     public bool remoteStartNewVisitor = false;
 
+    public bool startTransitionObj1_server;
+    public bool startTransitionObj1_other;
+
+    public bool startTransitionObj2_server;
+    public bool startTransitionObj2_other;
+    
+    public bool startTransitionObj3_server;
+    public bool startTransitionObj3_other;
+    
+    public bool triggerTransitionObj1_server;
+    public bool triggerTransitionObj1_other;
+    
+    public bool triggerTransitionObj2_server;
+    public bool triggerTransitionObj2_other;
+    
+    public bool triggerTransitionObj3_server;
+    public bool triggerTransitionObj3_other;
+
+    public bool ongoingTransition1;
+    public bool ongoingTransition2;
+    public bool ongoingTransition3;
 
     // public bool LocalResponseGiven;
     // public bool RemoteResponseGiven;
@@ -156,6 +185,18 @@ public class ExperimentManager : MonoBehaviour
         remoteEnterExhibition = incomingState.enterExhibition;
         remoteExhibitionExit = incomingState.exitExhibition;
         remoteStartNewVisitor = incomingState.newStartVisitor;
+        if (NetworkManager.Instance().IsServer())
+        {
+            triggerTransitionObj1_other = incomingState.triggerOther1;
+            triggerTransitionObj2_other = incomingState.triggerOther2;
+            triggerTransitionObj3_other = incomingState.triggerOther3;
+        }
+        else
+        {
+            startTransitionObj1_other = incomingState.startOther1;
+            startTransitionObj2_other = incomingState.startOther2;
+            startTransitionObj3_other = incomingState.startOther3;
+        }
 
     }
     // public void ReceivedRandomStateUpdate(RandomState incomingState)
@@ -265,8 +306,27 @@ public class ExperimentManager : MonoBehaviour
         //
     }
 
+    public void TransitionEffects()
+    {
+        GazeSphereInteraction.Instance().EndInteractionEffects();
+        GazeSphereInteraction.Instance().transitionCountdown = false;
+        GazeSphereInteraction.Instance().ResetInteractionTimer();
+        GazeSphereInteraction.Instance().coolOffPeriod = true;
+    }
+
     private void Update()
     {
+        // if (startTransitionObj1_local)
+        // {
+        //     if (!ongoingTransition1)
+        //     {
+        //         object1.GetComponent<ObjectTransitions>().MakeTransition();
+        //         TransitionEffects();
+        //         triggerTransitionObj1_local = false;
+        //     }
+        // }
+        // if(startTransitionObj2_local) object2.GetComponent<ObjectTransitions>().MakeTransition();
+        // if(startTransitionObj3_local) object3.GetComponent<ObjectTransitions>().MakeTransition();
         // if (startExperimentPress)
         // {
         //     localStartExperiment = true;
@@ -325,15 +385,113 @@ public class ExperimentManager : MonoBehaviour
         
         if (NetMan.GetState() == ENetworkState.Running)
         {
-            NetMan.BroadCastSynchronizationState(localLanguageSelected, localEnterExhibition, localExhibitionExit, localStartNewVisitor);
-            
-            if(inExhibitionArea)
+            if (NetworkManager.Instance().IsServer())
             {
-                NetMan.BroadcastExperimentState(LocalGazeSphere, localPlayer, VRCamera_local.position, 
+                NetMan.BroadCastSynchronizationState(localLanguageSelected, localEnterExhibition, localExhibitionExit, 
+                    localStartNewVisitor, false,false,false,startTransitionObj1_other,
+                    startTransitionObj2_other,startTransitionObj3_other);
+            }
+            else
+            {
+                NetMan.BroadCastSynchronizationState(localLanguageSelected, localEnterExhibition, localExhibitionExit, 
+                    localStartNewVisitor, triggerTransitionObj1_other, triggerTransitionObj2_other,
+                    triggerTransitionObj3_other,false,false,false);
+            }
+            
+
+            if (inExhibitionArea)
+            {
+                NetMan.BroadcastExperimentState(LocalGazeSphere, localPlayer, VRCamera_local.position,
                     VRCamera_local.rotation, VRHandRight_local.position, VRHandRight_local.rotation,
                     VRHandLeft_local.position, VRHandLeft_local.rotation, eyeShapePart1_local,
-                    eyeShapePart2_local,eyeShapePart3_local, EyeBlinkVal1_local, EyeBlinkVal2_local,
+                    eyeShapePart2_local, eyeShapePart3_local, EyeBlinkVal1_local, EyeBlinkVal2_local,
                     EyeBlinkVal3_local);
+
+
+                if (NetworkManager.Instance().IsServer())
+                {
+                    if (startTransitionObj1_server)
+                    {
+                        if (!ongoingTransition1)
+                        {
+                            object1.GetComponent<ObjectTransitions>().MakeTransition();
+                            TransitionEffects();
+                            ongoingTransition1 = true;
+                        }
+                    }
+
+                    if (startTransitionObj2_server)
+                    {
+                        if (!ongoingTransition2)
+                        {
+                            object2.GetComponent<ObjectTransitions>().MakeTransition();
+                            TransitionEffects();
+                            ongoingTransition2 = true;
+                        }
+                    }
+
+                    if (startTransitionObj3_server)
+                    {
+                        if (!ongoingTransition3)
+                        {
+                            object3.GetComponent<ObjectTransitions>().MakeTransition();
+                            TransitionEffects();
+                            ongoingTransition3 = true;
+                        }
+                    }
+
+                    // trigger the start of the object transitions for both
+                    if (triggerTransitionObj1_server | triggerTransitionObj1_other)
+                    {
+                        startTransitionObj1_other = true;
+                        startTransitionObj1_server = true;
+                    }
+
+                    if (triggerTransitionObj2_server | triggerTransitionObj2_other)
+                    {
+                        startTransitionObj2_other = true;
+                        startTransitionObj2_server = true;
+                    }
+
+                    if (triggerTransitionObj3_server | triggerTransitionObj3_other)
+                    {
+                        startTransitionObj3_other = true;
+                        startTransitionObj3_server = true;
+                    }
+
+                }
+                else
+                {
+                    if (startTransitionObj1_other)
+                    {
+                        if (!ongoingTransition1)
+                        {
+                            object1.GetComponent<ObjectTransitions>().MakeTransition();
+                            TransitionEffects();
+                            ongoingTransition1 = true;
+                        }
+                    }
+
+                    if (startTransitionObj2_other)
+                    {
+                        if (!ongoingTransition2)
+                        {
+                            object2.GetComponent<ObjectTransitions>().MakeTransition();
+                            TransitionEffects();
+                            ongoingTransition2 = true;
+                        }
+                    }
+
+                    if (startTransitionObj3_other)
+                    {
+                        if (!ongoingTransition3)
+                        {
+                            object3.GetComponent<ObjectTransitions>().MakeTransition();
+                            TransitionEffects();
+                            ongoingTransition3 = true;
+                        }
+                    }
+                }
             }
         }
         
@@ -351,5 +509,26 @@ public class ExperimentManager : MonoBehaviour
             }
             //CountdownDisplay.text = "Get Ready\n" + Mathf.Ceil(WarmUpTimer).ToString();
         }
+
+        // if (NetMan.IsServer())
+        // {
+        //     // if (triggerTransitionObj1_local | triggerTransitionObj1_remote)
+        //     // {
+        //     //     startTransitionObj1_local = true;
+        //     //     startTransitionObj1_remote = true;
+        //     // }
+        //     //
+        //     // if (triggerTransitionObj2_local | triggerTransitionObj2_remote)
+        //     // {
+        //     //     startTransitionObj2_local = true;
+        //     //     startTransitionObj2_remote = true;
+        //     // }
+        //     //
+        //     // if (triggerTransitionObj3_local | triggerTransitionObj3_remote)
+        //     // {
+        //     //     startTransitionObj3_local = true;
+        //     //     startTransitionObj3_remote = true;
+        //     // }
+        // }
     }
 }

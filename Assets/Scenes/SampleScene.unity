@@ -27006,7 +27006,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &429238940
 RectTransform:
   m_ObjectHideFlags: 0
@@ -31133,7 +31133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cd8efa6407728f4883755f176a0b52b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  remoteGazeSphere: {fileID: 0}
+  remoteGazeSphere: {fileID: 563840970}
   EyebrowAnimationCurveUpper:
     serializedVersion: 2
     m_Curve:
@@ -35507,11 +35507,9 @@ MonoBehaviour:
   interactionTimer: 0
   coolOffPeriod: 0
   coolOffTimer: 0
+  isServer: 0
   gazeSphereRemoteEffect: {fileID: 746451317}
   interactionEffect: {fileID: 351864000}
-  object1: {fileID: 1547891798369784709}
-  object2: {fileID: 8494177461720987589}
-  object3: {fileID: 8734138824673584680}
 --- !u!135 &563840967
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -78394,8 +78392,8 @@ MonoBehaviour:
   - {fileID: 1439975390}
   - {fileID: 448529124}
   EyeShapeTables:
-  - skinnedMeshRenderer: {fileID: 1517251684}
-    eyeShapes: ffffffffffffffffffffffff0100000007000000050000000b000000040000000a000000020000000900000003000000080000000000000006000000ffffffffffffffffffffffff
+  - skinnedMeshRenderer: {fileID: 1264097900}
+    eyeShapes: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0100000007000000050000000b000000040000000a000000020000000900000003000000080000000000000006000000ffffffffffffffffffffffff
   eyeRotationOffset: {x: 0, y: 1.5, z: 0.35}
   NeededToGetData: 1
 --- !u!114 &1264097890
@@ -78486,6 +78484,12 @@ CapsuleCollider:
   m_Height: 1.576504
   m_Direction: 1
   m_Center: {x: -0.009596556, y: 0.7328655, z: 0.041159056}
+--- !u!137 &1264097900 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -5510251110207249535, guid: d25809e99dfd2d74ea51d1374c58afe0,
+    type: 3}
+  m_PrefabInstance: {fileID: 1264097816}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1264854436
 GameObject:
   m_ObjectHideFlags: 0
@@ -92161,12 +92165,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1539179546}
   m_PrefabAsset: {fileID: 0}
---- !u!137 &1539179615 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -5510251110207249535, guid: 21be65a17a6e928488c8fb858dbfdf0d,
-    type: 3}
-  m_PrefabInstance: {fileID: 1539179546}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1539179616 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8879528566716807029, guid: 21be65a17a6e928488c8fb858dbfdf0d,
@@ -92179,97 +92177,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1539179546}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1539179618
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1539179617}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4cd8efa6407728f4883755f176a0b52b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  remoteGazeSphere: {fileID: 563840970}
-  EyebrowAnimationCurveUpper:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  EyebrowAnimationCurveLower:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  EyebrowAnimationCurveHorizontal:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  EyesModels: []
-  EyeShapeTables:
-  - skinnedMeshRenderer: {fileID: 1539179615}
-    eyeShapes: ffffffffffffffffffffffff0100000007000000050000000b000000040000000a000000020000000900000003000000080000000000000006000000ffffffffffffffffffffffff
-  eyeRotationOffset: {x: 0, y: 0, z: 0}
-  NeededToGetData: 1
 --- !u!114 &1539179619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127699,6 +127606,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c091cf163f3f056459fe48eb4caf11cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isServer: 0
+  object1: {fileID: 0}
+  object2: {fileID: 0}
+  object3: {fileID: 0}
   localPlayer: {fileID: 1552448787}
   remotePlayer: {fileID: 1082828244}
   VRCamera_local: {fileID: 1552426243}
@@ -127731,6 +127642,21 @@ MonoBehaviour:
   remoteExhibitionExit: 0
   localStartNewVisitor: 0
   remoteStartNewVisitor: 0
+  startTransitionObj1_server: 0
+  startTransitionObj1_other: 0
+  startTransitionObj2_server: 0
+  startTransitionObj2_other: 0
+  startTransitionObj3_server: 0
+  startTransitionObj3_other: 0
+  triggerTransitionObj1_server: 0
+  triggerTransitionObj1_other: 0
+  triggerTransitionObj2_server: 0
+  triggerTransitionObj2_other: 0
+  triggerTransitionObj3_server: 0
+  triggerTransitionObj3_other: 0
+  ongoingTransition1: 0
+  ongoingTransition2: 0
+  ongoingTransition3: 0
   WarmUpTime: 3
   InterpolationFactor: 5
   NetMan: {fileID: 617603661421178817}
