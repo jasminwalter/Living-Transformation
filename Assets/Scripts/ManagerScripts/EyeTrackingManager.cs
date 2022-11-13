@@ -16,7 +16,7 @@ public class EyeTrackingManager : MonoBehaviour
 {
     
     public static EyeTrackingManager Instance { get; private set; }
-    private bool showGazeSphere = true;
+    private bool showGazeSphere = false;
     
     // public variables assigned in the inspector
 
