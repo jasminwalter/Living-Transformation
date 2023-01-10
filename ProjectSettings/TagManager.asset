@@ -25,6 +25,11 @@ TagManager:
   - AvatarRightArmRemote
   - AvatarLeftArmRemote
   - Recorder1
+  - Recorder2
+  - Recorder3
+  - RecorderMovingGaze
+  - RecorderMovingLocal
+  - RecorderMovingRemote
   layers:
   - Default
   - TransparentFX
