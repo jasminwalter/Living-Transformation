@@ -20,7 +20,7 @@ public class GazeSphereInteraction : MonoBehaviour
     public bool isObject3 = false;
     
     public bool transitionCountdown = false;
-    private float interactionTimerDefault = 1.0f;
+    private float interactionTimerDefault = 0.5f;
     public float interactionTimer;
 
     public bool coolOffPeriod = false;

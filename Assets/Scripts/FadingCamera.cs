@@ -19,7 +19,7 @@ public class FadingCamera : MonoBehaviour
     {
         _rend = fadeScreen.GetComponent<Renderer>();
     }
-
+    
     public void FadeIn()
     {
         _fadingIn = true;

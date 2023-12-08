@@ -179,7 +179,7 @@ public class QuestionsManager : MonoBehaviour
     public bool smallBodySize = false;
     public bool noHeightIssue = false;
 
-    public bool skipConsentCheck = true;
+    private bool skipConsentCheck = true;
     public int numberOfVisits;
     public int age;
     public string gender;
@@ -361,7 +361,17 @@ public class QuestionsManager : MonoBehaviour
     #region GeneralButtonFunctions
     public void HighlightSelectionText(TextMeshProUGUI text)
     {
+        StartCoroutine(HighlightRoutine(text));
+    }
+
+    private IEnumerator HighlightRoutine(TextMeshProUGUI text)
+    {
         text.color = Color.white;
+        yield return new WaitForSeconds(3.0f);
+
+        text.color = Color.black;
+
+        yield return null;
     }
     
     public void KeyboardDelete(GameObject inputField)
@@ -380,7 +390,17 @@ public class QuestionsManager : MonoBehaviour
     
     public void DisplaySelectionText(GameObject buttonText)
     {
+
+        StartCoroutine(LanguageSelectionTextRoutine(buttonText));
+    }
+
+    private IEnumerator LanguageSelectionTextRoutine(GameObject buttonText)
+    {
         buttonText.SetActive(true);
+        yield return new WaitForSeconds(5.0f);
+        buttonText.SetActive(false);
+        
+        yield return null;
     }
     public void SelectionEnglish()
     {
@@ -605,6 +625,7 @@ public class QuestionsManager : MonoBehaviour
         StartCoroutine(CanvasGroupFadingOut(_welcomeText));
         yield return new WaitForSeconds(fadingOutDuration);
         _welcomeText.SetActive(false);
+        _welcomeNext.SetActive(false);
 
         if (skipConsentCheck)
         {
@@ -696,13 +717,28 @@ public class QuestionsManager : MonoBehaviour
 
     public void NumVisitsEnter(GameObject inputNumField)
     {
-        // save the data
-        ColorBlock cb = inputNumField.GetComponent<Button>().colors;
 
-        inputNumField.GetComponent<Button>().colors = cb;
+        StartCoroutine(CheckTextInputNumVisits(inputNumField));
+    }
 
-        numberOfVisits = int.Parse(inputNumField.GetComponentInChildren<TextMeshProUGUI>().text);
-        StartCoroutine(NumVisitQuestionAnswered());
+    private IEnumerator CheckTextInputNumVisits(GameObject inputNumField)
+    {
+        if (inputNumField.GetComponentInChildren<TextMeshProUGUI>().text != "")
+        {
+            ColorBlock cb = inputNumField.GetComponent<Button>().colors;
+            
+            inputNumField.GetComponent<Button>().colors = cb;
+
+            numberOfVisits = int.Parse(inputNumField.GetComponentInChildren<TextMeshProUGUI>().text);
+            StartCoroutine(NumVisitQuestionAnswered());
+            
+            yield return new WaitForSeconds(20.0f);
+
+            inputNumField.GetComponentInChildren<TextMeshProUGUI>().text = "";
+            
+        }
+
+        yield return null;
     }
 
     private IEnumerator FadeInNumVisitsKeyboard()
@@ -741,12 +777,32 @@ public class QuestionsManager : MonoBehaviour
     public void AgeEnter(GameObject numAgeInput)
     {
         // save the data
-        ColorBlock cb = numAgeInput.GetComponent<Button>().colors;
+        // ColorBlock cb = numAgeInput.GetComponent<Button>().colors;
+        //
+        // numAgeInput.GetComponent<Button>().colors = cb;
 
-        numAgeInput.GetComponent<Button>().colors = cb;
+        StartCoroutine(CheckTextInputAgeQ(numAgeInput));
+    }
+    
+    private IEnumerator CheckTextInputAgeQ(GameObject inputNumField)
+    {
+        if (inputNumField.GetComponentInChildren<TextMeshProUGUI>().text != "")
+        {
+            ColorBlock cb = inputNumField.GetComponent<Button>().colors;
+            
+            inputNumField.GetComponent<Button>().colors = cb;
 
-        age = int.Parse(numAgeInput.GetComponentInChildren<TextMeshProUGUI>().text);
-        StartCoroutine(AgeQuestionAnswered());
+            numberOfVisits = int.Parse(inputNumField.GetComponentInChildren<TextMeshProUGUI>().text);
+            StartCoroutine(AgeQuestionAnswered());
+
+            yield return new WaitForSeconds(20.0f);
+
+            inputNumField.GetComponentInChildren<TextMeshProUGUI>().text = "";
+
+
+        }
+
+        yield return null;
     }
 
     private IEnumerator AgeQuestionAnswered()
@@ -770,6 +826,20 @@ public class QuestionsManager : MonoBehaviour
     public void GenderInput(TextMeshProUGUI genderInput)
     {
         gender = genderInput.text;
+        // StartCoroutine(GenderQuestionAnswered());
+        // trigger next part
+        StartCoroutine(SkipStuff());
+    }
+
+    private IEnumerator SkipStuff()
+    {
+        StartCoroutine(CanvasGroupFadingOut(_genderQuestion));
+        yield return new WaitForSeconds(fadingOutDuration);
+        _genderQuestion.SetActive(false);
+
+        _eyeInformation.GetComponent<CanvasGroup>().alpha = 0.0f;
+        _eyeInformation.SetActive(true);
+        StartCoroutine(CanvasGroupFadingIn(_eyeInformation));
     }
 
     private IEnumerator GenderQuestionAnswered()
@@ -954,6 +1024,18 @@ public class QuestionsManager : MonoBehaviour
         StartCoroutine(CanvasGroupFadingOut(_eyeInformation));
         yield return new WaitForSeconds(fadingOutDuration);
         _eyeInformation.SetActive(false);
+
+        EyeTrackingManager.Instance.StartCalibration();
+
+        // trigger training
+        _trainingInformation1.GetComponent<CanvasGroup>().alpha = 0.0f;
+        _trainingInformation1.SetActive(true);
+        StartCoroutine(CanvasGroupFadingIn(_trainingInformation1));
+        
+        yield return null;
+
+
+
     }
 
     #endregion
@@ -978,6 +1060,7 @@ public class QuestionsManager : MonoBehaviour
         _trainingInformation1.SetActive(true);
         StartCoroutine(CanvasGroupFadingIn(_trainingInformation1));
         
+        yield return null;
     }
     #endregion
    
@@ -998,6 +1081,7 @@ public class QuestionsManager : MonoBehaviour
         _trainingInformation2.GetComponent<CanvasGroup>().alpha = 0.0f;
         _trainingInformation2.SetActive(true);
         StartCoroutine(CanvasGroupFadingIn(_trainingInformation2));
+        yield return null;
     }
 
     public void TrainingPart2Selection()
@@ -1015,6 +1099,7 @@ public class QuestionsManager : MonoBehaviour
         _startExhibition.GetComponent<CanvasGroup>().alpha = 0.0f;
         _startExhibition.SetActive(true);
         StartCoroutine(CanvasGroupFadingIn(_startExhibition));
+        yield return null;
     }
 
 
@@ -1022,9 +1107,22 @@ public class QuestionsManager : MonoBehaviour
     #endregion
 
     public void Return2DefaultNexPlayer()
-    {
+    { 
+        german = false; 
+        english = false;
         
+        inWheelchair = false; 
+        smallBodySize = false; 
+        noHeightIssue = false; 
         
+        skipConsentCheck = true;
+
+        emotionNumAnswered = 0;
         
+        currentEmotionRating = 0.0f; 
+        emotionRatingList = new float[]{0.0f,0.0f,0.0f,0.0f,0.0f,0.0f};
+        
+        connectionRating = 0.0f;
+
     }
 }
