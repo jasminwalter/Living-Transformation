@@ -179,7 +179,7 @@ public class QuestionsManager : MonoBehaviour
     public bool smallBodySize = false;
     public bool noHeightIssue = false;
 
-    private bool skipConsentCheck = true;
+    private bool skipConsentCheck = false;
     public int numberOfVisits;
     public int age;
     public string gender;
@@ -201,20 +201,20 @@ public class QuestionsManager : MonoBehaviour
     
     [Header("Other Variables")]
     
-    public float heightThreshold = 1.4f;
+    private float _heightThreshold = 1.4f;
     
-    public bool welcomeNextTrigger = false;
-    public float welcomeNextThreshold = 5.0f;
-    public float welcomeTextExitThreshold = 120.0f;
+    private bool _welcomeNextTrigger = false;
+    private float _welcomeNextThreshold = 5.0f;
+    private float _welcomeTextExitThreshold = 120.0f;
     
     private static Random rng;
-    public float targetHeight = 50.0f;
+    private float _targetHeight = -50.0f;
 
     
-    public float fadingOutDuration = 2.0f;
-    public float fadingInDuration = 2.0f;
-    public float movingTableDuration = 2.0f;
-    public float handleResetDuration = 0.5f;
+    private float _fadingOutDuration = 2.0f;
+    private float _fadingInDuration = 2.0f;
+    private float _movingTableDuration = 2.0f;
+    private float _handleResetDuration = 0.5f;
 
 
     private void OnEnable()
@@ -257,9 +257,9 @@ public class QuestionsManager : MonoBehaviour
     private IEnumerator CanvasGroupFadingOut(GameObject canvasGroup)
     {
         float timer = 0.0f;
-        while (timer <= fadingOutDuration)
+        while (timer <= _fadingOutDuration)
         {
-            canvasGroup.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(1, 0, timer / fadingOutDuration);
+            canvasGroup.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(1, 0, timer / _fadingOutDuration);
 
             timer += Time.deltaTime;
             yield return null;
@@ -272,9 +272,9 @@ public class QuestionsManager : MonoBehaviour
     private IEnumerator CanvasGroupFadingIn(GameObject canvasGroup)
     {
         float timer = 0.0f;
-        while (timer <= fadingInDuration)
+        while (timer <= _fadingInDuration)
         {
-            canvasGroup.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(0, 1, timer / fadingInDuration);
+            canvasGroup.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(0, 1, timer / _fadingInDuration);
 
             timer += Time.deltaTime;
             yield return null;
@@ -290,12 +290,14 @@ public class QuestionsManager : MonoBehaviour
         float z = table.GetComponent<Transform>().position.z;
 
         float timer = 0.0f;
-        while (timer <= movingTableDuration)
+        while (timer <= _movingTableDuration)
         {
-            table.GetComponent<Transform>().position = new Vector3(x,Mathf.Lerp(-51.7f, targetHeight, timer/movingTableDuration),z);
+            table.GetComponent<Transform>().position = new Vector3(x,Mathf.Lerp(-51.7f, _targetHeight, timer/_movingTableDuration),z);
+            
+            timer += Time.deltaTime;
+            yield return null;
         }
-        
-        table.GetComponent<Transform>().position = new Vector3(x, targetHeight, z);
+        table.GetComponent<Transform>().position = new Vector3(x, _targetHeight, z);
         yield return null;
     }
 
@@ -306,9 +308,12 @@ public class QuestionsManager : MonoBehaviour
         float z = table.GetComponent<Transform>().position.z;
         
         float timer = 0.0f;
-        while (timer <= movingTableDuration)
+        while (timer <= _movingTableDuration)
         {
-            table.GetComponent<Transform>().position = new Vector3(x, Mathf.Lerp(y, -51.7f, timer/movingTableDuration), z);
+            table.GetComponent<Transform>().position = new Vector3(x, Mathf.Lerp(y, -51.7f, timer/_movingTableDuration), z);
+                        
+            timer += Time.deltaTime;
+            yield return null;
         }
 
         table.GetComponent<Transform>().position = new Vector3(x, -51.7f, z);
@@ -323,10 +328,12 @@ public class QuestionsManager : MonoBehaviour
         float z = handle.GetComponent<Transform>().position.z;
         
         float timer = 0.0f;
-        while (timer <= handleResetDuration)
+        while (timer <= _handleResetDuration)
         {
             handle.GetComponent<Transform>().position =
-                new Vector3(Mathf.Lerp(currentX, destinationPosition, timer/handleResetDuration), y, z);
+                new Vector3(Mathf.Lerp(currentX, destinationPosition, timer/_handleResetDuration), y, z);
+            timer += Time.deltaTime;
+            yield return null;
         }
 
         handle.GetComponent<Transform>().position =
@@ -421,14 +428,14 @@ public class QuestionsManager : MonoBehaviour
         AssignLanguageVariables();
 
         StartCoroutine(CanvasGroupFadingOut(languageSelection));
-        yield return new WaitForSeconds(fadingOutDuration);
+        yield return new WaitForSeconds(_fadingOutDuration);
         
         languageSelection.SetActive(false);
         
         cameraHeight = cameraVR.GetComponent<Transform>().position.y +50.0f;
         
         
-        if (cameraHeight < heightThreshold)
+        if (cameraHeight < _heightThreshold)
         {
             _heightQuestion.GetComponent<CanvasGroup>().alpha = 0.0f;
             _heightQuestion.SetActive(true);
@@ -547,13 +554,13 @@ public class QuestionsManager : MonoBehaviour
         if (heightCondition == 1)
         {
             inWheelchair = true;
-            targetHeight = -50.433f;
+            _targetHeight = -50.433f;
         }
 
         else if (heightCondition == 2)
         {
             smallBodySize = true;
-            targetHeight = -50.433f;
+            _targetHeight = -50.433f;
 
         }
 
@@ -572,7 +579,7 @@ public class QuestionsManager : MonoBehaviour
     {
 
         StartCoroutine(CanvasGroupFadingOut(_heightQuestion));
-        yield return new WaitForSeconds(fadingOutDuration);
+        yield return new WaitForSeconds(_fadingOutDuration);
         _heightQuestion.SetActive(false);
         
         if (inWheelchair | smallBodySize)
@@ -593,21 +600,21 @@ public class QuestionsManager : MonoBehaviour
         _welcomeText.GetComponent<CanvasGroup>().alpha = 0.0f;
         _welcomeText.SetActive(true);
         StartCoroutine(CanvasGroupFadingIn(_welcomeText));
-        yield return new WaitForSeconds(fadingInDuration);
+        yield return new WaitForSeconds(_fadingInDuration);
         
         // start audio read out
 
-        yield return new WaitForSeconds(welcomeNextThreshold);
+        yield return new WaitForSeconds(_welcomeNextThreshold);
         
         // fade in next button
         _welcomeNext.GetComponent<CanvasGroup>().alpha = 0.0f;
         _welcomeNext.SetActive(true);
         StartCoroutine(CanvasGroupFadingIn(_welcomeNext));
-        yield return new WaitForSeconds(fadingInDuration);
+        yield return new WaitForSeconds(_fadingInDuration);
         
         // wait for the rest of the threshold time before transitioning to next question, if not already done
-        yield return new WaitForSeconds(welcomeTextExitThreshold);
-        if (!welcomeNextTrigger)
+        yield return new WaitForSeconds(_welcomeTextExitThreshold);
+        if (!_welcomeNextTrigger)
         {
             StartCoroutine(WelcomeTextFadeOut());
         }
@@ -615,15 +622,16 @@ public class QuestionsManager : MonoBehaviour
     }
     public void WelcomeNext()
     {
-        welcomeNextTrigger = true;
+        _welcomeNextTrigger = true;
         StartCoroutine(WelcomeTextFadeOut());
 
     }
+    
 
     private IEnumerator WelcomeTextFadeOut()
     {
         StartCoroutine(CanvasGroupFadingOut(_welcomeText));
-        yield return new WaitForSeconds(fadingOutDuration);
+        yield return new WaitForSeconds(_fadingOutDuration);
         _welcomeText.SetActive(false);
         _welcomeNext.SetActive(false);
 
@@ -672,7 +680,7 @@ public class QuestionsManager : MonoBehaviour
     {
 
         StartCoroutine(CanvasGroupFadingOut(_consentCheck));
-        yield return new WaitForSeconds(fadingOutDuration);
+        yield return new WaitForSeconds(_fadingOutDuration);
         _consentCheck.SetActive(false);
 
         StartCoroutine(FadeInNumVisits());
@@ -744,7 +752,7 @@ public class QuestionsManager : MonoBehaviour
     private IEnumerator FadeInNumVisitsKeyboard()
     {
         StartCoroutine(CanvasGroupFadingOut(_numVisitsQRound1));
-        yield return new WaitForSeconds(fadingOutDuration);
+        yield return new WaitForSeconds(_fadingOutDuration);
         _numVisitsQRound1.SetActive(false);
 
         _numVisitsQRound2.GetComponent<CanvasGroup>().alpha = 0.0f;
@@ -756,7 +764,7 @@ public class QuestionsManager : MonoBehaviour
     private IEnumerator NumVisitQuestionAnswered()
     {
         StartCoroutine(CanvasGroupFadingOut(_numVisitsQuestion));
-        yield return new WaitForSeconds(fadingOutDuration);
+        yield return new WaitForSeconds(_fadingOutDuration);
         _numVisitsQuestion.SetActive(false);
         
         _ageQuestion.GetComponent<CanvasGroup>().alpha = 0.0f;
@@ -776,7 +784,7 @@ public class QuestionsManager : MonoBehaviour
 
     public void AgeEnter(GameObject numAgeInput)
     {
-        // save the data
+        // save the data !!! - needs to be checked - used to be uncommented - should it be reverted back/is it useful?!!!!!!!!!!!!!!!!!!!!!!!!!!!
         // ColorBlock cb = numAgeInput.GetComponent<Button>().colors;
         //
         // numAgeInput.GetComponent<Button>().colors = cb;
@@ -809,7 +817,7 @@ public class QuestionsManager : MonoBehaviour
     {
 
         StartCoroutine(CanvasGroupFadingOut(_ageQuestion));
-        yield return new WaitForSeconds(fadingOutDuration);
+        yield return new WaitForSeconds(_fadingOutDuration);
         _ageQuestion.SetActive(false);
         
         // fade in next question
@@ -817,6 +825,8 @@ public class QuestionsManager : MonoBehaviour
         _genderQuestion.SetActive(true);
 
         StartCoroutine(CanvasGroupFadingIn(_genderQuestion));
+        yield return null;
+
     }
 
     #endregion
@@ -826,28 +836,29 @@ public class QuestionsManager : MonoBehaviour
     public void GenderInput(TextMeshProUGUI genderInput)
     {
         gender = genderInput.text;
-        // StartCoroutine(GenderQuestionAnswered());
+        StartCoroutine(GenderQuestionAnswered());
         // trigger next part
-        StartCoroutine(SkipStuff());
+        //StartCoroutine(SkipStuff());
     }
 
-    private IEnumerator SkipStuff()
-    {
-        StartCoroutine(CanvasGroupFadingOut(_genderQuestion));
-        yield return new WaitForSeconds(fadingOutDuration);
-        _genderQuestion.SetActive(false);
-
-        _eyeInformation.GetComponent<CanvasGroup>().alpha = 0.0f;
-        _eyeInformation.SetActive(true);
-        StartCoroutine(CanvasGroupFadingIn(_eyeInformation));
-    }
+    // private IEnumerator SkipStuff()
+    // {
+    //     // StartCoroutine(CanvasGroupFadingOut(_genderQuestion));
+    //     // yield return new WaitForSeconds(_fadingOutDuration);
+    //     // _genderQuestion.SetActive(false);
+    //     //
+    //     // _eyeInformation.GetComponent<CanvasGroup>().alpha = 0.0f;
+    //     // _eyeInformation.SetActive(true);
+    //     // StartCoroutine(CanvasGroupFadingIn(_eyeInformation));
+    // }
 
     private IEnumerator GenderQuestionAnswered()
     {
         StartCoroutine(CanvasGroupFadingOut(_genderQuestion));
-        yield return new WaitForSeconds(fadingOutDuration);
+
+        yield return new WaitForSeconds(_fadingOutDuration);
+
         _genderQuestion.SetActive(false);
-        
         // start with emotion question
         rng = new Random();
         Shuffle(_emotionList);
@@ -857,20 +868,19 @@ public class QuestionsManager : MonoBehaviour
                 "At the moment, how much are you " + _emotionList[0] + "?";
             
         }
-
+        
         if (german)
         {
             _emotionQuestionText.GetComponent<TextMeshProUGUI>().text =
                 "In diesem Moment, wie sehr sind Sie " + _emotionList[0] + "?";
         }
-
+        
         _emotionQuestions.GetComponent<CanvasGroup>().alpha = 0.0f;
         _emotionQuestions.SetActive(true);
         
         // fade in text and move up table
         StartCoroutine(CanvasGroupFadingIn(_emotionQuestions));
         StartCoroutine(MoveTableUp(_emotionTable));
-        
         yield return null;
     }
 
@@ -881,23 +891,28 @@ public class QuestionsManager : MonoBehaviour
     public void EmotionEnter()
     {
         emotionNumAnswered += 1;
+        Debug.Log("Emotion enter");
+        Debug.Log(emotionNumAnswered);
 
-        if (emotionNumAnswered >= 6)
+        if (emotionNumAnswered <= 6)
         {
+            Debug.Log("Start Fade in next emotion");
             StartCoroutine(FadeInNextEmotion());
         }
         else
         {
-            EmotionQuestionFinished();
+            Debug.Log("emotion questions finished");
+            StartCoroutine(EmotionQuestionFinished());
         }
     }
 
     private IEnumerator FadeInNextEmotion()
     {
         // fade out answered question and select text for next question
+        Debug.Log("fade out current emotion question");
         StartCoroutine(CanvasGroupFadingOut(_emotionQuestions));
-        yield return new WaitForSeconds(fadingOutDuration);
-
+        yield return new WaitForSeconds(_fadingOutDuration);
+    
         if (english)
         {
             _emotionQuestionText.GetComponent<TextMeshProUGUI>().text =
@@ -914,9 +929,12 @@ public class QuestionsManager : MonoBehaviour
         _emotionNext.GetComponent<TextMeshProUGUI>().color = Color.black;
 
         emotionRatingList[emotionNumAnswered - 1] = currentEmotionRating;
-
+        
         // fade back in and reset handle
+        Debug.Log("Fade in next emotion question");
         StartCoroutine(CanvasGroupFadingIn(_emotionQuestions));
+        
+        Debug.Log("Reset handle");
         StartCoroutine(ResetTableHandle(_emotionHandle, _emotionHandleOrigin.GetComponent<Transform>().position.x));
         
         yield return null;
@@ -929,13 +947,13 @@ public class QuestionsManager : MonoBehaviour
 
         StartCoroutine(MoveTableDown(_emotionTable));
 
-        if (fadingOutDuration < movingTableDuration)
+        if (_fadingOutDuration < _movingTableDuration)
         {
-            yield return new WaitForSeconds(movingTableDuration);
+            yield return new WaitForSeconds(_movingTableDuration);
         }
         else
         {
-            yield return new WaitForSeconds(fadingOutDuration);
+            yield return new WaitForSeconds(_fadingOutDuration);
         }
         
         // reset handle position
@@ -954,12 +972,14 @@ public class QuestionsManager : MonoBehaviour
     {
         relation = relationInput.text;
         StartCoroutine(RelationQuestionAnswered());
+        Debug.Log("Relation input - after start coroutine");
     }
 
     private IEnumerator RelationQuestionAnswered()
     {
+        Debug.Log("Face out relation question");
         StartCoroutine(CanvasGroupFadingOut(_relationQuestion));
-        yield return new WaitForSeconds(fadingOutDuration);
+        yield return new WaitForSeconds(_fadingOutDuration);
         _relationQuestion.SetActive(false);
         
         // trigger connection question
@@ -989,13 +1009,13 @@ public class QuestionsManager : MonoBehaviour
         StartCoroutine(CanvasGroupFadingOut(_connectionQuestion));
         StartCoroutine(MoveTableDown(_connectionTable));
 
-        if (fadingOutDuration < movingTableDuration)
+        if (_fadingOutDuration < _movingTableDuration)
         {
-            yield return new WaitForSeconds(movingTableDuration);
+            yield return new WaitForSeconds(_movingTableDuration);
         }
         else
         {
-            yield return new WaitForSeconds(fadingOutDuration);
+            yield return new WaitForSeconds(_fadingOutDuration);
         }
         
         _connectionQuestion.SetActive(false);
@@ -1022,7 +1042,7 @@ public class QuestionsManager : MonoBehaviour
     private IEnumerator FadeOutEyeInformation()
     {
         StartCoroutine(CanvasGroupFadingOut(_eyeInformation));
-        yield return new WaitForSeconds(fadingOutDuration);
+        yield return new WaitForSeconds(_fadingOutDuration);
         _eyeInformation.SetActive(false);
 
         EyeTrackingManager.Instance.StartCalibration();
@@ -1051,7 +1071,7 @@ public class QuestionsManager : MonoBehaviour
     private IEnumerator FadeOutAvatarSelection()
     {
         StartCoroutine(CanvasGroupFadingOut(_avatarSelection));
-        yield return new WaitForSeconds(fadingOutDuration);
+        yield return new WaitForSeconds(_fadingOutDuration);
         _avatarSelection.SetActive(false);
         mirrorCamera.SetActive(false);
         
@@ -1074,7 +1094,7 @@ public class QuestionsManager : MonoBehaviour
     private IEnumerator FadeOutPart1Training()
     {
         StartCoroutine(CanvasGroupFadingOut(_trainingInformation1));
-        yield return new WaitForSeconds(fadingOutDuration);
+        yield return new WaitForSeconds(_fadingOutDuration);
         _trainingInformation1.SetActive(false);
 
         // trigger training
@@ -1092,7 +1112,7 @@ public class QuestionsManager : MonoBehaviour
     private IEnumerator FadeOutPart2Training()
     {
         StartCoroutine(CanvasGroupFadingOut(_trainingInformation2));
-        yield return new WaitForSeconds(fadingOutDuration);
+        yield return new WaitForSeconds(_fadingOutDuration);
         _trainingInformation2.SetActive(false);
 
         // trigger exhibition
@@ -1115,7 +1135,7 @@ public class QuestionsManager : MonoBehaviour
         smallBodySize = false; 
         noHeightIssue = false; 
         
-        skipConsentCheck = true;
+        skipConsentCheck = false;
 
         emotionNumAnswered = 0;
         
