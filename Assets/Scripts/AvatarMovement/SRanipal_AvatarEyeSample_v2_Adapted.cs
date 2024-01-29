@@ -233,7 +233,7 @@ namespace ViveSR
                         }
                     }
 
-                    ExperimentManager.Instance().eyeShapePart1_local.x = weighting[eyeShapeTable.eyeShapes[9]];
+                    /*ExperimentManager.Instance().eyeShapePart1_local.x = weighting[eyeShapeTable.eyeShapes[9]];
                     ExperimentManager.Instance().eyeShapePart1_local.y = weighting[eyeShapeTable.eyeShapes[10]];
                     ExperimentManager.Instance().eyeShapePart1_local.z = weighting[eyeShapeTable.eyeShapes[11]];
                     ExperimentManager.Instance().eyeShapePart1_local.w = weighting[eyeShapeTable.eyeShapes[12]];
@@ -245,6 +245,7 @@ namespace ViveSR
                     ExperimentManager.Instance().eyeShapePart3_local.y = weighting[eyeShapeTable.eyeShapes[18]];
                     ExperimentManager.Instance().eyeShapePart3_local.z = weighting[eyeShapeTable.eyeShapes[19]];
                     ExperimentManager.Instance().eyeShapePart3_local.w = weighting[eyeShapeTable.eyeShapes[20]];
+                    */
                     
 
 
