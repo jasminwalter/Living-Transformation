@@ -26917,22 +26917,16 @@ MonoBehaviour:
   - {fileID: 417486776}
   - {fileID: 417486775}
   - {fileID: 417486774}
-  - {fileID: 0}
   - {fileID: 417486772}
   - {fileID: 417486771}
-  - {fileID: 0}
   - {fileID: 417486769}
   - {fileID: 417486768}
-  - {fileID: 0}
   - {fileID: 417486766}
   - {fileID: 417486765}
-  - {fileID: 0}
   - {fileID: 417486763}
   - {fileID: 417486762}
-  - {fileID: 0}
   - {fileID: 417486760}
   - {fileID: 417486759}
-  - {fileID: 0}
   - {fileID: 417486757}
   - {fileID: 417486756}
   - {fileID: 417486755}
@@ -26941,27 +26935,22 @@ MonoBehaviour:
   - {fileID: 417486752}
   - {fileID: 417486751}
   - {fileID: 417486750}
-  - {fileID: 0}
   - {fileID: 417486748}
   - {fileID: 417486747}
   - {fileID: 417486746}
   - {fileID: 417486745}
-  - {fileID: 0}
   - {fileID: 417486743}
   - {fileID: 417486742}
   - {fileID: 417486741}
   - {fileID: 417486740}
-  - {fileID: 0}
   - {fileID: 417486738}
   - {fileID: 417486737}
   - {fileID: 417486736}
   - {fileID: 417486735}
-  - {fileID: 0}
   - {fileID: 417486733}
   - {fileID: 417486732}
   - {fileID: 417486731}
   - {fileID: 417486730}
-  - {fileID: 0}
   - {fileID: 417486728}
   - {fileID: 417486727}
   - {fileID: 417486726}
@@ -26970,34 +26959,27 @@ MonoBehaviour:
   - {fileID: 417486723}
   - {fileID: 417486722}
   - {fileID: 417486721}
-  - {fileID: 0}
   - {fileID: 417486719}
   - {fileID: 417486718}
   - {fileID: 417486717}
   - {fileID: 417486716}
-  - {fileID: 0}
   - {fileID: 417486714}
   - {fileID: 417486713}
   - {fileID: 417486712}
   - {fileID: 417486711}
-  - {fileID: 0}
   - {fileID: 417486709}
   - {fileID: 417486708}
   - {fileID: 417486707}
   - {fileID: 417486706}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 417486704}
   - {fileID: 417486703}
   - {fileID: 417486702}
   - {fileID: 417486701}
-  - {fileID: 0}
   - {fileID: 417486699}
   - {fileID: 417486698}
   - {fileID: 417486697}
   - {fileID: 417486696}
   - {fileID: 417486695}
-  - {fileID: 0}
   - {fileID: 417486693}
   - {fileID: 417486692}
   - {fileID: 417486691}
@@ -31167,7 +31149,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 110923cef2a89d245baf281373ec0ea2,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 110923cef2a89d245baf281373ec0ea2,
         type: 3}
@@ -102883,6 +102865,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: f_01_nonla
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a303485ac78c1a64187eca45126cdaec,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: a303485ac78c1a64187eca45126cdaec,
         type: 3}
       propertyPath: m_Controller
@@ -103547,6 +103534,21 @@ MonoBehaviour:
   headsetLocalSpeed: {x: 0, y: 0, z: 0}
   speedThreshold: 50
   smoothing: 1
+--- !u!114 &1673747124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1673747039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0061380d668ba5f499f3d1aa7edbccf3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vrCamera: {fileID: 0}
+  setPlayerHeight: 0
+  scaleAvatarNow: 0
 --- !u!1 &1674898077
 GameObject:
   m_ObjectHideFlags: 0
