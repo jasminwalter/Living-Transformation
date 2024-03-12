@@ -831,7 +831,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 1
   m_Data:
-    m_ConstrainedObject: {fileID: 0}
+    m_ConstrainedObject: {fileID: 417486776}
     m_SourceObjects:
       m_Length: 1
       m_Item0:
@@ -26380,7 +26380,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  EyesModels: []
+  EyesModels:
+  - {fileID: 417486772}
+  - {fileID: 417486775}
   EyeShapeTables: []
   eyeRotationOffset: {x: 0, y: 1.5, z: 0.35}
   NeededToGetData: 1
@@ -35080,9 +35082,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 1
   m_Data:
-    m_Root: {fileID: 0}
-    m_Mid: {fileID: 0}
-    m_Tip: {fileID: 0}
+    m_Root: {fileID: 417486727}
+    m_Mid: {fileID: 417486726}
+    m_Tip: {fileID: 417486725}
     m_Target: {fileID: 148719147}
     m_Hint: {fileID: 104411750}
     m_TargetPositionWeight: 1
@@ -35091,7 +35093,7 @@ MonoBehaviour:
     m_MaintainTargetPositionOffset: 0
     m_MaintainTargetRotationOffset: 0
   m_SourceObjectsGUIToggle: 1
-  m_SettingsGUIToggle: 0
+  m_SettingsGUIToggle: 1
 --- !u!1 &541277888
 GameObject:
   m_ObjectHideFlags: 0
@@ -35407,7 +35409,7 @@ MonoBehaviour:
     m_MaintainTargetPositionOffset: 0
     m_MaintainTargetRotationOffset: 0
   m_SourceObjectsGUIToggle: 1
-  m_SettingsGUIToggle: 0
+  m_SettingsGUIToggle: 1
 --- !u!1 &547014283
 GameObject:
   m_ObjectHideFlags: 0
@@ -117260,9 +117262,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 1
   m_Data:
-    m_Root: {fileID: 0}
-    m_Mid: {fileID: 0}
-    m_Tip: {fileID: 0}
+    m_Root: {fileID: 417486756}
+    m_Mid: {fileID: 417486755}
+    m_Tip: {fileID: 417486754}
     m_Target: {fileID: 798831695}
     m_Hint: {fileID: 717577879}
     m_TargetPositionWeight: 1
@@ -117271,7 +117273,7 @@ MonoBehaviour:
     m_MaintainTargetPositionOffset: 0
     m_MaintainTargetRotationOffset: 0
   m_SourceObjectsGUIToggle: 1
-  m_SettingsGUIToggle: 0
+  m_SettingsGUIToggle: 1
 --- !u!1 &1966178245
 GameObject:
   m_ObjectHideFlags: 0
