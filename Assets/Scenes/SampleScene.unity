@@ -4594,8 +4594,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 104411749}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0983, y: -0.2493, z: 0.02}
+  m_LocalRotation: {x: -0.10385116, y: 0.57100487, z: -0.19119915, w: -0.7915879}
+  m_LocalPosition: {x: 0.223, y: -0.191, z: -0.03}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 148719147}
@@ -26064,6 +26064,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -2511240423080479738, guid: 18a3ce0bc391ac44eb9409e009cfd99c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 65702495048144492, guid: 18a3ce0bc391ac44eb9409e009cfd99c,
         type: 3}
       propertyPath: m_IsActive
@@ -26077,6 +26082,16 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 18a3ce0bc391ac44eb9409e009cfd99c,
         type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5817327317734912087, guid: 18a3ce0bc391ac44eb9409e009cfd99c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 18a3ce0bc391ac44eb9409e009cfd99c,
+        type: 3}
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 18a3ce0bc391ac44eb9409e009cfd99c,
@@ -26309,21 +26324,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 417486683}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &417486705
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 417486684}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0061380d668ba5f499f3d1aa7edbccf3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  vrCamera: {fileID: 0}
-  setPlayerHeight: 0
-  scaleAvatarNow: 0
 --- !u!4 &417486706 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4664188662528441183, guid: 18a3ce0bc391ac44eb9409e009cfd99c,
@@ -44843,8 +44843,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 717577878}
-  m_LocalRotation: {x: -0.052055366, y: -0.42589882, z: 0.01025465, w: 0.9032139}
-  m_LocalPosition: {x: -0.0881, y: -0.2391, z: 0.0163}
+  m_LocalRotation: {x: 0.10385253, y: 0.5710057, z: -0.19119948, w: 0.79158694}
+  m_LocalPosition: {x: -0.209, y: -0.192, z: -0.027}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 798831695}
@@ -78810,6 +78810,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 5554431010922386896, guid: d25809e99dfd2d74ea51d1374c58afe0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: d25809e99dfd2d74ea51d1374c58afe0,
         type: 3}
       propertyPath: m_Controller
@@ -94325,7 +94330,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1552878955}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -50, z: -1}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1552491191}
@@ -100492,7 +100497,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1668522548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126804,7 +126809,7 @@ MonoBehaviour:
   - m_Transform: {fileID: 104411750}
     m_Style:
       shape: {fileID: 4300000, guid: 687b70eb9c49243639f9379f6965034f, type: 2}
-      color: {r: 1, g: 0, b: 0, a: 0.5}
+      color: {r: 1, g: 0.62694174, b: 0, a: 0.5}
       size: 0.1
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0}
