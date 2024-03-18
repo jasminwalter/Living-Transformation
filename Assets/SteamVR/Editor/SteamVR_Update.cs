@@ -3,7 +3,7 @@
 // Purpose: Notify developers when a new version of the plugin is available.
 //
 //=============================================================================
-
+/*
 using UnityEngine;
 using UnityEditor;
 using System.IO;
@@ -178,3 +178,4 @@ namespace Valve.VR
 #if UNITY_2018_3_OR_NEWER
 #pragma warning restore CS0618
 #endif
+*/
