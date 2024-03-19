@@ -220,6 +220,8 @@ public class EyeTrackingManager : MonoBehaviour
         
         fixationPoint.SetActive(false);
         _eyeValidationDataFrames = new List<EyeValidationData>();
+
+        StartCalButton();
     }
 
     // Update is called once per frame
