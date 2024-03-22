@@ -72,6 +72,8 @@ public class EyeTrackingManager : MonoBehaviour
     public bool fadingInToValidationRoom = false;
     public float fadingTime = 3.0f;
     private float _currentFadeTime = 3.0f;
+
+    public bool startCal = false;
     
     
     [Header("Validation variables")]
@@ -242,6 +244,12 @@ public class EyeTrackingManager : MonoBehaviour
             {
                 localGazeSphere.transform.position = firstHit.point;
             
+            }
+
+            if (startCal)
+            {
+                StartCalButton();
+                startCal = false;
             }
         }
     }
@@ -651,7 +659,7 @@ public class EyeTrackingManager : MonoBehaviour
         calibrationResult = SRanipal_Eye_v2.LaunchEyeCalibration();
         Debug.Log("Calibration success: " + calibrationResult);
         showGazeSphere = true;
-        // StartCoroutine(EvaluateCalibration());
+        StartCoroutine(EvaluateCalibration());
 
     }
 
