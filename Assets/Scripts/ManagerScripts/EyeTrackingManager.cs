@@ -11,6 +11,9 @@ using ViveSR.anipal;
 using ViveSR.anipal.Eye;
 using Valve.VR.InteractionSystem;
 using Hand = Valve.VR.InteractionSystem.Hand;
+//OpenXR Vive Plugin
+using VIVE.OpenXR.FacialTracking;
+using System.Runtime.InteropServices;
 
 public class EyeTrackingManager : MonoBehaviour
 {
