@@ -926,7 +926,11 @@ public class QuestionsManager : MonoBehaviour
                 "In diesem Moment, wie sehr sind Sie " + _emotionList[emotionNumAnswered] + "?";
         }
 
+        Debug.Log(_emotionNext.gameObject);
+
         _emotionNext.GetComponent<TextMeshProUGUI>().color = Color.black;
+
+        Debug.Log("color assigned");
 
         emotionRatingList[emotionNumAnswered - 1] = currentEmotionRating;
         
