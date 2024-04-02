@@ -10,10 +10,12 @@ using Valve.VR;
 using ViveSR.anipal;
 using ViveSR.anipal.Eye;
 using Valve.VR.InteractionSystem;
-using Hand = Valve.VR.InteractionSystem.Hand;
+//using Hand = Valve.VR.InteractionSystem.Hand;
+using ActionBasedControllerManager = UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.ActionBasedControllerManager;
 //OpenXR Vive Plugin
 using VIVE.OpenXR.FacialTracking;
 using System.Runtime.InteropServices;
+using UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets;
 
 public class EyeTrackingManager : MonoBehaviour
 {
@@ -159,11 +161,14 @@ public class EyeTrackingManager : MonoBehaviour
     public bool rayCastLeftAndRightEye;
     public int numberOfRaycastHitsToSave; // if set to 0 or lower, save all 
     
+    
     // SteamVR
     [Header ("Referenced SteamVR entities")]
-    public Hand steamVrLeftHand;
-    public Hand steamVrRightHand;
-    
+    //public Hand steamVrLeftHand;
+    //public Hand steamVrRightHand; 
+    public ActionBasedControllerManager steamVrLeftHand;
+    public ActionBasedControllerManager steamVrRightHand;
+
     // Body
     [Header("NavMeshAgent entity")] 
     // public GameObject playerBody;
