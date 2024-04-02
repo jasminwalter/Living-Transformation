@@ -129343,7 +129343,6 @@ GameObject:
   - component: {fileID: 2141347150}
   - component: {fileID: 2141347153}
   - component: {fileID: 2141347152}
-  - component: {fileID: 2141347151}
   m_Layer: 0
   m_Name: local_player
   m_TagString: Untagged
@@ -129367,27 +129366,6 @@ Transform:
   - {fileID: 1219040792}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &2141347151
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2141347149}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &2141347152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129695,7 +129673,7 @@ MonoBehaviour:
   handCollider: {fileID: 0}
   clearanceCheckMask:
     serializedVersion: 2
-    m_Bits: 4294967039
+    m_Bits: 567
   hand: {fileID: 0}
 --- !u!114 &114000009324847151
 MonoBehaviour:

@@ -208,6 +208,12 @@ public class EyeTrackingManager : MonoBehaviour
     public float localGazeSpherePosition;
     public GameObject localGazeSphere;
 
+    /*
+    //Map OpenXR eye shapes to avatar blend shapes
+    private static Dictionary<XrEyeShapeHTC, SkinnedMeshRendererShape> ShapeMap;
+    public SkinnedMeshRenderer HeadskinnedMeshRenderer;
+    private static float[] blendshapes = new float[60]; */
+
     #endregion
     
     private void Awake()
