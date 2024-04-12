@@ -8482,6 +8482,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 180908021}
+  - component: {fileID: 180908022}
   m_Layer: 0
   m_Name: RelationQuestionG
   m_TagString: Untagged
@@ -8513,6 +8514,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0.00038909912}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &180908022
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 180908020}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &185478179
 GameObject:
   m_ObjectHideFlags: 0
@@ -31232,7 +31245,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: d25809e99dfd2d74ea51d1374c58afe0,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3100114576813497124, guid: d25809e99dfd2d74ea51d1374c58afe0,
         type: 3}
@@ -37099,6 +37112,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 571827703}
+  - component: {fileID: 571827704}
   m_Layer: 0
   m_Name: RelationQuestionE
   m_TagString: Untagged
@@ -37130,6 +37144,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &571827704
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 571827702}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &572853445
 GameObject:
   m_ObjectHideFlags: 0
@@ -90093,11 +90119,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1609605550}
     m_Modifications:
-    - target: {fileID: -7511558181221131132, guid: 75b0850e98540764ab9dd7a6ce014b72,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 1478f981c8e087e4eb6ea239567c55fb, type: 2}
     - target: {fileID: -8679921383154817045, guid: b37e3b3a5d443974595cfc855f0bb211,
         type: 3}
       propertyPath: m_RootOrder
@@ -90168,6 +90189,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Dome
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 75b0850e98540764ab9dd7a6ce014b72,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1478f981c8e087e4eb6ea239567c55fb, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

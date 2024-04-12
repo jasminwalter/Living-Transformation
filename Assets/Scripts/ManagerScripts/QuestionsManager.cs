@@ -766,11 +766,17 @@ public class QuestionsManager : MonoBehaviour
         StartCoroutine(CanvasGroupFadingOut(_numVisitsQuestion));
         yield return new WaitForSeconds(_fadingOutDuration);
         _numVisitsQuestion.SetActive(false);
-        
+
+        _relationQuestion.GetComponent<CanvasGroup>().alpha = 0.0f;
+        _relationQuestion.SetActive(true);
+        StartCoroutine(CanvasGroupFadingIn(_relationQuestion));
+        yield return null;
+
+        /*
         _ageQuestion.GetComponent<CanvasGroup>().alpha = 0.0f;
         _ageQuestion.SetActive(true);
         StartCoroutine(CanvasGroupFadingIn(_ageQuestion));
-        yield return null;
+        yield return null; */
     }
 
     #endregion
@@ -986,12 +992,21 @@ public class QuestionsManager : MonoBehaviour
         yield return new WaitForSeconds(_fadingOutDuration);
         _relationQuestion.SetActive(false);
         
+        //trigger eye calibration
+        _eyeInformation.GetComponent<CanvasGroup>().alpha = 0.0f;
+        _eyeInformation.SetActive(true);
+        StartCoroutine(CanvasGroupFadingIn(_eyeInformation));
+
+
+        yield return null;
+
         // trigger connection question
+        /*
         _connectionQuestion.GetComponent<CanvasGroup>().alpha = 0.0f;
         _connectionQuestion.SetActive(true);
         StartCoroutine(CanvasGroupFadingIn(_connectionQuestion));
-        StartCoroutine(MoveTableUp(_connectionTable));
-        
+        StartCoroutine(MoveTableUp(_connectionTable)); */
+
 
         yield return null;
     }
