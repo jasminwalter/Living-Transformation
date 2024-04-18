@@ -12,7 +12,7 @@ using Random = System.Random;
 public class QuestionsManager : MonoBehaviour
 {
     public static QuestionsManager Instance { get; private set; }
-
+    public TrainingManager trainingManager;
 
     
     // Question Overview Game Objects
@@ -65,6 +65,7 @@ public class QuestionsManager : MonoBehaviour
 
     public GameObject trainingInformationE1;
     public GameObject trainingInformationE2;
+    public GameObject trainingInformationE3;
     
     public GameObject startExhibitionE;
 
@@ -109,8 +110,8 @@ public class QuestionsManager : MonoBehaviour
     public GameObject avatarSelectionG;
 
     public GameObject trainingInformationG1;
-    
     public GameObject trainingInformationG2;
+    public GameObject trainingInformationG3;
     
     public GameObject startExhibitionG;
     
@@ -158,6 +159,7 @@ public class QuestionsManager : MonoBehaviour
 
     private GameObject _trainingInformation1;
     private GameObject _trainingInformation2;
+    private GameObject _trainingInformation3;
 
     private GameObject _startExhibition;
     
@@ -493,6 +495,7 @@ public class QuestionsManager : MonoBehaviour
 
             _trainingInformation1 = trainingInformationE1;
             _trainingInformation2 = trainingInformationE2;
+            _trainingInformation3 = trainingInformationE3;
     
             _startExhibition = startExhibitionE;
 
@@ -539,6 +542,7 @@ public class QuestionsManager : MonoBehaviour
 
             _trainingInformation1 = trainingInformationG1;
             _trainingInformation2 = trainingInformationG2;
+            _trainingInformation3 = trainingInformationG3;
     
             _startExhibition = startExhibitionG;
         }
@@ -1134,6 +1138,35 @@ public class QuestionsManager : MonoBehaviour
         yield return new WaitForSeconds(_fadingOutDuration);
         _trainingInformation2.SetActive(false);
 
+        // trigger training next part
+        _trainingInformation3.GetComponent<CanvasGroup>().alpha = 0.0f;
+        _trainingInformation3.SetActive(true);
+        StartCoroutine(CanvasGroupFadingIn(_trainingInformation3));
+        yield return null;
+    }
+
+    private IEnumerator FadeOutPart3Training()
+    {
+        StartCoroutine(CanvasGroupFadingOut(_trainingInformation3));
+        yield return new WaitForSeconds(_fadingOutDuration);
+        _trainingInformation3.SetActive(false);
+
+        StartCoroutine(CheckHitPoints());
+    }
+
+    private IEnumerator CheckHitPoints()
+    {
+        //check for activation of respective teleportation hit points bools
+        if(trainingManager.hitpoint1 && trainingManager.hitpoint2)
+        {
+            StartCoroutine(TriggerExhibition());
+        }
+
+        yield return null;
+    }
+
+    private IEnumerator TriggerExhibition()
+    {
         // trigger exhibition
         _startExhibition.GetComponent<CanvasGroup>().alpha = 0.0f;
         _startExhibition.SetActive(true);
