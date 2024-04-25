@@ -1,50 +1,59 @@
-﻿using System.Collections;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class TrainingManager : MonoBehaviour
 {
-    #region References
+    //References
+    public GameObject hitpoint1;
+    public GameObject hitpoint2;
+    
+    // Booleans to check if the hitpoints are reached
+    public bool hitpoint1Reached;
+    public bool hitpoint2Reached;
 
-    public GameObject _TeleportHitPoint1;
-    public GameObject _TeleportHitPoint2;
-
-    //teleportation training bools
-    public bool hitpoint1 = false;
-    public bool hitpoint2 = false;
-
-    #endregion
-
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        
+        hitpoint1Reached = false;
+        hitpoint2Reached = false;
+        Debug.Log("Script in process");
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        // Check if both hitpoints are reached and trigger the 'next' button
+        if (hitpoint1Reached && hitpoint2Reached)
+        {
+            TriggerNextButton();
+        }
     }
 
-    //td: set active true for the objects
-
-    void OnCollisionEnter(Collision collision)
+    // Triggered when something enters the trigger collider
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.name == "local_player")
+        // Check if it's the local player that enters the trigger
+        //if (other.CompareTag("Player"))
         {
-            if (gameObject == _TeleportHitPoint1)
+            // Check if the player has entered either of the teleportation hit points
+            if (other.gameObject == hitpoint1)
             {
-                hitpoint1 = true;
-                Debug.Log("HitPoint1 reached");
+                hitpoint1Reached = true;
+                Debug.Log("Teleportation Hit Point 1 reached by local player");
             }
-            if (gameObject == _TeleportHitPoint2) 
+            else if (other.gameObject == hitpoint2)
             {
-                hitpoint2 = true;
-                Debug.Log("HitPoint2 reached");
+                hitpoint2Reached = true;
+                Debug.Log("Teleportation Hit Point 2 reached by local player");
             }
         }
     }
 
-   
+    // Call this method to proceed to the next part of the training
+    void TriggerNextButton()
+    {
+        Debug.Log("Both Teleportation Hit Points reached by local player. Proceed to the next stage.");
+        // Here you can add the code to enable the next button or trigger the next stage
+    }
 }

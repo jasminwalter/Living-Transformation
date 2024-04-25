@@ -1157,7 +1157,7 @@ public class QuestionsManager : MonoBehaviour
     private IEnumerator CheckHitPoints()
     {
         //check for activation of respective teleportation hit points bools
-        if(trainingManager.hitpoint1 && trainingManager.hitpoint2)
+        if(trainingManager.hitpoint1Reached && trainingManager.hitpoint2Reached)
         {
             StartCoroutine(TriggerExhibition());
         }
