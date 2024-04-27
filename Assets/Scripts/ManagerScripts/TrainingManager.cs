@@ -6,6 +6,8 @@ using UnityEngine;
 public class TrainingManager : MonoBehaviour
 {
     //References
+    public QuestionsManager questionsManager;
+
     public GameObject hitpoint1;
     public GameObject hitpoint2;
     
@@ -15,6 +17,9 @@ public class TrainingManager : MonoBehaviour
 
     private void Start()
     {
+        hitpoint1.SetActive(false);
+        hitpoint2.SetActive(false);
+
         hitpoint1Reached = false;
         hitpoint2Reached = false;
         Debug.Log("Script in process");
@@ -24,10 +29,7 @@ public class TrainingManager : MonoBehaviour
     void Update()
     {
         // Check if both hitpoints are reached and trigger the 'next' button
-        if (hitpoint1Reached && hitpoint2Reached)
-        {
-            TriggerNextButton();
-        }
+        StartCoroutine(CheckUpdate());
     }
 
     // Triggered when something enters the trigger collider
@@ -40,14 +42,27 @@ public class TrainingManager : MonoBehaviour
             if (other.gameObject == hitpoint1)
             {
                 hitpoint1Reached = true;
+                hitpoint1.SetActive(false);
+                hitpoint2.SetActive(true);
                 Debug.Log("Teleportation Hit Point 1 reached by local player");
             }
             else if (other.gameObject == hitpoint2)
             {
                 hitpoint2Reached = true;
+                hitpoint2.SetActive(false);
                 Debug.Log("Teleportation Hit Point 2 reached by local player");
             }
         }
+    }
+
+    private IEnumerator CheckUpdate()
+    {
+        if (hitpoint1Reached && hitpoint2Reached)
+        {
+            StartCoroutine (questionsManager.CheckPointsDone());
+            //TriggerNextButton();
+        }
+        yield return null;
     }
 
     // Call this method to proceed to the next part of the training

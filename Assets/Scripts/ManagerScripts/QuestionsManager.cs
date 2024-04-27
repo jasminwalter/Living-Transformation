@@ -1142,6 +1142,7 @@ public class QuestionsManager : MonoBehaviour
         _trainingInformation3.GetComponent<CanvasGroup>().alpha = 0.0f;
         _trainingInformation3.SetActive(true);
         StartCoroutine(CanvasGroupFadingIn(_trainingInformation3));
+        StartCoroutine(ActivateHitPoints());
         yield return null;
     }
 
@@ -1150,19 +1151,24 @@ public class QuestionsManager : MonoBehaviour
         StartCoroutine(CanvasGroupFadingOut(_trainingInformation3));
         yield return new WaitForSeconds(_fadingOutDuration);
         _trainingInformation3.SetActive(false);
-
-        StartCoroutine(CheckHitPoints());
+        yield return null;
     }
 
-    private IEnumerator CheckHitPoints()
+    private IEnumerator ActivateHitPoints()
     {
-        //check for activation of respective teleportation hit points bools
-        if(trainingManager.hitpoint1Reached && trainingManager.hitpoint2Reached)
-        {
-            StartCoroutine(TriggerExhibition());
-        }
-
+        //instantiate the hit point teleport area
+        trainingManager.hitpoint1.SetActive(true);
+        Debug.Log("Checkpoint1 activated in QustionManager");
         yield return null;
+    }
+
+    public IEnumerator CheckPointsDone() 
+    {
+        yield return new WaitForSeconds(_fadingOutDuration);
+        StartCoroutine(FadeOutPart3Training());
+        StartCoroutine(TriggerExhibition());
+        yield return null;
+
     }
 
     private IEnumerator TriggerExhibition()
