@@ -62,8 +62,7 @@ public class TrainingManager : MonoBehaviour
     {
         if (hitpoint1Reached && hitpoint2Reached)
         {
-            StartCoroutine (questionsManager.CheckPointsDone());
-            //TriggerNextButton();
+            StartCoroutine(questionsManager.CheckPointsDone());
         }
         yield return null;
     }

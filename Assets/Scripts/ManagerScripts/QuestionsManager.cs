@@ -66,6 +66,7 @@ public class QuestionsManager : MonoBehaviour
     public GameObject trainingInformationE1;
     public GameObject trainingInformationE2;
     public GameObject trainingInformationE3;
+    public GameObject trainingInformationE4;
     
     public GameObject startExhibitionE;
 
@@ -160,6 +161,7 @@ public class QuestionsManager : MonoBehaviour
     private GameObject _trainingInformation1;
     private GameObject _trainingInformation2;
     private GameObject _trainingInformation3;
+    private GameObject _trainingInformation4;
 
     private GameObject _startExhibition;
     
@@ -496,6 +498,7 @@ public class QuestionsManager : MonoBehaviour
             _trainingInformation1 = trainingInformationE1;
             _trainingInformation2 = trainingInformationE2;
             _trainingInformation3 = trainingInformationE3;
+            _trainingInformation4 = trainingInformationE4;
     
             _startExhibition = startExhibitionE;
 
@@ -1151,6 +1154,12 @@ public class QuestionsManager : MonoBehaviour
         StartCoroutine(CanvasGroupFadingOut(_trainingInformation3));
         yield return new WaitForSeconds(_fadingOutDuration);
         _trainingInformation3.SetActive(false);
+        
+        // trigger training next part
+        Debug.Log("InfoPart4 should be triggered");
+        _trainingInformation4.GetComponent<CanvasGroup>().alpha = 0.0f;
+        _trainingInformation4.SetActive(true);
+        StartCoroutine(CanvasGroupFadingIn(_trainingInformation4));
         yield return null;
     }
 
@@ -1162,13 +1171,31 @@ public class QuestionsManager : MonoBehaviour
         yield return null;
     }
 
-    public IEnumerator CheckPointsDone() 
+    public IEnumerator CheckPointsDone()
     {
-        yield return new WaitForSeconds(_fadingOutDuration);
         StartCoroutine(FadeOutPart3Training());
+        yield return null;
+    }
+    
+    private IEnumerator FadeOutPart4Training()
+    {
+        StartCoroutine(CanvasGroupFadingOut(_trainingInformation4));
+        yield return new WaitForSeconds(_fadingOutDuration);
+        _trainingInformation4.SetActive(false);
+        
+        yield return null;
+    }
+
+    public IEnumerator EnterExhibition()
+    {
+        StartCoroutine(FadeOutPart4Training());
         StartCoroutine(TriggerExhibition());
         yield return null;
+    }
 
+    public void TrainingPart4Selection()
+    {
+        StartCoroutine(EnterExhibition());
     }
 
     private IEnumerator TriggerExhibition()
