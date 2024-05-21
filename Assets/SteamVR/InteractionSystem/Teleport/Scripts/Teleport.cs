@@ -37,6 +37,9 @@ namespace Valve.VR.InteractionSystem
 		public float meshFadeTime = 0.2f;
 
 		public float arcDistance = 10.0f;
+		
+		//Temporal deactivation of teleport bool for training
+		public bool isTeleportAllowed = true;
 
 		[Header( "Effects" )]
 		public Transform onActivateObjectTransform;
@@ -172,7 +175,9 @@ namespace Valve.VR.InteractionSystem
 
 		//-------------------------------------------------
 		void Start()
-        {
+		{
+			isTeleportAllowed = true;
+			
             teleportMarkers = GameObject.FindObjectsOfType<TeleportMarkerBase>();
 
 			HidePointer();
@@ -217,7 +222,12 @@ namespace Valve.VR.InteractionSystem
 				if ( teleportPoint && teleportPoint.playerSpawnPoint )
 				{
 					teleportingToMarker = teleportMarker;
-					TeleportPlayer();
+
+					if (isTeleportAllowed = true)
+					{
+						TeleportPlayer();
+					}
+					
 					break;
 				}
 			}
@@ -849,7 +859,11 @@ namespace Valve.VR.InteractionSystem
 			headAudioSource.transform.localPosition = Vector3.zero;
 			PlayAudioClip( headAudioSource, teleportSound );
 
-			Invoke( "TeleportPlayer", currentFadeTime );
+			if (isTeleportAllowed = true)
+			{
+				Invoke( "TeleportPlayer", currentFadeTime );
+			}
+			
 		}
 
 

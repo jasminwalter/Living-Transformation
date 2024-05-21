@@ -15,6 +15,9 @@ public class TrainingManager : MonoBehaviour
     public bool hitpoint1Reached;
     public bool hitpoint2Reached;
     
+    // Wrong Direction Signs trigger
+    private bool changeWrongDirSign = true;
+
     //Arguments
     public int index = 0;
 
@@ -25,7 +28,8 @@ public class TrainingManager : MonoBehaviour
 
         hitpoint1Reached = false;
         hitpoint2Reached = false;
-        Debug.Log("Script in process");
+
+        changeWrongDirSign = true;
     }
 
     // Update is called once per frame
@@ -47,6 +51,17 @@ public class TrainingManager : MonoBehaviour
             hitpoint1Reached = true;
             hitpoint2.SetActive(true);
             Debug.Log("Teleportation Hit Point 1 reached by local player");
+
+            if (changeWrongDirSign)
+            {
+                changeWrongDirSign = false;
+                //trigger disappearing of another wrong direction sign
+                StartCoroutine(questionsManager.CanvasGroupFadingOut(questionsManager._wrongDirSign2));
+                yield return new WaitForSeconds(questionsManager._fadingOutDuration);
+                questionsManager._wrongDirSign2.SetActive(false);
+                yield return null;
+            }
+            
         }
         else if (index == 2)
         {
@@ -62,6 +77,8 @@ public class TrainingManager : MonoBehaviour
     {
         if (hitpoint1Reached && hitpoint2Reached)
         {
+            hitpoint1Reached = false;
+            hitpoint2Reached = false;
             StartCoroutine(questionsManager.CheckPointsDone());
         }
         yield return null;
