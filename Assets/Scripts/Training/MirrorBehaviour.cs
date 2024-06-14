@@ -21,6 +21,7 @@ public class MirrorBehaviour : MonoBehaviour
         {
             Vector3 newPosition = transform.position;
             newPosition.y = head.position.y;
+            newPosition.x = head.position.x;
             transform.position = newPosition;
 
             Debug.Log($"(A: {transform.position.y}; B: {head.position.y})");
