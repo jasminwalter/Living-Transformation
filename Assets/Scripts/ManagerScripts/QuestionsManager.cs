@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
@@ -7,12 +7,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR;
 using Valve.VR;
+using Valve.VR.InteractionSystem;
 using Random = System.Random;
 
 public class QuestionsManager : MonoBehaviour
 {
     public static QuestionsManager Instance { get; private set; }
-
+    public TrainingManager trainingManager;
+    public Valve.VR.InteractionSystem.Teleport teleport;
 
     
     // Question Overview Game Objects
@@ -65,8 +67,13 @@ public class QuestionsManager : MonoBehaviour
 
     public GameObject trainingInformationE1;
     public GameObject trainingInformationE2;
+    public GameObject trainingInformationE3;
+    public GameObject trainingInformationE4;
     
     public GameObject startExhibitionE;
+
+    public GameObject WrongDirSignE1;
+    public GameObject WrongDirSignE2;
 
     #endregion
     #region German
@@ -109,8 +116,8 @@ public class QuestionsManager : MonoBehaviour
     public GameObject avatarSelectionG;
 
     public GameObject trainingInformationG1;
-    
     public GameObject trainingInformationG2;
+    public GameObject trainingInformationG3;
     
     public GameObject startExhibitionG;
     
@@ -158,9 +165,14 @@ public class QuestionsManager : MonoBehaviour
 
     private GameObject _trainingInformation1;
     private GameObject _trainingInformation2;
+    private GameObject _trainingInformation3;
+    private GameObject _trainingInformation4;
 
     private GameObject _startExhibition;
-    
+
+    private GameObject _wrongDirSign1;
+    public GameObject _wrongDirSign2;
+
     #endregion
     
     #endregion
@@ -211,7 +223,7 @@ public class QuestionsManager : MonoBehaviour
     private float _targetHeight = -50.0f;
 
     
-    private float _fadingOutDuration = 2.0f;
+    public float _fadingOutDuration = 2.0f;
     private float _fadingInDuration = 2.0f;
     private float _movingTableDuration = 2.0f;
     private float _handleResetDuration = 0.5f;
@@ -254,7 +266,7 @@ public class QuestionsManager : MonoBehaviour
 
     #region QuestionTransitionEfffects
     
-    private IEnumerator CanvasGroupFadingOut(GameObject canvasGroup)
+    public IEnumerator CanvasGroupFadingOut(GameObject canvasGroup)
     {
         float timer = 0.0f;
         while (timer <= _fadingOutDuration)
@@ -269,7 +281,7 @@ public class QuestionsManager : MonoBehaviour
         yield return null;
     }
     
-    private IEnumerator CanvasGroupFadingIn(GameObject canvasGroup)
+    public IEnumerator CanvasGroupFadingIn(GameObject canvasGroup)
     {
         float timer = 0.0f;
         while (timer <= _fadingInDuration)
@@ -493,8 +505,13 @@ public class QuestionsManager : MonoBehaviour
 
             _trainingInformation1 = trainingInformationE1;
             _trainingInformation2 = trainingInformationE2;
+            _trainingInformation3 = trainingInformationE3;
+            _trainingInformation4 = trainingInformationE4;
     
             _startExhibition = startExhibitionE;
+
+            _wrongDirSign1 = WrongDirSignE1;
+            _wrongDirSign2 = WrongDirSignE2;
 
         }
 
@@ -539,6 +556,7 @@ public class QuestionsManager : MonoBehaviour
 
             _trainingInformation1 = trainingInformationG1;
             _trainingInformation2 = trainingInformationG2;
+            _trainingInformation3 = trainingInformationG3;
     
             _startExhibition = startExhibitionG;
         }
@@ -766,11 +784,17 @@ public class QuestionsManager : MonoBehaviour
         StartCoroutine(CanvasGroupFadingOut(_numVisitsQuestion));
         yield return new WaitForSeconds(_fadingOutDuration);
         _numVisitsQuestion.SetActive(false);
-        
+
+        _relationQuestion.GetComponent<CanvasGroup>().alpha = 0.0f;
+        _relationQuestion.SetActive(true);
+        StartCoroutine(CanvasGroupFadingIn(_relationQuestion));
+        yield return null;
+
+        /*
         _ageQuestion.GetComponent<CanvasGroup>().alpha = 0.0f;
         _ageQuestion.SetActive(true);
         StartCoroutine(CanvasGroupFadingIn(_ageQuestion));
-        yield return null;
+        yield return null; */
     }
 
     #endregion
@@ -926,7 +950,11 @@ public class QuestionsManager : MonoBehaviour
                 "In diesem Moment, wie sehr sind Sie " + _emotionList[emotionNumAnswered] + "?";
         }
 
+        Debug.Log(_emotionNext.gameObject);
+
         _emotionNext.GetComponent<TextMeshProUGUI>().color = Color.black;
+
+        Debug.Log("color assigned");
 
         emotionRatingList[emotionNumAnswered - 1] = currentEmotionRating;
         
@@ -982,12 +1010,21 @@ public class QuestionsManager : MonoBehaviour
         yield return new WaitForSeconds(_fadingOutDuration);
         _relationQuestion.SetActive(false);
         
+        //trigger eye calibration
+        _eyeInformation.GetComponent<CanvasGroup>().alpha = 0.0f;
+        _eyeInformation.SetActive(true);
+        StartCoroutine(CanvasGroupFadingIn(_eyeInformation));
+
+
+        yield return null;
+
         // trigger connection question
+        /*
         _connectionQuestion.GetComponent<CanvasGroup>().alpha = 0.0f;
         _connectionQuestion.SetActive(true);
         StartCoroutine(CanvasGroupFadingIn(_connectionQuestion));
-        StartCoroutine(MoveTableUp(_connectionTable));
-        
+        StartCoroutine(MoveTableUp(_connectionTable)); */
+
 
         yield return null;
     }
@@ -1101,6 +1138,11 @@ public class QuestionsManager : MonoBehaviour
         _trainingInformation2.GetComponent<CanvasGroup>().alpha = 0.0f;
         _trainingInformation2.SetActive(true);
         StartCoroutine(CanvasGroupFadingIn(_trainingInformation2));
+        
+        //prevent teleportation
+        teleport.isTeleportAllowed = false;
+        Debug.Log("isTeleportAllowed status:" + teleport.isTeleportAllowed);
+        
         yield return null;
     }
 
@@ -1114,7 +1156,80 @@ public class QuestionsManager : MonoBehaviour
         StartCoroutine(CanvasGroupFadingOut(_trainingInformation2));
         yield return new WaitForSeconds(_fadingOutDuration);
         _trainingInformation2.SetActive(false);
+        
+        //turn the teleportation back on
+        teleport.isTeleportAllowed = true;
 
+        // trigger training next part
+        _trainingInformation3.GetComponent<CanvasGroup>().alpha = 0.0f;
+        _trainingInformation3.SetActive(true);
+        StartCoroutine(CanvasGroupFadingIn(_trainingInformation3));
+        
+        //trigger wrong direction signs
+        _wrongDirSign1.GetComponent<CanvasGroup>().alpha = 0.0f;
+        _wrongDirSign1.SetActive(true);
+        StartCoroutine(CanvasGroupFadingIn(_wrongDirSign1));
+        _wrongDirSign2.GetComponent<CanvasGroup>().alpha = 0.0f;
+        _wrongDirSign2.SetActive(true);
+        StartCoroutine(CanvasGroupFadingIn(_wrongDirSign2));
+        
+        StartCoroutine(ActivateHitPoints());
+        yield return null;
+    }
+
+    private IEnumerator FadeOutPart3Training()
+    {
+        StartCoroutine(CanvasGroupFadingOut(_trainingInformation3));
+        StartCoroutine(CanvasGroupFadingOut(_wrongDirSign1));
+        yield return new WaitForSeconds(_fadingOutDuration);
+        _trainingInformation3.SetActive(false);
+        _wrongDirSign1.SetActive(false);
+
+        // trigger training next part
+        _trainingInformation4.GetComponent<CanvasGroup>().alpha = 0.0f;
+        _trainingInformation4.SetActive(true);
+        StartCoroutine(CanvasGroupFadingIn(_trainingInformation4));
+        
+        yield return null;
+    }
+
+    private IEnumerator ActivateHitPoints()
+    {
+        //instantiate the hit point teleport area
+        trainingManager.hitpoint1.SetActive(true);
+        Debug.Log("Checkpoint1 activated in QustionManager");
+        yield return null;
+    }
+
+    public IEnumerator CheckPointsDone()
+    {
+        StartCoroutine(FadeOutPart3Training());
+        yield return null;
+    }
+    
+    private IEnumerator FadeOutPart4Training()
+    {
+        StartCoroutine(CanvasGroupFadingOut(_trainingInformation4));
+        yield return new WaitForSeconds(_fadingOutDuration);
+        _trainingInformation4.SetActive(false);
+        
+        yield return null;
+    }
+
+    public IEnumerator EnterExhibition()
+    {
+        StartCoroutine(FadeOutPart4Training());
+        StartCoroutine(TriggerExhibition());
+        yield return null;
+    }
+
+    public void TrainingPart4Selection()
+    {
+        StartCoroutine(EnterExhibition());
+    }
+
+    private IEnumerator TriggerExhibition()
+    {
         // trigger exhibition
         _startExhibition.GetComponent<CanvasGroup>().alpha = 0.0f;
         _startExhibition.SetActive(true);
