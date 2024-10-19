@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: AvatarDownloadSettings
   m_EditorClassIdentifier: 
   MeshLod: 0
-  Pose: 1
-  TextureAtlas: 1
+  Pose: 0
+  TextureAtlas: 0
   TextureSizeLimit: 1024
   UseHands: 0
   MorphTargets:
