@@ -4,7 +4,6 @@ using System.Linq;
 using System;
 
 using System.Timers;
-using UnityEditor.Rendering;
 using UnityEngine;
 using Valve.VR;
 using ViveSR.anipal;
