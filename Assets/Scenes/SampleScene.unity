@@ -2432,8 +2432,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 66764174}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.1391958, y: -0.2068995, z: -0.024877891}
+  m_LocalRotation: {x: -0.039814726, y: 0.14475209, z: 0.0075499527, w: 0.9886378}
+  m_LocalPosition: {x: 0.133, y: -0.219, z: -0.024}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 880159255}
@@ -54409,7 +54409,7 @@ MonoBehaviour:
   leftHand:
     vrTarget: {fileID: 1552543165}
     rigTarget: {fileID: 1600848955}
-    trackingPositionOffset: {x: -0.06, y: 0, z: -0.18}
+    trackingPositionOffset: {x: -0.06, y: -0.35, z: -0.18}
     trackingRotationOffset: {x: -1.4, y: 87.7, z: 111.6}
   rightHand:
     vrTarget: {fileID: 1552531531}
@@ -54418,7 +54418,7 @@ MonoBehaviour:
     trackingRotationOffset: {x: 144.7, y: 77.6, z: 442.69}
   headConstraint: {fileID: 1779204695}
   bodyConstraint: {fileID: 0}
-  headBodyOffset: {x: 0, y: -1.6, z: 0}
+  headBodyOffset: {x: 0, y: -1.73, z: 0}
 --- !u!114 &819209359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54510,7 +54510,7 @@ MonoBehaviour:
   - {fileID: 1976601106}
   EyeShapeTables:
   - skinnedMeshRenderer: {fileID: 603767077}
-    eyeShapes: ffffffffffffffffffffffffffffffffffffffff0d0000000e0000000100000007000000ffffffffffffffff050000000b000000040000000a00000002000000090000000300000008000000ffffffffffffffffffffffff0000000006000000ffffffffffffffffffffffff
+    eyeShapes: ffffffffffffffffffffffffffffffffffffffffffffffffffffffff0100000007000000ffffffffffffffff050000000b000000040000000a00000002000000090000000300000008000000ffffffffffffffffffffffff0000000006000000ffffffffffffffffffffffff
   eyeRotationOffset: {x: 0, y: 1.5, z: 0.35}
   NeededToGetData: 1
 --- !u!4 &819209360 stripped
@@ -54531,7 +54531,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 756e1730aedb6814a8253a873711c9b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  footOffset: {x: 0, y: 0.11, z: 0}
+  footOffset: {x: 0, y: 0.12, z: 0}
   rightFootRotWeight: 1
   leftFootRotWeight: 1
   rightFootPosWeight: 1
@@ -58518,7 +58518,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 880159254}
   m_LocalRotation: {x: -0.6156221, y: -0.024822695, z: 0.7204559, w: -0.31833422}
-  m_LocalPosition: {x: 0.41202822, y: 1.0262417, z: 0.0783581}
+  m_LocalPosition: {x: 0.4299, y: 1.0901, z: 0.0171}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 66764175}
@@ -69457,8 +69457,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1084289788}
-  m_LocalRotation: {x: -0.6156227, y: 0.024825118, z: -0.7204551, w: 0.31833458}
-  m_LocalPosition: {x: -0.1395859, y: -0.20561388, z: -0.025320798}
+  m_LocalRotation: {x: -0.03980569, y: -0.14474946, z: -0.00755079, w: 0.9886386}
+  m_LocalPosition: {x: -0.138, y: -0.232, z: -0.032}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1600848955}
@@ -70477,7 +70477,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1101649227}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.4, y: 0.1, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2097839357}
@@ -70507,7 +70507,7 @@ MonoBehaviour:
       size: 1.03
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0}
-    m_Visible: 1
+    m_Visible: 0
   - m_Transform: {fileID: 1734322146}
     m_Style:
       shape: {fileID: 4300000, guid: e050c2b16fe384bd994474655a4b4968, type: 2}
@@ -80336,7 +80336,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1264097817}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 45c61c72486845c40a2eb12372f47b2e, type: 3}
   m_Name: 
@@ -80511,6 +80511,188 @@ CapsuleCollider:
   m_Height: 1.576504
   m_Direction: 1
   m_Center: {x: -0.009596556, y: 0.7328655, z: 0.041159056}
+--- !u!114 &1264097901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1264097817}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 463435d43118c7245907700ecc7a9459, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EyesModels:
+  - {fileID: 1264097875}
+  - {fileID: 1264097874}
+  EyeShapeTables:
+  - skinnedMeshRenderer: {fileID: 242284034}
+    eyeShapes: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0100000007000000050000000b000000040000000a000000020000000900000003000000080000000000000006000000ffffffffffffffffffffffff
+  EyebrowAnimationCurveUpper:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  EyebrowAnimationCurveLower:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  EyebrowAnimationCurveHorizontal:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  NeededToGetData: 1
+--- !u!114 &1264097902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1264097817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2872c722b18f6d043ad0dbae08561d64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EyesModels:
+  - {fileID: 1264097875}
+  - {fileID: 1264097874}
+  EyeShapeTables:
+  - skinnedMeshRenderer: {fileID: 242284034}
+    eyeShapes: ffffffffffffffffffffffffffffffffffffffffffffffffffffffff0d0000000e0000000100000007000000050000000b000000040000000a000000020000000900000003000000080000000000000006000000ffffffffffffffffffffffff
+  EyebrowAnimationCurveUpper:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  EyebrowAnimationCurveLower:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  EyebrowAnimationCurveHorizontal:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  NeededToGetData: 1
 --- !u!1 &1264854436
 GameObject:
   m_ObjectHideFlags: 0
@@ -96078,7 +96260,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1552878955}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalPosition: {x: 0, y: -50, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1552491191}
@@ -99323,7 +99505,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1600848954}
   m_LocalRotation: {x: 0.6156227, y: -0.024825118, z: 0.7204551, w: 0.31833458}
-  m_LocalPosition: {x: -0.41202912, y: 1.0262417, z: 0.078358695}
+  m_LocalPosition: {x: -0.4305, y: 1.078, z: 0.025}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1084289789}
@@ -107868,7 +108050,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1779204694}
   m_LocalRotation: {x: -0.029977756, y: 0.00002613987, z: -0.00000078397335, w: 0.9995506}
-  m_LocalPosition: {x: 3.878245e-14, y: 1.0369638, z: 0.040428914}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1101649228}
