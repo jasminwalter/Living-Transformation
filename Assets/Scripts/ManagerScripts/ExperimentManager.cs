@@ -97,9 +97,7 @@ public class ExperimentManager : MonoBehaviour
     [Range(1.0f, 10.0f)]
     public float InterpolationFactor = 5.0f;
 
-    [Header("Required References")]
-    public NetworkManager NetMan;
-    
+
     // public TextMesh infoTextVR;
     //
     // public TextMesh infoTextFallback;
@@ -107,7 +105,7 @@ public class ExperimentManager : MonoBehaviour
     // public GameObject playerSteam;
 
 
-
+   /*
     private EExperimentStatus Status;
     private float WarmUpTimer;
 
@@ -352,4 +350,5 @@ public class ExperimentManager : MonoBehaviour
             //CountdownDisplay.text = "Get Ready\n" + Mathf.Ceil(WarmUpTimer).ToString();
         }
     }
+    */
 }

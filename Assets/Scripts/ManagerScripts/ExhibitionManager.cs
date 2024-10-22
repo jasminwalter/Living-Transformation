@@ -6,7 +6,6 @@ public class ExhibitionManager : MonoBehaviour
 {
 
     public static ExhibitionManager Instance { get; private set; }
-    public NetworkManager NetMan;
     
     [Header("UI Elements")]
     private GameObject _exhibitionStart;
@@ -233,6 +232,7 @@ public class ExhibitionManager : MonoBehaviour
         }
         
         // position player in exhibition
+        /*
         if (NetMan.IsServer())
         {
             playerLocal.GetComponent<Transform>().position = startServer.GetComponent<Transform>().position;
@@ -250,6 +250,8 @@ public class ExhibitionManager : MonoBehaviour
             playerRemote.GetComponent<Transform>().position = startServer.GetComponent<Transform>().position;
             avatarRemote.GetComponent<Transform>().position = startServer.GetComponent<Transform>().position;
         }
+        
+        */
 
         // avatarLocal.GetComponent<VRFootIK>().footOffset = avatarLocalFootOffset;
         
