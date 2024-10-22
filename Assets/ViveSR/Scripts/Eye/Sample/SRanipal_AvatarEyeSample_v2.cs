@@ -14,6 +14,7 @@ namespace ViveSR
             {
                 [SerializeField] private Transform[] EyesModels = new Transform[0];
                 [SerializeField] private List<EyeShapeTable_v2> EyeShapeTables;
+                [Space(500)]
                 /// <summary>
                 /// Customize this curve to fit the blend shapes of your avatar.
                 /// </summary>
