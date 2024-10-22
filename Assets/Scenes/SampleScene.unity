@@ -73636,7 +73636,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnableEye: 1
   EnableEyeDataCallback: 1
-  EnableEyeVersion: 0
+  EnableEyeVersion: 1
 --- !u!4 &1143240313
 Transform:
   m_ObjectHideFlags: 0
@@ -79955,6 +79955,31 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 362486388925445193, guid: d25809e99dfd2d74ea51d1374c58afe0,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 362486388925445193, guid: d25809e99dfd2d74ea51d1374c58afe0,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 362486388925445193, guid: d25809e99dfd2d74ea51d1374c58afe0,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 362486388925445193, guid: d25809e99dfd2d74ea51d1374c58afe0,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 362486388925445193, guid: d25809e99dfd2d74ea51d1374c58afe0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: d25809e99dfd2d74ea51d1374c58afe0,
         type: 3}
       propertyPath: m_Name
@@ -80666,115 +80691,6 @@ MonoBehaviour:
   headConstraint: {fileID: 269972151}
   bodyConstraint: {fileID: 0}
   headBodyOffset: {x: 0, y: -1.6, z: 0}
---- !u!114 &1264097889
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1264097817}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45c61c72486845c40a2eb12372f47b2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  showEyeWeighting: 0
-  localGazeSphere: {fileID: 198054636}
-  EyebrowAnimationCurveUpper:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  EyebrowAnimationCurveLower:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  EyebrowAnimationCurveHorizontal:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  EyesModels:
-  - {fileID: 1264097875}
-  - {fileID: 1264097874}
-  EyeShapeTables:
-  - skinnedMeshRenderer: {fileID: 242284034}
-    eyeShapes: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0100000007000000050000000b000000040000000a000000020000000900000003000000080000000000000006000000ffffffffffffffffffffffff
-  eyeRotationOffset: {x: 0, y: 1.5, z: 0.35}
-  NeededToGetData: 1
---- !u!114 &1264097890
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1264097817}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0061380d668ba5f499f3d1aa7edbccf3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  vrCamera: {fileID: 0}
-  setPlayerHeight: 0
-  scaleAvatarNow: 0
 --- !u!114 &1264097891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80848,97 +80764,6 @@ CapsuleCollider:
   m_Height: 1.576504
   m_Direction: 1
   m_Center: {x: -0.009596556, y: 0.7328655, z: 0.041159056}
---- !u!114 &1264097901
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1264097817}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 463435d43118c7245907700ecc7a9459, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  EyesModels:
-  - {fileID: 1264097875}
-  - {fileID: 1264097874}
-  EyeShapeTables:
-  - skinnedMeshRenderer: {fileID: 242284034}
-    eyeShapes: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0100000007000000050000000b000000040000000a000000020000000900000003000000080000000000000006000000ffffffffffffffffffffffff
-  EyebrowAnimationCurveUpper:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  EyebrowAnimationCurveLower:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  EyebrowAnimationCurveHorizontal:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  NeededToGetData: 1
 --- !u!114 &1264097902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80948,12 +80773,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1264097817}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2872c722b18f6d043ad0dbae08561d64, type: 3}
+  m_Script: {fileID: 11500000, guid: 3b03f84eecbac6246ad5ec4ce9fe8fe1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EyesModels:
-  - {fileID: 1264097875}
-  - {fileID: 1264097874}
   EyeShapeTables:
   - skinnedMeshRenderer: {fileID: 242284034}
     eyeShapes: ffffffffffffffffffffffffffffffffffffffffffffffffffffffff0d0000000e0000000100000007000000050000000b000000040000000a000000020000000900000003000000080000000000000006000000ffffffffffffffffffffffff
