@@ -73,8 +73,12 @@ public class gazeSpherePos_receiver : MonoBehaviour
         {
             // Debug.LogWarning($"Received float sample from {streamName} at {timeStamp}: {string.Join(", ", sample)}");
 
-            //this.transform.position = Vector3.Lerp(this.transform.position,sample,Time.deltaTime * InterpolationFactor);
-            Debug.Log(streamSample);
+            float samplex = streamSample[0];
+            float sampley = streamSample[1];
+            float samplez = streamSample[2];
+            //transform.position = Vector3.Lerp(transform.position,new Vector3(samplex,sampley, samplez),Time.deltaTime * InterpolationFactor);
+            transform.position = new Vector3(samplex,sampley, samplez);
+            //Debug.Log(streamSample);
                     
         }
                 
