@@ -11,49 +11,39 @@ public class lslStreamsExperimentControl : MonoBehaviour
     public string participantUID; 
     private const double NominalRate = LSL.LSL.IRREGULAR_RATE; // irregular sampling rate
     
+    // general variables
+
+    public StreamInfo eCon_timeStamp_StartSample_I;
+    public StreamOutlet eCon_timeStamp_StartSample_O;
     
-    // VR headset and controller
+    // VR headset and hands
     public StreamInfo eCon_hmd_I;
     public StreamOutlet eCon_hmd_O;
     
-    public StreamInfo eCon_controller_right_I;
-    public StreamOutlet eCon_controller_right_O;
+    public StreamInfo eCon_hand_right_I;
+    public StreamOutlet eCon_hand_right_O;
     
-    public StreamInfo eCon_controller_left_I;
-    public StreamOutlet eCon_controller_left_O;
+    public StreamInfo eCon_hand_left_I;
+    public StreamOutlet eCon_hand_left_O;
     
     
     
     // Start is called before the first frame update
     void Start()
     {
-        /*
-        #region VR headset and controller
         
-        eControlhmdI = new StreamInfo(
-            "eConthmd",
-            "Markers",
-            2,
+        
+        // general variables
+        eCon_timeStamp_StartSample_I = new StreamInfo(
+            "eCon_timeStamp_StartSample", 
+            "Markers", 
+            1, 
             NominalRate,
-            LSL.channel_format_t.cf_float32,
-            participantUID);
-        eControlhmdI.desc().append_child("hmdPosx");
-        eControlhmdI.desc().append_child("hmdPosy");
-        eControlhmdO = new StreamOutlet(eControlhmdI);
-           
-        #endregion 
+            LSL.channel_format_t.cf_double64);
+        eCon_timeStamp_StartSample_O = new StreamOutlet(eCon_timeStamp_StartSample_I);
         
-        eControl_hmd_I.desc().append_child("hmdPos_z");
-        eControl_hmd_I.desc().append_child("hmdRot_x");
-        eControl_hmd_I.desc().append_child("hmdRot_y");
-        eControl_hmd_I.desc().append_child("hmdRot_z");
-        eControl_hmd_I.desc().append_child("hmdDirFor_x");
-        eControl_hmd_I.desc().append_child("hmdDirFor_y");
-        eControl_hmd_I.desc().append_child("hmdDirFor_z");
-        */
-        
-        // VR hmd and controllers
-        # region VR hmd and controller
+        // VR hmd and hand
+        # region VR hmd and hands
         eCon_hmd_I = new StreamInfo(
             "eCon_hmd",
             "Markers",
@@ -72,39 +62,39 @@ public class lslStreamsExperimentControl : MonoBehaviour
         eCon_hmd_O = new StreamOutlet(eCon_hmd_I);
         
         
-        eCon_controller_left_I = new StreamInfo(
-            "eCon_controllerLeft",
+        eCon_hand_left_I = new StreamInfo(
+            "eCon_handLeft",
             "Markers",
             9,
             NominalRate,
             LSL.channel_format_t.cf_float32);
-        eCon_controller_left_I.desc().append_child("eCon_controllerLeft_pos_x");
-        eCon_controller_left_I.desc().append_child("eCon_controllerLeft_pos_y");
-        eCon_controller_left_I.desc().append_child("eCon_controllerLeft_pos_z");
-        eCon_controller_left_I.desc().append_child("eCon_controllerLeft_rot_x");
-        eCon_controller_left_I.desc().append_child("eCon_controllerLeft_rot_y");
-        eCon_controller_left_I.desc().append_child("eCon_controllerLeft_rot_z");
-        eCon_controller_left_I.desc().append_child("eCon_controllerLeft_dirFor_x");
-        eCon_controller_left_I.desc().append_child("eCon_controllerLeft_dirFor_y");
-        eCon_controller_left_I.desc().append_child("eCon_controllerLeft_dirFor_z");
-        eCon_controller_left_O = new StreamOutlet(eCon_controller_left_I);
+        eCon_hand_left_I.desc().append_child("eCon_handLeft_pos_x");
+        eCon_hand_left_I.desc().append_child("eCon_handLeft_pos_y");
+        eCon_hand_left_I.desc().append_child("eCon_handLeft_pos_z");
+        eCon_hand_left_I.desc().append_child("eCon_handLeft_rot_x");
+        eCon_hand_left_I.desc().append_child("eCon_handLeft_rot_y");
+        eCon_hand_left_I.desc().append_child("eCon_handLeft_rot_z");
+        eCon_hand_left_I.desc().append_child("eCon_handLeft_dirFor_x");
+        eCon_hand_left_I.desc().append_child("eCon_handLeft_dirFor_y");
+        eCon_hand_left_I.desc().append_child("eCon_handLeft_dirFor_z");
+        eCon_hand_left_O = new StreamOutlet(eCon_hand_left_I);
         
-        eCon_controller_right_I = new StreamInfo(
-            "eCon_controllerRight",
+        eCon_hand_right_I = new StreamInfo(
+            "eCon_handRight",
             "Markers",
             9,
             NominalRate,
             LSL.channel_format_t.cf_float32);
-        eCon_controller_right_I.desc().append_child("eCon_controllerRight_pos_x");
-        eCon_controller_right_I.desc().append_child("eCon_controllerRight_pos_y");
-        eCon_controller_right_I.desc().append_child("eCon_controllerRight_pos_z");
-        eCon_controller_right_I.desc().append_child("eCon_controllerRight_rot_x");
-        eCon_controller_right_I.desc().append_child("eCon_controllerRight_rot_y");
-        eCon_controller_right_I.desc().append_child("eCon_controllerRight_rot_z");
-        eCon_controller_right_I.desc().append_child("eCon_controllerRight_dirFor_x");
-        eCon_controller_right_I.desc().append_child("eCon_controllerRight_dirFor_y");
-        eCon_controller_right_I.desc().append_child("eCon_controllerRight_dirFor_z");
-        eCon_controller_right_O = new StreamOutlet(eCon_controller_right_I);
+        eCon_hand_right_I.desc().append_child("eCon_handRight_pos_x");
+        eCon_hand_right_I.desc().append_child("eCon_handRight_pos_y");
+        eCon_hand_right_I.desc().append_child("eCon_handRight_pos_z");
+        eCon_hand_right_I.desc().append_child("eCon_handRight_rot_x");
+        eCon_hand_right_I.desc().append_child("eCon_handRight_rot_y");
+        eCon_hand_right_I.desc().append_child("eCon_handRight_rot_z");
+        eCon_hand_right_I.desc().append_child("eCon_handRight_dirFor_x");
+        eCon_hand_right_I.desc().append_child("eCon_handRight_dirFor_y");
+        eCon_hand_right_I.desc().append_child("eCon_handRight_dirFor_z");
+        eCon_hand_right_O = new StreamOutlet(eCon_hand_right_I);
         # endregion
     }
 
