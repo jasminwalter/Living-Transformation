@@ -8,15 +8,16 @@ public class sendSaveDataExperimentControl : MonoBehaviour
     private float _samplingRate = 1.0f/ 90;
     public bool dataSending;
 
+    public GameObject eControl_UI;
     public GameObject recordingButton;
     
     public GameObject hmd_local;
-    public GameObject controllerRight_local;
-    public GameObject controllerLeft_local;
+    public GameObject handRight_local;
+    public GameObject handLeft_local;
 
     private Transform _hmd_transform;
-    private Transform _controllerR_transform;
-    private Transform _controllerL_transform;
+    private Transform _handR_transform;
+    private Transform _handL_transform;
     
     // Start is called before the first frame update
     void Start()
@@ -24,8 +25,9 @@ public class sendSaveDataExperimentControl : MonoBehaviour
         dataSending = false;
         
         _hmd_transform = hmd_local.transform;
-        _controllerR_transform = controllerRight_local.transform;
-        _controllerL_transform = controllerLeft_local.transform;
+        _handR_transform = handRight_local.transform;
+        _handL_transform = handLeft_local.transform;
+        eControl_UI.SetActive(true);
     }
 
     
@@ -60,15 +62,15 @@ public class sendSaveDataExperimentControl : MonoBehaviour
             // controller right
             float[] contRTRD = new[]
             {
-                _controllerR_transform.position.x,
-                _controllerR_transform.position.y,
-                _controllerR_transform.position.z,
-                _controllerR_transform.rotation.eulerAngles.x,
-                _controllerR_transform.rotation.eulerAngles.y,
-                _controllerR_transform.rotation.eulerAngles.z,
-                _controllerR_transform.forward.x,
-                _controllerR_transform.forward.y,
-                _controllerR_transform.forward.z,
+                _handR_transform.position.x,
+                _handR_transform.position.y,
+                _handR_transform.position.z,
+                _handR_transform.rotation.eulerAngles.x,
+                _handR_transform.rotation.eulerAngles.y,
+                _handR_transform.rotation.eulerAngles.z,
+                _handR_transform.forward.x,
+                _handR_transform.forward.y,
+                _handR_transform.forward.z,
             };
             
             lslStreamsExperimentControl.Instance.eCon_hand_right_O.push_sample(contRTRD);
@@ -76,15 +78,15 @@ public class sendSaveDataExperimentControl : MonoBehaviour
             // controller left
             float[] contLTRD = new[]
             {
-                _controllerL_transform.position.x,
-                _controllerL_transform.position.y,
-                _controllerL_transform.position.z,
-                _controllerL_transform.rotation.eulerAngles.x,
-                _controllerL_transform.rotation.eulerAngles.y,
-                _controllerL_transform.rotation.eulerAngles.z,
-                _controllerL_transform.forward.x,
-                _controllerL_transform.forward.y,
-                _controllerL_transform.forward.z,
+                _handL_transform.position.x,
+                _handL_transform.position.y,
+                _handL_transform.position.z,
+                _handL_transform.rotation.eulerAngles.x,
+                _handL_transform.rotation.eulerAngles.y,
+                _handL_transform.rotation.eulerAngles.z,
+                _handL_transform.forward.x,
+                _handL_transform.forward.y,
+                _handL_transform.forward.z,
             };
             
             lslStreamsExperimentControl.Instance.eCon_hand_left_O.push_sample(contLTRD);
@@ -99,8 +101,9 @@ public class sendSaveDataExperimentControl : MonoBehaviour
                 yield return new WaitForSeconds((float)(_samplingRate - (timeEndSample - timeBeginnSample)));
             }
         }
-        
-        
+
+        yield return null;
+
     }
     
     public void StartDataSending_ExperimentControl()
