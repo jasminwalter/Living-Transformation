@@ -36,6 +36,7 @@ public class sendSaveDataExperimentControl : MonoBehaviour
         // continuously save data until stopped
         while(true)
         {
+            Debug.Log("Sending data to experiment");
             // keep track when starting to send data
             double timeBeginnSample = GetCurrentTimestampInSeconds();
             
