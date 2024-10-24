@@ -42,8 +42,8 @@ public class receiveData_from_eControl : MonoBehaviour
         streamNames = new string[]
         {
             "eCon_hmd",
-            "eCon_hand_right",
-            "eCon_hand_left"    
+            "eCon_handRight",
+            "eCon_handLeft"    
         };
         
         int streamCount = streamNames.Length;
@@ -203,7 +203,7 @@ public class receiveData_from_eControl : MonoBehaviour
                 
                 break;
             
-            case "eCon_hand_right":
+            case "eCon_handRight":
                 
                 Vector3 handRPos = new Vector3(sample[0], sample[1], sample[2]);
                 Vector3 handRRot = new Vector3(sample[3], sample[4], sample[5]);
@@ -213,7 +213,7 @@ public class receiveData_from_eControl : MonoBehaviour
                 
                 break;
             
-            case "eCon_hand_left":
+            case "eCon_handLeft":
                 
                 Vector3 handLPos = new Vector3(sample[0], sample[1], sample[2]);
                 Vector3 handLRot = new Vector3(sample[3], sample[4], sample[5]);
