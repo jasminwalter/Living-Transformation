@@ -40,7 +40,7 @@ namespace ViveSR
                 private bool eye_callback_registered = false;
                 
                 
-                private StreamInlet inlet;
+                private StreamInlet inlett;
                 private float[] eyeMSample = new float[14];
                 private string streamName;
                 
@@ -82,23 +82,31 @@ namespace ViveSR
                 // Update is called once per frame
                 void Update()
                 {
-                    if(inlet == null)
+                    if(inlett == null)
                     {
-                        StreamInfo[] results = LSL.LSL.resolve_stream("name", streamName,1,0.0);
-                        inlet = new StreamInlet(results[0], max_buflen:1);
-                        
+                        StreamInfo[] streamInfos = LSL.LSL.resolve_stream("name", streamName, 1, 0.0);
+
+                        if (streamInfos.Length > 0)
+                        {
+                            inlett = new StreamInlet(streamInfos[0], max_buflen:1);
+                            inlett.open_stream();
+                        }
+                        Debug.Log("Opened stream successfully....");
                     }
-                
-                    double lastTimeStamp = inlet.pull_sample(eyeMSample, 0.0f);
+                    
+                    
+                    
+                    double lastTimeStamp = inlett.pull_sample(eyeMSample, 0.0f);
     
+                    /*
                     double mostRecentTimeStamp = lastTimeStamp;
     
                     while (lastTimeStamp != 0.0)
                     {
                         mostRecentTimeStamp = lastTimeStamp;
-                        lastTimeStamp = inlet.pull_sample(eyeMSample, 0.0f);   
+                        lastTimeStamp = inlett.pull_sample(eyeMSample, 0.0f);   
                     }
-                
+                */
                     bool leftBlink = eyeMSample[12] > 0.5f;
                     bool rightBlink = eyeMSample[13] > 0.5f;
 

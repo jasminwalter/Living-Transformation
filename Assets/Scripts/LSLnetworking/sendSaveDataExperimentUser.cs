@@ -213,7 +213,7 @@ public class sendSaveDataExperimentUser : MonoBehaviour
                 _gazeSphere_transform.position.z,
             };
             
-            lslStreamsExperimentControl.Instance.eCon_gazeSpherePos_O.push_sample(gazeSpherePos);
+            lslStreamsExperimentUser.Instance.eUser_gazeSpherePos_O.push_sample(gazeSpherePos);
             
             // point
             float[] pointSpherePos = new[]
@@ -223,7 +223,7 @@ public class sendSaveDataExperimentUser : MonoBehaviour
                 _pointSphere_transform.position.z,
             };
             
-            lslStreamsExperimentControl.Instance.eCon_pointSpherePos_O.push_sample(pointSpherePos);
+            lslStreamsExperimentUser.Instance.eUser_pointSpherePos_O.push_sample(pointSpherePos);
             
             
             // touch
@@ -234,7 +234,7 @@ public class sendSaveDataExperimentUser : MonoBehaviour
                 _touchSphere_transform.position.z,
             };
             
-            lslStreamsExperimentControl.Instance.eCon_touchSpherePos_O.push_sample(touchSpherePos);
+            lslStreamsExperimentUser.Instance.eUser_touchSpherePos_O.push_sample(touchSpherePos);
             #endregion
 
 
