@@ -72,7 +72,8 @@ public class receiveData_from_eUser : MonoBehaviour
             "eUser_handLeft",
             "eUser_gazeSpherePos",
             "eUser_pointSpherePos",
-            "eUser_touchSpherePos"    
+            "eUser_touchSpherePos",
+            "eUser_eyeMovement"
         };
         
         int streamCount = streamNames.Length;
@@ -268,6 +269,9 @@ public class receiveData_from_eUser : MonoBehaviour
             case "eUser_touchSpherePos":
                 Vector3 tSPos = new Vector3(sample[0], sample[1], sample[2]);
                 _touchSphere_transform.position = tSPos;
+                break;
+            case "eUser_eyeMovement":
+                Debug.Log("received eye blenshapes");
                 break;
             
         }
