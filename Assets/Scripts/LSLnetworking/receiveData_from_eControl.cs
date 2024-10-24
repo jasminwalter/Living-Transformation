@@ -122,11 +122,16 @@ public class receiveData_from_eControl : MonoBehaviour
         }
 
         double lastTimeStamp = inlet.pull_sample(sample, 0.0f);
-
-        if (lastTimeStamp != 0.0)
+        double mostRecentTimeStamp = lastTimeStamp;
+        
+        while (lastTimeStamp != 0.0)
         {
-            ProcessIntSample(sample, lastTimeStamp, streamName);
+            mostRecentTimeStamp = lastTimeStamp;
+            lastTimeStamp = inlet.pull_sample(sample, 0.0f);   
         }
+        
+        ProcessIntSample(sample, mostRecentTimeStamp, streamName);
+        
     }
 
 
