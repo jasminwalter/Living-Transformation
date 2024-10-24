@@ -31,7 +31,11 @@ public class lslStreamsExperimentControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        // Ensure that this instance is the only one and is accessible globally
+        if (Instance == null)
+        {
+            Instance = this;
+        }
         
         // general variables
         eCon_timeStamp_StartSample_I = new StreamInfo(

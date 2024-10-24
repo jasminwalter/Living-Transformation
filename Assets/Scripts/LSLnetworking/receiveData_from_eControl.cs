@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using LSL;
@@ -55,14 +56,13 @@ public class receiveData_from_eControl : MonoBehaviour
     }
     
      private IEnumerator processIncomingData_from_ExperimentControl()
-    {
+     {
         // continuously process incoming data until stopped
         while(true)
         {
             // keep track when starting to send data
             double timeBeginnSample = GetCurrentTimestampInSeconds();
-
-
+            
             // pull samples
             for (int i = 0; i < streamNames.Length; i++)
             {
@@ -92,6 +92,7 @@ public class receiveData_from_eControl : MonoBehaviour
             
             // wait until restarting coroutine to match sampling rate
             double timeEndSample = GetCurrentTimestampInSeconds();
+            //Debug.Log(1/(timeEndSample- timeBeginnSample));
             if ((timeEndSample - timeBeginnSample) < _samplingRate) 
             {
                 yield return new WaitForSeconds((float)(_samplingRate - (timeEndSample - timeBeginnSample)));
@@ -107,7 +108,7 @@ public class receiveData_from_eControl : MonoBehaviour
 
         if (streamInfos.Length > 0)
         {
-            inlet = new StreamInlet(streamInfos[0]);
+            inlet = new StreamInlet(streamInfos[0], max_buflen:1);
             channelCount = inlet.info().channel_count();
             inlet.open_stream();
         }
@@ -137,11 +138,17 @@ public class receiveData_from_eControl : MonoBehaviour
         }
 
         double lastTimeStamp = inlet.pull_sample(sample, 0.0f);
-
-        if (lastTimeStamp != 0.0)
+        
+        double mostRecentTimeStamp = lastTimeStamp;
+        
+        while (lastTimeStamp != 0.0)
         {
-            ProcessFloatSample(sample, lastTimeStamp, streamName);
+            mostRecentTimeStamp = lastTimeStamp;
+            lastTimeStamp = inlet.pull_sample(sample, 0.0f);   
         }
+
+        ProcessFloatSample(sample, mostRecentTimeStamp, streamName);
+        
     }
 
     private void PullAndProcessStringSample(StreamInlet inlet, ref string[] sample, int channelCount, string streamName)
@@ -152,11 +159,17 @@ public class receiveData_from_eControl : MonoBehaviour
         }
 
         double lastTimeStamp = inlet.pull_sample(sample, 0.0f);
-
-        if (lastTimeStamp != 0.0)
+        double mostRecentTimeStamp = lastTimeStamp;
+        
+        while (lastTimeStamp != 0.0)
         {
-            ProcessStringSample(sample, lastTimeStamp, streamName);
+            mostRecentTimeStamp = lastTimeStamp;
+            lastTimeStamp = inlet.pull_sample(sample, 0.0f);   
         }
+
+        
+        ProcessStringSample(sample, mostRecentTimeStamp, streamName);
+        
     }
 
     
