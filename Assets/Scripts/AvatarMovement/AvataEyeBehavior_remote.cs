@@ -42,7 +42,7 @@ namespace ViveSR
                 
                 private StreamInlet inlett;
                 private float[] eyeMSample = new float[14];
-                private string streamName;
+                private string[] streamName;
                 
                 
                 // Start is called before the first frame update
@@ -67,13 +67,15 @@ namespace ViveSR
                     
                     if (receiveFromEUser)
                     {
-                        streamName = "eUser_eyeMovement";
+                        streamName = new string[] { "eUser_eyeMovement" };
+                        
 
                     }
 
                     if (receiveFromECon)
                     {
-                        streamName = "eCon_eyeMovement";
+                        streamName = new string[] {"eCon_eyeMovement"};
+                        
                     }
                     
 
@@ -84,19 +86,19 @@ namespace ViveSR
                 {
                     if(inlett == null)
                     {
-                        StreamInfo[] streamInfos = LSL.LSL.resolve_stream("name", streamName, 1, 0.0);
+                        StreamInfo[] streamInfos = LSL.LSL.resolve_stream("name", streamName[0], 1, 0.0);
 
                         if (streamInfos.Length > 0)
                         {
                             inlett = new StreamInlet(streamInfos[0], max_buflen:1);
                             inlett.open_stream();
+                            Debug.Log("Opened stream successfully....");
                         }
-                        Debug.Log("Opened stream successfully....");
+                        
                     }
                     
                     
-                    
-                    double lastTimeStamp = inlett.pull_sample(eyeMSample, 0.0f);
+                    inlett.pull_sample(eyeMSample, 0.0f);
     
                     /*
                     double mostRecentTimeStamp = lastTimeStamp;
