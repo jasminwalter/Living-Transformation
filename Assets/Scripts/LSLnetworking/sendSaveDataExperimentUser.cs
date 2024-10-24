@@ -183,20 +183,20 @@ public class sendSaveDataExperimentUser : MonoBehaviour
                     : 0.0f;
             }
             float[] gazeM = new float[14];
-            gazeM[0] = leftBlink;
-            gazeM[1] = rightBlink;
+            gazeM[0] = leftSqueeze;
+            gazeM[1] = rightSqueeze;
             gazeM[2] = leftWide;
             gazeM[3] = rightWide;
-            gazeM[4] = leftSqueeze;
-            gazeM[5] = rightSqueeze;
+            gazeM[4] = eye_Left_Down;
+            gazeM[5] = eye_Right_Down;
             gazeM[6] = eye_Left_Up;
-            gazeM[7] = eye_Left_Down;
-            gazeM[8] = eye_Left_Left;
-            gazeM[9] = eye_Left_Right;   
-            gazeM[10] = eye_Right_Up;
-            gazeM[11] = eye_Right_Down;
-            gazeM[12] = eye_Right_Left;
-            gazeM[13] = eye_Right_Right;
+            gazeM[7] = eye_Right_Up;
+            gazeM[8] = eye_Left_Right; 
+            gazeM[9] = eye_Right_Right;
+            gazeM[10] = eye_Left_Left;
+            gazeM[11] = eye_Right_Left;
+            gazeM[12] = leftBlink;
+            gazeM[13] = rightBlink;
             
             // Send sample via LSL
             lslStreamsExperimentUser.Instance.eUser_eyeMovement_O.push_sample(gazeM);

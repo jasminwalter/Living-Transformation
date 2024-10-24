@@ -6,6 +6,7 @@ using LSL;
 
 public class sendSaveDataExperimentControl : MonoBehaviour
 {
+    public float[] gazeM;
     private float _samplingRate = 1.0f/ 90;
     public bool dataSending;
 
@@ -180,7 +181,7 @@ public class sendSaveDataExperimentControl : MonoBehaviour
                     ? eyeWeightings[EyeShape_v2.Eye_Right_Blink]
                     : 0.0f;
             }
-            float[] gazeM = new float[14];
+            gazeM = new float[14];
             gazeM[0] = leftSqueeze;
             gazeM[1] = rightSqueeze;
             gazeM[2] = leftWide;

@@ -36,20 +36,39 @@ namespace ViveSR
 
                 private AnimationCurve[] EyebrowAnimationCurves = new AnimationCurve[(int)EyeShape_v2.Max];
 
-                private static EyeData_v2 eyeData = new EyeData_v2();
-                private bool eye_callback_registered = false;
+                private Dictionary<EyeShape_v2, float> EyeWeightings = new Dictionary<EyeShape_v2, float>();
                 
                 
-                private StreamInlet inlett;
+                private StreamInlet inlet;
                 private float[] eyeMSample = new float[14];
-                private string[] streamName;
+                private string streamName;
+                private bool streamInitialized = false;
                 
                 
                 // Start is called before the first frame update
+                // Start is called before the first frame update
                 void Start()
                 {
-                    
-                    
+                    InitializeAnimationCurves();
+                    InitializeStream();
+                }
+
+
+                // Update is called once per frame
+                void Update()
+                {
+                    if (!streamInitialized)
+                    {
+                        TryInitializeStream();
+                    }
+                    else
+                    {
+                        PullAndUpdateEyeData();
+                    }
+                }
+                
+                private void InitializeAnimationCurves()
+                {
                     AnimationCurve[] curves = new AnimationCurve[(int)EyeShape_v2.Max];
                     for (int i = 0; i < EyebrowAnimationCurves.Length; ++i)
                     {
@@ -57,66 +76,81 @@ namespace ViveSR
                             curves[i] = EyebrowAnimationCurveUpper;
                         else if (i == (int)EyeShape_v2.Eye_Left_Down || i == (int)EyeShape_v2.Eye_Right_Down)
                             curves[i] = EyebrowAnimationCurveLower;
-                        else curves[i] = EyebrowAnimationCurveHorizontal;
+                        else
+                            curves[i] = EyebrowAnimationCurveHorizontal;
                     }
-
-                    SetEyeShapeAnimationCurves(curves);
-
-                    receiveFromEUser = ExperimentManager.Instance.isExperimentControlVersion;
-                    receiveFromECon = ExperimentManager.Instance.isExperimentUserVersion;
-                    
-                    if (receiveFromEUser)
-                    {
-                        streamName = new string[] { "eUser_eyeMovement" };
-                        
-
-                    }
-
-                    if (receiveFromECon)
-                    {
-                        streamName = new string[] {"eCon_eyeMovement"};
-                        
-                    }
-                    
-
+                    EyebrowAnimationCurves = curves;
                 }
 
-                // Update is called once per frame
-                void Update()
+                private void InitializeStream()
                 {
-                    if(inlett == null)
-                    {
-                        StreamInfo[] streamInfos = LSL.LSL.resolve_stream("name", streamName[0], 1, 0.0);
-
-                        if (streamInfos.Length > 0)
-                        {
-                            inlett = new StreamInlet(streamInfos[0], max_buflen:1);
-                            inlett.open_stream();
-                            Debug.Log("Opened stream successfully....");
-                        }
-                        
-                    }
-                    
-                    
-                    inlett.pull_sample(eyeMSample, 0.0f);
-    
-                    /*
-                    double mostRecentTimeStamp = lastTimeStamp;
-    
-                    while (lastTimeStamp != 0.0)
-                    {
-                        mostRecentTimeStamp = lastTimeStamp;
-                        lastTimeStamp = inlett.pull_sample(eyeMSample, 0.0f);   
-                    }
-                */
-                    bool leftBlink = eyeMSample[12] > 0.5f;
-                    bool rightBlink = eyeMSample[13] > 0.5f;
-
-                    UpdateEyeShapesR(leftBlink, rightBlink, eyeMSample);
-    
+                    streamName = ExperimentManager.Instance.isExperimentUserVersion ? "eUser_eyeMovement" : "eCon_eyeMovement";
                 }
-                
-                
+
+                private void TryInitializeStream()
+                {
+                    StreamInfo[] streamInfos = LSL.LSL.resolve_stream("name", streamName, 1, 0.0);
+                    if (streamInfos.Length > 0)
+                    {
+                        inlet = new StreamInlet(streamInfos[0], max_buflen: 1);
+                        inlet.open_stream();
+                        streamInitialized = true;
+                        Debug.Log("Stream opened successfully.");
+                    }
+                }
+
+                private void PullAndUpdateEyeData()
+                {
+                    if (inlet.pull_sample(eyeMSample, 0.0f) > 0)
+                    {
+                        UpdateEyeWeightingsFromSample(eyeMSample);
+                        UpdateEyeShapes(EyeWeightings);
+                    }
+                }
+
+                private void UpdateEyeWeightingsFromSample(float[] sample)
+                {
+                    EyeWeightings[EyeShape_v2.Eye_Left_Squeeze] = sample[0];
+                    EyeWeightings[EyeShape_v2.Eye_Right_Squeeze] = sample[1];
+                    EyeWeightings[EyeShape_v2.Eye_Left_Wide] = sample[2];
+                    EyeWeightings[EyeShape_v2.Eye_Right_Wide] = sample[3];
+                    EyeWeightings[EyeShape_v2.Eye_Left_Down] = sample[4];
+                    EyeWeightings[EyeShape_v2.Eye_Right_Down] = sample[5];
+                    EyeWeightings[EyeShape_v2.Eye_Left_Up] = sample[6];
+                    EyeWeightings[EyeShape_v2.Eye_Right_Up] = sample[7];
+                    EyeWeightings[EyeShape_v2.Eye_Left_Right] = sample[8];
+                    EyeWeightings[EyeShape_v2.Eye_Right_Right] = sample[9];
+                    EyeWeightings[EyeShape_v2.Eye_Left_Left] = sample[10];
+                    EyeWeightings[EyeShape_v2.Eye_Right_Left] = sample[11];
+                    EyeWeightings[EyeShape_v2.Eye_Left_Blink] = sample[12];
+                    EyeWeightings[EyeShape_v2.Eye_Right_Blink] = sample[13];
+                }
+
+                public void UpdateEyeShapes(Dictionary<EyeShape_v2, float> eyeWeightings)
+                {
+                    foreach (var table in EyeShapeTables)
+                    {
+                        RenderModelEyeShape(table, eyeWeightings);
+                    }
+                }
+
+                private void RenderModelEyeShape(EyeShapeTable_v2 eyeShapeTable, Dictionary<EyeShape_v2, float> weighting)
+                {
+                    for (int i = 0; i < eyeShapeTable.eyeShapes.Length; ++i)
+                    {
+                        EyeShape_v2 eyeShape = eyeShapeTable.eyeShapes[i];
+                        if (eyeShape > EyeShape_v2.Max || eyeShape < 0) continue;
+
+                        if (eyeShape == EyeShape_v2.Eye_Left_Blink || eyeShape == EyeShape_v2.Eye_Right_Blink)
+                            eyeShapeTable.skinnedMeshRenderer.SetBlendShapeWeight(i, weighting[eyeShape] * 100f);
+                        else
+                        {
+                            AnimationCurve curve = EyebrowAnimationCurves[(int)eyeShape];
+                            eyeShapeTable.skinnedMeshRenderer.SetBlendShapeWeight(i, curve.Evaluate(weighting[eyeShape]) * 100f);
+                        }
+                    }
+                }
+                /*
                  public void UpdateEyeShapesR(bool leftBlink, bool rightBlink, float[] sample)
                 {
                     foreach (var table in EyeShapeTables)
@@ -206,7 +240,7 @@ namespace ViveSR
                             eyeShapeTable.skinnedMeshRenderer.SetBlendShapeWeight(i, curve.Evaluate(weighting[eyeShape]) * 100f);
                         }
                     }
-                }
+                } */
 
             }
         }
