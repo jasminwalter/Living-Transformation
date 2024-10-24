@@ -6,55 +6,19 @@ using Random = System.Random;
 
 public class ExperimentManager : MonoBehaviour
 {
-    private static ExperimentManager _Instance;
-    public static ExperimentManager Instance()
-    {
-        Debug.Assert(_Instance!=null);
-        return _Instance;
-    }
+    public static ExperimentManager Instance { get; private set; } // used to allow easy access of this script in other scripts
+
+    public bool isExperimentControlVersion = false;
+    public bool isExperimentUserVersion = false;
     
     // Player
     [Header("Player Vars")]
 
     public Transform localPlayer;
     public Transform remotePlayer;
-
-    public Transform VRCamera_local;
-    public Transform VRHandRight_local;
-    public Transform VRHandLeft_local;
-    
-    public Transform VRCamera_remote;
-    public Transform VRHandRight_remote;
-    public Transform VRHandLeft_remote;
     
     public Transform startPositionExperiment;
     
-    // Eye Tracking Networking Vars
-    [Header("ET Vars")]
-    public Transform LocalGazeSphere;
-    public Transform RemoteGazeSphere;
-    
-    // public List<float> localEyeShapeTable;
-    // public List<float> remoteEyeShapeTable;
-    // public List<float> localEyeShape2IntTable;
-    // public List<float> remoteEyeShape2IntTable;
-
-    public Quaternion eyeShapePart1_local;
-    public Quaternion eyeShapePart2_local;
-    public Quaternion eyeShapePart3_local;
-    
-    public Quaternion eyeShapePart1_remote;
-    public Quaternion eyeShapePart2_remote;
-    public Quaternion eyeShapePart3_remote;
-
-    public Quaternion EyeBlinkVal1_local;
-    public Quaternion EyeBlinkVal2_local;
-    public Vector3 EyeBlinkVal3_local;
-    
-    public Quaternion EyeBlinkVal1_remote;
-    public Quaternion EyeBlinkVal2_remote;
-    public Vector3 EyeBlinkVal3_remote;
-
 
     public bool inExhibitionArea = false;
     
@@ -104,12 +68,35 @@ public class ExperimentManager : MonoBehaviour
     //
     // public GameObject playerSteam;
 
+    private void Start()
+    {
+        
+        // Ensure that this instance is the only one and is accessible globally
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        
+        
+    }
 
-   /*
+    public bool isExperimentControl()
+    {
+        
+        return isExperimentControlVersion;
+        
+    }
+
+    public bool isExperimentUser()
+    {
+        return isExperimentUserVersion;
+    }
+
+    /*
     private EExperimentStatus Status;
     private float WarmUpTimer;
 
-    
+
 
 
     public void ReceivedUserStateUpdate(UserState incomingState)
@@ -125,7 +112,7 @@ public class ExperimentManager : MonoBehaviour
 
         VRHandRight_remote.position = Vector3.Lerp(VRHandRight_remote.position,incomingState.VRRightHandPosition,Time.deltaTime * InterpolationFactor);;
         VRHandRight_remote.rotation = Quaternion.Lerp(VRHandRight_remote.rotation,incomingState.VRRightHandRotation,Time.deltaTime * InterpolationFactor);;
-    
+
         VRHandLeft_remote.position = Vector3.Lerp(VRHandLeft_remote.position,incomingState.VRLeftHandPosition,Time.deltaTime * InterpolationFactor);;
         VRHandLeft_remote.rotation = Quaternion.Lerp(VRHandLeft_remote.rotation,incomingState.VRLeftHandRotation,Time.deltaTime * InterpolationFactor);;
 
@@ -174,7 +161,7 @@ public class ExperimentManager : MonoBehaviour
         if (NetMan.IsServer())
         {
             NetMan.BroadCastExperimentStatusUpdate(Status);
-            
+
         }
 
         if (status == EExperimentStatus.Waiting)
@@ -189,9 +176,9 @@ public class ExperimentManager : MonoBehaviour
         }
         else // Running
         {
-            
+
             // CountdownDisplay.gameObject.SetActive(false);
-            
+
         }
     }
 
@@ -232,32 +219,32 @@ public class ExperimentManager : MonoBehaviour
         {
             return;
         }
-        
-        
-        //Save data 
-        
+
+
+        //Save data
+
         SetExperimentStatus(EExperimentStatus.Waiting);
         Debug.Log("Experiment aborted!");
     }
 
-  
+
     private void Awake()
     {
         _Instance = this;
     }
-    
+
     private void Start()
     {
         Debug.Assert(NetMan != null, "Sample Network Manager is not set");
-        
+
         Debug.Assert(RemoteGazeSphere != null, "Remote GazeSphere is not set");
         Debug.Assert(LocalGazeSphere != null, "Local GazeSphere is not set");
 
-        
+
         Status = EExperimentStatus.Waiting;
 
         // _spawnManager = GetComponentInChildren<SpawningManager>();
-        
+
         // localStartExperiment = false;
         // remoteStartExperiment = false;
         //
@@ -268,7 +255,7 @@ public class ExperimentManager : MonoBehaviour
         // if (startExperimentPress)
         // {
         //     localStartExperiment = true;
-        //     
+        //
         //     startExperimentPress = false;
         // }
         //
@@ -299,7 +286,7 @@ public class ExperimentManager : MonoBehaviour
         //     infoTextVR.gameObject.SetActive(false);
         //     infoTextFallback.gameObject.SetActive(false);
         //
-        //     
+        //
         //     // then teleport players
         //     localPlayer.position = startPositionExperiment.position;
         //     localPlayer.localEulerAngles = new Vector3(0, 0, 0);
@@ -320,21 +307,21 @@ public class ExperimentManager : MonoBehaviour
         //     // remoteStartExperiment = false; // should be set by network, but to make sure
         //
         // }
-        
+
         if (NetMan.GetState() == ENetworkState.Running)
         {
             NetMan.BroadCastSynchronizationState(localLanguageSelected, localEnterExhibition, localExhibitionExit, localStartNewVisitor);
-            
+
             if(inExhibitionArea)
             {
-                NetMan.BroadcastExperimentState(LocalGazeSphere, localPlayer, VRCamera_local.position, 
+                NetMan.BroadcastExperimentState(LocalGazeSphere, localPlayer, VRCamera_local.position,
                     VRCamera_local.rotation, VRHandRight_local.position, VRHandRight_local.rotation,
                     VRHandLeft_local.position, VRHandLeft_local.rotation, eyeShapePart1_local,
                     eyeShapePart2_local,eyeShapePart3_local, EyeBlinkVal1_local, EyeBlinkVal2_local,
                     EyeBlinkVal3_local);
             }
         }
-        
+
 
         if (Status == EExperimentStatus.WarmUp)
         {

@@ -24,7 +24,22 @@ public class lslStreamsExperimentUser : MonoBehaviour
     
     public StreamInfo eUser_hand_left_I;
     public StreamOutlet eUser_hand_left_O;
+    
+    // gaze data
+    public StreamInfo eUser_eyeMovement_I;
+    public StreamOutlet eUser_eyeMovement_O;
+    
+    // interaction spheres
+    public StreamInfo eUser_gazeSpherePos_I;
+    public StreamOutlet eUser_gazeSpherePos_O;
 
+    public StreamInfo eUser_pointSpherePos_I;
+    public StreamOutlet eUser_pointSpherePos_O;
+    
+    public StreamInfo eUser_touchSpherePos_I;
+    public StreamOutlet eUser_touchSpherePos_O;
+    
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -97,6 +112,68 @@ public class lslStreamsExperimentUser : MonoBehaviour
         eUser_hand_right_I.desc().append_child("eUser_handrRight_dirFor_z");
         eUser_hand_right_O = new StreamOutlet(eUser_hand_right_I);
         # endregion
+        
+        // gaze data
+        eUser_eyeMovement_I = new StreamInfo(
+            "eUser_eyeMovement", 
+            "Markers", 
+            14, 
+            NominalRate,
+            LSL.channel_format_t.cf_double64);
+        eUser_eyeMovement_I .desc().append_child("eye_left_squeeze");
+        eUser_eyeMovement_I .desc().append_child("eye_right_squeeze");
+        eUser_eyeMovement_I .desc().append_child("eye_left_wide");
+        eUser_eyeMovement_I .desc().append_child("eye_right_wide");
+        eUser_eyeMovement_I .desc().append_child("eye_left_down");
+        eUser_eyeMovement_I .desc().append_child("eye_right_down");
+        eUser_eyeMovement_I .desc().append_child("eye_left_up");
+        eUser_eyeMovement_I .desc().append_child("eye_right_up");
+        eUser_eyeMovement_I .desc().append_child("eye_left_right");
+        eUser_eyeMovement_I .desc().append_child("eye_right_right");
+        eUser_eyeMovement_I .desc().append_child("eye_left_left");
+        eUser_eyeMovement_I .desc().append_child("eye_right_left");
+        eUser_eyeMovement_I .desc().append_child("eye_left_blink");
+        eUser_eyeMovement_I .desc().append_child("eye_right_blink");
+        eUser_eyeMovement_O = new StreamOutlet(eUser_eyeMovement_I);
+        
+        // interaction sphere positions
+        #region interaction spheres
+        // gaze sphere
+        eUser_gazeSpherePos_I = new StreamInfo(
+            "eUser_gazeSpherePos",
+            "Markers",
+            3,
+            NominalRate,
+            LSL.channel_format_t.cf_float32);
+        eUser_gazeSpherePos_I.desc().append_child("eUser_gazeSpherePos_x");
+        eUser_gazeSpherePos_I.desc().append_child("eUser_gazeSpherePos_y");
+        eUser_gazeSpherePos_I.desc().append_child("eUser_gazeSpherePos_z");
+        eUser_gazeSpherePos_O = new StreamOutlet(eUser_gazeSpherePos_I);
+        
+        // point sphere
+        eUser_pointSpherePos_I = new StreamInfo(
+            "eUser_pointSpherePos",
+            "Markers",
+            3,
+            NominalRate,
+            LSL.channel_format_t.cf_float32);
+        eUser_pointSpherePos_I.desc().append_child("eUser_pointSpherePos_x");
+        eUser_pointSpherePos_I.desc().append_child("eUser_pointSpherePos_y");
+        eUser_pointSpherePos_I.desc().append_child("eUser_pointSpherePos_z");
+        eUser_pointSpherePos_O = new StreamOutlet(eUser_pointSpherePos_I);
+        
+        // touch sphere
+        eUser_touchSpherePos_I = new StreamInfo(
+            "eUser_touchSpherePos",
+            "Markers",
+            3,
+            NominalRate,
+            LSL.channel_format_t.cf_float32);
+        eUser_touchSpherePos_I.desc().append_child("eUser_touchSpherePos_x");
+        eUser_touchSpherePos_I.desc().append_child("eUser_touchSpherePos_y");
+        eUser_touchSpherePos_I.desc().append_child("eUser_touchSpherePos_z");
+        eUser_touchSpherePos_O = new StreamOutlet(eUser_touchSpherePos_I);
+        #endregion
         
     }
 

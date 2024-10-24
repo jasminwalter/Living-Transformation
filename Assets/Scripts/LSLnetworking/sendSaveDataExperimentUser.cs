@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ViveSR.anipal.Eye;
 
 public class sendSaveDataExperimentUser : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class sendSaveDataExperimentUser : MonoBehaviour
     public GameObject eUser_UI;
     public GameObject recordingButton;
     
+    // vr variables
     public GameObject hmd_local;
     public GameObject handRight_local;
     public GameObject handLeft_local;
@@ -18,18 +20,53 @@ public class sendSaveDataExperimentUser : MonoBehaviour
     private Transform _handR_transform;
     private Transform _handL_transform;
     
+    // gaze and eye tracking
+    private Dictionary<EyeShape_v2, float> eyeWeightings = new Dictionary<EyeShape_v2, float>();
+    private EyeData_v2 eyeData = new EyeData_v2();
+    
+    private float leftBlink;
+    private float rightBlink;
+    private float leftWide;
+    private float rightWide;
+    private float leftSqueeze;
+    private float rightSqueeze;
+    private float eye_Left_Up;
+    private float eye_Left_Down;
+    private float eye_Left_Left;
+    private float eye_Left_Right;
+    private float eye_Right_Up;
+    private float eye_Right_Down;
+    private float eye_Right_Left;
+    private float eye_Right_Right;
+    
+    // interaction sphere variables
+    public GameObject gazeSphere_local;
+    public GameObject pointSphere_local;
+    public GameObject touchSphere_local;
+    
+    private Transform _gazeSphere_transform;
+    private Transform _pointSphere_transform;
+    private Transform _touchSphere_transform;
+
+    
     
     
     // Start is called before the first frame update
     void Start()
     {
+        eUser_UI.SetActive(true);
+        
         dataSending = false;
         
+        // VR vars
         _hmd_transform = hmd_local.transform;
         _handR_transform = handRight_local.transform;
         _handL_transform = handLeft_local.transform;
-        eUser_UI.SetActive(true);
         
+        // interaction spheres
+        _gazeSphere_transform = gazeSphere_local.transform;
+        _pointSphere_transform = pointSphere_local.transform;
+        _touchSphere_transform = touchSphere_local.transform;
     }
 
    
@@ -95,6 +132,111 @@ public class sendSaveDataExperimentUser : MonoBehaviour
             lslStreamsExperimentUser.Instance.eUser_hand_left_O.push_sample(contLTRD);
             
             # endregion
+            
+            
+             # region gaze and eye tracking
+            
+            // Get blink weightings
+            if (SRanipal_Eye_v2.GetEyeWeightings(out eyeWeightings))
+            {
+                leftSqueeze = eyeWeightings.ContainsKey(EyeShape_v2.Eye_Left_Squeeze)
+                    ? eyeWeightings[EyeShape_v2.Eye_Left_Squeeze]
+                    : 0.0f;
+                rightSqueeze = eyeWeightings.ContainsKey(EyeShape_v2.Eye_Right_Squeeze)
+                    ? eyeWeightings[EyeShape_v2.Eye_Right_Squeeze]
+                    : 0.0f;
+                leftWide = eyeWeightings.ContainsKey(EyeShape_v2.Eye_Left_Wide)
+                    ? eyeWeightings[EyeShape_v2.Eye_Left_Wide]
+                    : 0.0f;
+                rightWide = eyeWeightings.ContainsKey(EyeShape_v2.Eye_Right_Wide)
+                    ? eyeWeightings[EyeShape_v2.Eye_Right_Wide]
+                    : 0.0f;
+                eye_Left_Down = eyeWeightings.ContainsKey(EyeShape_v2.Eye_Left_Down)
+                    ? eyeWeightings[EyeShape_v2.Eye_Left_Down]
+                    : 0.0f;
+                eye_Right_Down = eyeWeightings.ContainsKey(EyeShape_v2.Eye_Right_Down)
+                    ? eyeWeightings[EyeShape_v2.Eye_Right_Down]
+                    : 0.0f;
+                eye_Left_Up = eyeWeightings.ContainsKey(EyeShape_v2.Eye_Left_Up)
+                    ? eyeWeightings[EyeShape_v2.Eye_Left_Up]
+                    : 0.0f;
+                eye_Right_Up = eyeWeightings.ContainsKey(EyeShape_v2.Eye_Right_Up)
+                    ? eyeWeightings[EyeShape_v2.Eye_Right_Up]
+                    : 0.0f;
+                eye_Left_Right = eyeWeightings.ContainsKey(EyeShape_v2.Eye_Left_Right)
+                    ? eyeWeightings[EyeShape_v2.Eye_Left_Right]
+                    : 0.0f;
+                eye_Right_Right = eyeWeightings.ContainsKey(EyeShape_v2.Eye_Right_Right)
+                    ? eyeWeightings[EyeShape_v2.Eye_Right_Right]
+                    : 0.0f;
+                eye_Left_Left = eyeWeightings.ContainsKey(EyeShape_v2.Eye_Left_Left)
+                    ? eyeWeightings[EyeShape_v2.Eye_Left_Left]
+                    : 0.0f;
+                eye_Right_Left = eyeWeightings.ContainsKey(EyeShape_v2.Eye_Right_Left)
+                    ? eyeWeightings[EyeShape_v2.Eye_Right_Left]
+                    : 0.0f;
+                leftBlink = eyeWeightings.ContainsKey(EyeShape_v2.Eye_Left_Blink)
+                    ? eyeWeightings[EyeShape_v2.Eye_Left_Blink]
+                    : 0.0f;
+                rightBlink = eyeWeightings.ContainsKey(EyeShape_v2.Eye_Right_Blink)
+                    ? eyeWeightings[EyeShape_v2.Eye_Right_Blink]
+                    : 0.0f;
+            }
+            float[] gazeM = new float[14];
+            gazeM[0] = leftBlink;
+            gazeM[1] = rightBlink;
+            gazeM[2] = leftWide;
+            gazeM[3] = rightWide;
+            gazeM[4] = leftSqueeze;
+            gazeM[5] = rightSqueeze;
+            gazeM[6] = eye_Left_Up;
+            gazeM[7] = eye_Left_Down;
+            gazeM[8] = eye_Left_Left;
+            gazeM[9] = eye_Left_Right;   
+            gazeM[10] = eye_Right_Up;
+            gazeM[11] = eye_Right_Down;
+            gazeM[12] = eye_Right_Left;
+            gazeM[13] = eye_Right_Right;
+            
+            // Send sample via LSL
+            lslStreamsExperimentUser.Instance.eUser_eyeMovement_O.push_sample(gazeM);
+
+            # endregion
+            
+            
+            #region interaction spheres
+            // gaze
+            float[] gazeSpherePos = new[]
+            {
+                _gazeSphere_transform.position.x,
+                _gazeSphere_transform.position.y,
+                _gazeSphere_transform.position.z,
+            };
+            
+            lslStreamsExperimentControl.Instance.eCon_gazeSpherePos_O.push_sample(gazeSpherePos);
+            
+            // point
+            float[] pointSpherePos = new[]
+            {
+                _pointSphere_transform.position.x,
+                _pointSphere_transform.position.y,
+                _pointSphere_transform.position.z,
+            };
+            
+            lslStreamsExperimentControl.Instance.eCon_pointSpherePos_O.push_sample(pointSpherePos);
+            
+            
+            // touch
+            float[] touchSpherePos = new[]
+            {
+                _touchSphere_transform.position.x,
+                _touchSphere_transform.position.y,
+                _touchSphere_transform.position.z,
+            };
+            
+            lslStreamsExperimentControl.Instance.eCon_touchSpherePos_O.push_sample(touchSpherePos);
+            #endregion
+
 
    
             // wait until restarting coroutine to match sampling rate

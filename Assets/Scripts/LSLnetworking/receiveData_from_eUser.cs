@@ -6,11 +6,15 @@ using LSL;
 public class receiveData_from_eUser : MonoBehaviour
 {
     
+    public static receiveData_from_eUser Instance { get; private set; } // used to allow easy access of this script in other scripts
+
+    
     private float _samplingRate;
     public bool processIncomingData;
 
     public GameObject receivingButton;
     
+    // VR vars
     public GameObject hmd_remote;
     public GameObject handRight_remote;
     public GameObject handLeft_remote;
@@ -18,6 +22,15 @@ public class receiveData_from_eUser : MonoBehaviour
     private Transform _hmd_transform;
     private Transform _handR_transform;
     private Transform _handL_transform;
+    
+    // interaction sphere variables
+    public GameObject gazeSphere_remote;
+    public GameObject pointSphere_remote;
+    public GameObject touchSphere_remote;
+    
+    private Transform _gazeSphere_transform;
+    private Transform _pointSphere_transform;
+    private Transform _touchSphere_transform;
 
     // receiving data vars
     private string[] streamNames;
@@ -31,19 +44,35 @@ public class receiveData_from_eUser : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Ensure that this instance is the only one and is accessible globally
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        
         processIncomingData = false;
         _samplingRate = 1.0f / 90;
         
+        // VR vars
         _hmd_transform = hmd_remote.transform;
         _handR_transform = handRight_remote.transform;
         _handL_transform = handLeft_remote.transform;
+        
+        // interaction spheres
+        _gazeSphere_transform = gazeSphere_remote.transform;
+        _pointSphere_transform = pointSphere_remote.transform;
+        _touchSphere_transform = touchSphere_remote.transform;
+
         
         
         streamNames = new string[]
         {
             "eUser_hmd",
             "eUser_handRight",
-            "eUser_handLeft"    
+            "eUser_handLeft",
+            "eUser_gazeSpherePos",
+            "eUser_pointSpherePos",
+            "eUser_touchSpherePos"    
         };
         
         int streamCount = streamNames.Length;
@@ -223,6 +252,22 @@ public class receiveData_from_eUser : MonoBehaviour
                 _handL_transform.position = handLPos;
                 _handL_transform.rotation = Quaternion.Euler(handLRot);
 
+                break;
+            
+                        
+            case "eUser_gazeSpherePos":
+                Vector3 gazeSPos = new Vector3(sample[0], sample[1], sample[2]);
+                _gazeSphere_transform.position = gazeSPos;
+                break;
+            
+            case "eUser_pointSpherePos":
+                Vector3 pointSPos = new Vector3(sample[0], sample[1], sample[2]);
+                _pointSphere_transform.position = pointSPos;
+                break;
+            
+            case "eUser_touchSpherePos":
+                Vector3 tSPos = new Vector3(sample[0], sample[1], sample[2]);
+                _touchSphere_transform.position = tSPos;
                 break;
             
         }

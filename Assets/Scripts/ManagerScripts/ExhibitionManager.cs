@@ -255,7 +255,7 @@ public class ExhibitionManager : MonoBehaviour
 
         // avatarLocal.GetComponent<VRFootIK>().footOffset = avatarLocalFootOffset;
         
-        ExperimentManager.Instance().inExhibitionArea = true;
+        //ExperimentManager.Instance().inExhibitionArea = true;
         localGazeSphere.GetComponent<Transform>().position = new Vector3(0, 0, 0);
         remoteGazeSphere.GetComponent<Transform>().position = new Vector3(0, 0, 0);
         
@@ -411,7 +411,7 @@ public class ExhibitionManager : MonoBehaviour
     
         // set all exhibition areas inactive
         exhibition.SetActive(false);
-        ExperimentManager.Instance().inExhibitionArea = false;
+        //ExperimentManager.Instance().inExhibitionArea = false;
         // EyeTrackingManager.Instance.showGazeSphere = false;
     
         // set avatar and player to correct location
