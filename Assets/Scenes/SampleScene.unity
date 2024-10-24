@@ -4758,8 +4758,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1737413620}
-        m_MethodName: StartDataSending_ExperimentControl
+      - m_Target: {fileID: 1994576050}
+        m_MethodName: StartDataSending_ExperimentUser
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -33528,8 +33528,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 627069614}
-        m_MethodName: 
+      - m_Target: {fileID: 627069616}
+        m_MethodName: StoppProcessingIncomingData_from_ExperimentUser
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -39072,7 +39072,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e72f4f47bff6b6d468fb36109ae78d51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dataReceiving: 0
+  processIncomingData: 0
   receivingButton: {fileID: 118806942}
   hmd_remote: {fileID: 1286912845}
   handRight_remote: {fileID: 2040008118}
@@ -60755,8 +60755,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 627069614}
-        m_MethodName: 
+      - m_Target: {fileID: 627069616}
+        m_MethodName: StartProcessingIncomingData_from_ExperimentUser
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -98612,7 +98612,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1737413620}
+      - m_Target: {fileID: 1994576050}
         m_MethodName: StoppDataSending_ExperimentControl
         m_Mode: 1
         m_Arguments:
