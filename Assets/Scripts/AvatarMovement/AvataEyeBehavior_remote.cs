@@ -84,7 +84,15 @@ namespace ViveSR
 
                 private void InitializeStream()
                 {
-                    streamName = ExperimentManager.Instance.isExperimentUserVersion ? "eUser_eyeMovement" : "eCon_eyeMovement";
+                    if (ExperimentManager.Instance.isExperimentUser())
+                    {
+                        streamName = "eCon_eyeMovement";
+                    }
+
+                    if (ExperimentManager.Instance.isExperimentControl())
+                    {
+                        streamName = "eUser_eyeMovement";
+                    }
                 }
 
                 private void TryInitializeStream()
@@ -95,7 +103,6 @@ namespace ViveSR
                         inlet = new StreamInlet(streamInfos[0], max_buflen: 1);
                         inlet.open_stream();
                         streamInitialized = true;
-                        Debug.Log("Stream opened successfully.");
                     }
                 }
 

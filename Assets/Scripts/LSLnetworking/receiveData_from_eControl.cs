@@ -7,7 +7,7 @@ using LSL;
 public class receiveData_from_eControl : MonoBehaviour
 {
     public static receiveData_from_eControl Instance { get; private set; } // used to allow easy access of this script in other scripts
-    
+
     private float _samplingRate;
     public bool processIncomingData;
     
@@ -267,10 +267,7 @@ public class receiveData_from_eControl : MonoBehaviour
                 _touchSphere_transform.position = tSPos;
                 break;
             
-            case "eCon_eyeMovement":
-                Debug.Log("received eye blenshapes");
-                break;
-                
+       
 
             
         }

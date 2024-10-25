@@ -121,7 +121,7 @@ public class lslStreamsExperimentControl : MonoBehaviour
             "Markers", 
             14, 
             NominalRate,
-            LSL.channel_format_t.cf_double64);
+            LSL.channel_format_t.cf_float32);
         eCon_eyeMovement_I .desc().append_child("eye_left_squeeze");
         eCon_eyeMovement_I .desc().append_child("eye_right_squeeze");
         eCon_eyeMovement_I .desc().append_child("eye_left_wide");
