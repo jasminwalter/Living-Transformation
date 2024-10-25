@@ -8,7 +8,6 @@ public class eUser_GazeSphere : MonoBehaviour
     public static eUser_GazeSphere  Instance;
    
     
-    public GameObject remotGazeSphere;
     public bool gazeSphereCollision = false;
     public bool artObjectCollision = false;
 

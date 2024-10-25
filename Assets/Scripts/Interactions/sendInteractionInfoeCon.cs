@@ -5,7 +5,7 @@ using UnityEngine;
 public class sendInteractionInfoeCon : MonoBehaviour
 {
     
-    public static sendInteractionInfoeCon Instance;
+    public static sendInteractionInfoeCon Instance{ get; private set; }
     
     private float _samplingRate = 1.0f/ 90;
 

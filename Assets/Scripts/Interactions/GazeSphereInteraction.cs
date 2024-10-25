@@ -12,7 +12,6 @@ public class GazeSphereInteraction : MonoBehaviour
         return _Instance;
     }
     
-    public GameObject remotGazeSphere;
     public bool gazeSphereCollision = false;
     public bool artObjectCollision = false;
 
