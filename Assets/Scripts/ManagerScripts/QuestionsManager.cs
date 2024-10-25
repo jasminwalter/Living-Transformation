@@ -14,6 +14,7 @@ public class QuestionsManager : MonoBehaviour
 {
     public static QuestionsManager Instance { get; private set; }
     public TrainingManager trainingManager;
+    public AvatarManager avatarManager;
     public Valve.VR.InteractionSystem.Teleport teleport;
 
     
@@ -22,7 +23,7 @@ public class QuestionsManager : MonoBehaviour
 
     public GameObject playerVR;
     public GameObject cameraVR;
-    
+
     #region UI Elements
     public GameObject languageSelection;
     public GameObject canvasUIAll;
@@ -69,6 +70,10 @@ public class QuestionsManager : MonoBehaviour
     public GameObject trainingInformationE2;
     public GameObject trainingInformationE3;
     public GameObject trainingInformationE4;
+
+    public GameObject avatarGenderE;
+    public GameObject avatarSizeFE;
+    public GameObject avatarSizeME;
     
     public GameObject startExhibitionE;
 
@@ -119,6 +124,10 @@ public class QuestionsManager : MonoBehaviour
     public GameObject trainingInformationG2;
     public GameObject trainingInformationG3;
     public GameObject trainingInformationG4;
+    
+    public GameObject avatarGenderG;
+    public GameObject avatarSizeFG;
+    public GameObject avatarSizeMG;
     
     public GameObject startExhibitionG;
     
@@ -171,6 +180,11 @@ public class QuestionsManager : MonoBehaviour
     private GameObject _trainingInformation2;
     private GameObject _trainingInformation3;
     private GameObject _trainingInformation4;
+    
+    private GameObject _avatarGender;
+    private GameObject _avatarSize;
+    private GameObject _avatarSizeM;
+    private GameObject _avatarSizeF;
 
     private GameObject _startExhibition;
 
@@ -523,6 +537,10 @@ public class QuestionsManager : MonoBehaviour
             _trainingInformation2 = trainingInformationE2;
             _trainingInformation3 = trainingInformationE3;
             _trainingInformation4 = trainingInformationE4;
+            
+            _avatarGender = avatarGenderE;
+            _avatarSizeM = avatarSizeME;
+            _avatarSizeF = avatarSizeFE;
     
             _startExhibition = startExhibitionE;
 
@@ -574,6 +592,10 @@ public class QuestionsManager : MonoBehaviour
             _trainingInformation2 = trainingInformationG2;
             _trainingInformation3 = trainingInformationG3;
             _trainingInformation4 = trainingInformationG4;
+
+            _avatarGender = avatarGenderG;
+            _avatarSizeM = avatarSizeMG;
+            _avatarSizeF = avatarSizeFG;
     
             _startExhibition = startExhibitionG;
 
@@ -1238,14 +1260,9 @@ public class QuestionsManager : MonoBehaviour
 
     public IEnumerator EnterExhibition()
     {
-        StartCoroutine(FadeOutPart4Training());
+        StartCoroutine(FadeOutAvatarSize()); 
         StartCoroutine(TriggerExhibition());
         yield return null;
-    }
-
-    public void TrainingPart4Selection()
-    {
-        StartCoroutine(EnterExhibition());
     }
 
     private IEnumerator TriggerExhibition()
@@ -1259,6 +1276,132 @@ public class QuestionsManager : MonoBehaviour
 
 
     #endregion
+    
+    #region AvatarSelection
+    
+    public void AvatarSelectionGender()
+    {
+        StartCoroutine(FadeOutPart4Training());
+        StartCoroutine(AvatarGender());
+    }
+
+    private IEnumerator AvatarGender()
+    {
+        
+        // trigger Avatar Selection
+        
+        _avatarGender.GetComponent<CanvasGroup>().alpha = 0.0f;
+        _avatarGender.SetActive(true);
+        StartCoroutine(CanvasGroupFadingIn(_avatarGender));
+        avatarManager.StartSelection();
+
+        yield return null;
+    }
+
+    public void AvatarSizeM()
+    {
+        _avatarSize = _avatarSizeM;
+        StartCoroutine(FadeOutAvatarGender());
+    }
+    
+    public void AvatarSizeF()
+    {
+        _avatarSize = _avatarSizeF;
+        StartCoroutine(FadeOutAvatarGender());
+    }
+    
+    private IEnumerator FadeOutAvatarGender()
+    {
+        StartCoroutine(CanvasGroupFadingOut(_avatarGender));
+        yield return new WaitForSeconds(_fadingOutDuration);
+        _avatarGender.SetActive(false);
+
+        // trigger Avatar Selection next part
+        _avatarSize.GetComponent<CanvasGroup>().alpha = 0.0f;
+        _avatarSize.SetActive(true);
+        StartCoroutine(CanvasGroupFadingIn(_avatarSize));
+        
+        yield return null;
+    }
+    
+    #region AvatarOptions
+
+    public void Female1()
+    {
+        avatarManager.DisableAvatar();
+        avatarManager.currentAvatar = avatarManager.female1;
+        avatarManager.currentAvatar.SetActive(true);
+    }
+    
+    public void Female2()
+    {
+        avatarManager.DisableAvatar();
+        avatarManager.currentAvatar = avatarManager.female2;
+        avatarManager.currentAvatar.SetActive(true);
+    }
+    
+    public void Female3()
+    {
+        avatarManager.DisableAvatar();
+        avatarManager.currentAvatar = avatarManager.female3;
+        avatarManager.currentAvatar.SetActive(true);
+    }
+    
+    public void Female4()
+    {
+        avatarManager.DisableAvatar();
+        avatarManager.currentAvatar = avatarManager.female4;
+        avatarManager.currentAvatar.SetActive(true);
+    }
+    
+    public void Male1()
+    {
+        avatarManager.DisableAvatar();
+        avatarManager.currentAvatar = avatarManager.male1;
+        avatarManager.currentAvatar.SetActive(true);
+    }
+    
+    public void Male2()
+    {
+        avatarManager.DisableAvatar();
+        avatarManager.currentAvatar = avatarManager.male2;
+        avatarManager.currentAvatar.SetActive(true);
+    }
+    
+    public void Male3()
+    {
+        avatarManager.DisableAvatar();
+        avatarManager.currentAvatar = avatarManager.male3;
+        avatarManager.currentAvatar.SetActive(true);
+    }
+    
+    public void Male4()
+    {
+        avatarManager.DisableAvatar();
+        avatarManager.currentAvatar = avatarManager.male4;
+        avatarManager.currentAvatar.SetActive(true);
+    }
+    
+    #endregion
+
+    public void AvatarReady()
+    {
+        StartCoroutine(FadeOutAvatarSize());
+        StartCoroutine(EnterExhibition());
+    }
+
+    private IEnumerator FadeOutAvatarSize()
+    {
+        StartCoroutine(CanvasGroupFadingOut(_avatarSize));
+        yield return new WaitForSeconds(_fadingOutDuration);
+        _avatarSize.SetActive(false);
+        avatarManager.EndSelection();
+
+        yield return null;
+    }
+    
+    #endregion
+    
     #endregion
 
     public void Return2DefaultNexPlayer()
