@@ -575,7 +575,7 @@ public class QuestionsManager : MonoBehaviour
             _trainingInformation3 = trainingInformationG3;
             _trainingInformation4 = trainingInformationG4;
     
-            _startExhibition = startExhibitionE;
+            _startExhibition = startExhibitionG;
 
             _wrongDirSign1 = WrongDirSignG1;
             _wrongDirSign2 = WrongDirSignG2;
