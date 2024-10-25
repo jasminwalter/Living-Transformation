@@ -6,6 +6,8 @@ public class ExhibitionManager : MonoBehaviour
 {
 
     public static ExhibitionManager Instance { get; private set; }
+
+    public GameObject[] remoteAvatars;
     
     [Header("UI Elements")]
     private GameObject _exhibitionStart;
@@ -170,6 +172,11 @@ public class ExhibitionManager : MonoBehaviour
         
     }
 
+    public void assignRemoteAvatar()
+    {
+        avatarRemote = remoteAvatars[0];
+    }
+
     #region EnteringExhibition
 
     public void EnterExhibition()
@@ -246,6 +253,7 @@ public class ExhibitionManager : MonoBehaviour
             //avatarLocal.GetComponent<Transform>().position = startServer.GetComponent<Transform>().position;
             
             playerRemote.GetComponent<Transform>().position = start2ndPlayer.GetComponent<Transform>().position;
+            avatarRemote.SetActive(true);
             //avatarRemote.GetComponent<Transform>().position = start2ndPlayer.GetComponent<Transform>().position;
 
         }
@@ -255,6 +263,7 @@ public class ExhibitionManager : MonoBehaviour
             //avatarLocal.GetComponent<Transform>().position = start2ndPlayer.GetComponent<Transform>().position;
             
             playerRemote.GetComponent<Transform>().position = startServer.GetComponent<Transform>().position;
+            avatarRemote.SetActive(true);
             //avatarRemote.GetComponent<Transform>().position = startServer.GetComponent<Transform>().position;
         }
         
@@ -446,7 +455,7 @@ public class ExhibitionManager : MonoBehaviour
         // set avatar and player to correct location
         avatarLocal.GetComponent<Transform>().position = locationInPrepRoom.GetComponent<Transform>().position;
         playerLocal.GetComponent<Transform>().position = locationInPrepRoom.GetComponent<Transform>().position;
-    
+        avatarRemote.SetActive(false);
         // disable the local avatar and gaze sphere
         // avatarLocal.SetActive(false);
         // localGazeSphere.SetActive(false);
