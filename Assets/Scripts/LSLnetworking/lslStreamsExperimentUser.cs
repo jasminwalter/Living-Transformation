@@ -28,6 +28,18 @@ public class lslStreamsExperimentUser : MonoBehaviour
     // gaze data
     public StreamInfo eUser_eyeMovement_I;
     public StreamOutlet eUser_eyeMovement_O;
+
+    public StreamInfo eUser_gazePosDir_I;
+    public StreamOutlet eUser_gazePosDir_O;
+    
+    public StreamInfo eUser_otherGazeData_I;
+    public StreamOutlet eUser_otherGazeData_O;
+
+    public StreamInfo eUser_hitColliderName_I;
+    public StreamOutlet eUser_hitColliderName_O;
+    
+    public StreamInfo eUser_rayCastData_I;
+    public StreamOutlet eUser_rayCastData_O;
     
     // interaction spheres
     public StreamInfo eUser_gazeSpherePos_I;
@@ -135,6 +147,73 @@ public class lslStreamsExperimentUser : MonoBehaviour
         eUser_eyeMovement_I .desc().append_child("eye_left_blink");
         eUser_eyeMovement_I .desc().append_child("eye_right_blink");
         eUser_eyeMovement_O = new StreamOutlet(eUser_eyeMovement_I);
+        
+        eUser_gazePosDir_I =  new StreamInfo(
+            "eUser_gazePosDir", 
+            "Markers", 
+            12, 
+            NominalRate,
+            LSL.channel_format_t.cf_float32);
+        eUser_gazePosDir_I.desc().append_child("eUser_eyePositionCombinedWorld_x");
+        eUser_gazePosDir_I.desc().append_child("eUser_eyePositionCombinedWorld_y");
+        eUser_gazePosDir_I.desc().append_child("eUser_eyePositionCombinedWorld_z");
+        eUser_gazePosDir_I.desc().append_child("eUser_eyePosition_GazeOrigin_x");
+        eUser_gazePosDir_I.desc().append_child("eUser_eyePosition_GazeOrigin_y");
+        eUser_gazePosDir_I.desc().append_child("eUser_eyePosition_GazeOrigin_z");
+        eUser_gazePosDir_I.desc().append_child("eUser_eyeDirectionCombinedWorld_x");
+        eUser_gazePosDir_I.desc().append_child("eUser_eyeDirectionCombinedWorld_y");
+        eUser_gazePosDir_I.desc().append_child("eUser_eyeDirectionCombinedWorld_z");
+        eUser_gazePosDir_I.desc().append_child("eUser_eyeDirectionCombinedLocal_x");
+        eUser_gazePosDir_I.desc().append_child("eUser_eyeDirectionCombinedLocal_y");
+        eUser_gazePosDir_I.desc().append_child("eUser_eyeDirectionCombinedLocal_z");
+        eUser_gazePosDir_O = new StreamOutlet(eUser_gazePosDir_I);
+        
+        
+        eUser_otherGazeData_I = new StreamInfo(
+            "eUser_otherGazeData", 
+            "Markers", 
+            7, 
+            NominalRate,
+            LSL.channel_format_t.cf_float32);
+        eUser_otherGazeData_I.desc().append_child("eUser_eyeOpennes_left");
+        eUser_otherGazeData_I.desc().append_child("eUser_eyeOpennes_right");
+        eUser_otherGazeData_I.desc().append_child("eUser_pupilDiameter_left");
+        eUser_otherGazeData_I.desc().append_child("eUser_pupilDiameter_right");
+        eUser_otherGazeData_I.desc().append_child("eUser_validityBitmask_left");
+        eUser_otherGazeData_I.desc().append_child("eUser_validityBitmask_right");
+        eUser_otherGazeData_I.desc().append_child("eUser_validityBitmask_combined");
+        eUser_otherGazeData_O = new StreamOutlet(eUser_otherGazeData_I);
+        
+        eUser_hitColliderName_I =  new StreamInfo(
+            "eUser_hitColliderName", 
+            "Markers", 
+            2, 
+            NominalRate,
+            LSL.channel_format_t.cf_string);
+        eUser_hitColliderName_I.desc().append_child("hitColliderName_1");
+        eUser_hitColliderName_I.desc().append_child("hitColliderName_2");
+        eUser_hitColliderName_O = new StreamOutlet(eUser_hitColliderName_I);
+        
+        
+        eUser_rayCastData_I  = new StreamInfo(
+            "eUser_rayCastData", 
+            "Markers", 
+            12, 
+            NominalRate,
+            LSL.channel_format_t.cf_float32);
+        eUser_rayCastData_I.desc().append_child("hitPointOnObject_x_1");
+        eUser_rayCastData_I.desc().append_child("hitPointOnObject_y_1");
+        eUser_rayCastData_I.desc().append_child("hitPointOnObject_z_1");
+        eUser_rayCastData_I.desc().append_child("hitPointOnObject_x_2");
+        eUser_rayCastData_I.desc().append_child("hitPointOnObject_y_2");
+        eUser_rayCastData_I.desc().append_child("hitPointOnObject_z_2");
+        eUser_rayCastData_I.desc().append_child("hitObjectColliderBoundsCenter_x_1");
+        eUser_rayCastData_I.desc().append_child("hitObjectColliderBoundsCenter_y_1");
+        eUser_rayCastData_I.desc().append_child("hitObjectColliderBoundsCenter_z_1");
+        eUser_rayCastData_I.desc().append_child("hitObjectColliderBoundsCenter_x_2");
+        eUser_rayCastData_I.desc().append_child("hitObjectColliderBoundsCenter_y_2");
+        eUser_rayCastData_I.desc().append_child("hitObjectColliderBoundsCenter_z_2");
+        eUser_rayCastData_O = new StreamOutlet(eUser_rayCastData_I);
         
         // interaction sphere positions
         #region interaction spheres

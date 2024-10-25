@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using ViveSR.anipal.Eye;
+using System.Linq;
+using System;
+using Unity.Mathematics;
 
 public class sendSaveDataExperimentUser : MonoBehaviour
 {
@@ -200,6 +203,144 @@ public class sendSaveDataExperimentUser : MonoBehaviour
             
             // Send sample via LSL
             lslStreamsExperimentUser.Instance.eUser_eyeMovement_O.push_sample(gazeM);
+            
+            // gaze data and raycast
+            SRanipal_Eye_v2.GetVerboseData(out VerboseData verboseData); 
+            
+            Vector3 coordinateAdaptedGazeDirectionCombined = new Vector3(verboseData.combined.eye_data.gaze_direction_normalized.x * -1,  verboseData.combined.eye_data.gaze_direction_normalized.y, verboseData.combined.eye_data.gaze_direction_normalized.z);
+            var eyePositionCombinedWorld = verboseData.combined.eye_data.gaze_origin_mm / 1000 + _hmd_transform.position;
+            var eyeDirectionCombinedWorld = _hmd_transform.rotation * coordinateAdaptedGazeDirectionCombined;
+            var eyeDirectionCombinedLocal = coordinateAdaptedGazeDirectionCombined;
+           
+            float[] eyeTrackingPosDir =
+            {
+                eyePositionCombinedWorld.x,
+                eyePositionCombinedWorld.y,
+                eyePositionCombinedWorld.z,
+                verboseData.combined.eye_data.gaze_origin_mm.x,
+                verboseData.combined.eye_data.gaze_origin_mm.y,
+                verboseData.combined.eye_data.gaze_origin_mm.z,
+                eyeDirectionCombinedWorld.x,
+                eyeDirectionCombinedWorld.y,
+                eyeDirectionCombinedWorld.z,
+                eyeDirectionCombinedLocal.x,
+                eyeDirectionCombinedLocal.y,
+                eyeDirectionCombinedLocal.z,
+
+            };
+            lslStreamsExperimentUser.Instance.eUser_gazePosDir_O.push_sample(eyeTrackingPosDir);
+            
+            
+            // other gaze data
+
+            float[] otherEyeD =
+            {
+                verboseData.left.eye_openness,
+                verboseData.right.eye_openness,
+                verboseData.left.pupil_diameter_mm,
+                verboseData.right.pupil_diameter_mm,
+                verboseData.left.eye_data_validata_bit_mask,
+                verboseData.right.eye_data_validata_bit_mask,
+                verboseData.combined.eye_data.eye_data_validata_bit_mask
+            };
+            
+            lslStreamsExperimentUser.Instance.eUser_otherGazeData_O.push_sample(otherEyeD);
+            
+            // raycasting
+            
+            // Raycast combined eyes 
+            RaycastHit[] raycastHitsCombined;
+            raycastHitsCombined = Physics.RaycastAll(eyePositionCombinedWorld, eyeDirectionCombinedWorld,Mathf.Infinity);
+
+            // Make sure something was hit 
+            if (raycastHitsCombined.Length > 0)
+            {
+                // Sort by distance
+                raycastHitsCombined = raycastHitsCombined.OrderBy(x=>x.distance).ToArray();
+                
+                // Use only the specified number of hits 
+                raycastHitsCombined = raycastHitsCombined.Take(Math.Min(2,raycastHitsCombined.Length)).ToArray();
+
+                if (raycastHitsCombined.Length == 1)
+                {
+                    string[] names = new string[]
+                    {
+                        raycastHitsCombined[0].collider.name,
+                        "noHit"
+                    };
+                    lslStreamsExperimentUser.Instance.eUser_hitColliderName_O.push_sample(names);
+                    
+                    float[] hitColInfo = new float[]
+                    {
+                        raycastHitsCombined[0].point.x,
+                        raycastHitsCombined[0].point.y,
+                        raycastHitsCombined[0].point.z,
+                        10000.0f,
+                        10000.0f,
+                        10000.0f,
+                        raycastHitsCombined[0].collider.bounds.center.x,
+                        raycastHitsCombined[0].collider.bounds.center.y,
+                        raycastHitsCombined[0].collider.bounds.center.z,
+                        10000.0f,
+                        10000.0f,
+                        10000.0f
+                    };
+                    lslStreamsExperimentUser.Instance.eUser_rayCastData_O.push_sample(hitColInfo);
+                    
+                }
+                else
+                {
+                    string[] names = new string[]
+                    {
+                        raycastHitsCombined[0].collider.name,
+                        raycastHitsCombined[1].collider.name
+                    };
+                    lslStreamsExperimentUser.Instance.eUser_hitColliderName_O.push_sample(names);
+                    
+                    float[] hitColInfo = new float[]
+                    {
+                        raycastHitsCombined[0].point.x,
+                        raycastHitsCombined[0].point.y,
+                        raycastHitsCombined[0].point.z,
+                        raycastHitsCombined[1].point.x,
+                        raycastHitsCombined[1].point.y,
+                        raycastHitsCombined[1].point.z,
+                        raycastHitsCombined[0].collider.bounds.center.x,
+                        raycastHitsCombined[0].collider.bounds.center.y,
+                        raycastHitsCombined[0].collider.bounds.center.z,
+                        raycastHitsCombined[1].collider.bounds.center.x,
+                        raycastHitsCombined[1].collider.bounds.center.y,
+                        raycastHitsCombined[1].collider.bounds.center.z,
+                    };
+                    lslStreamsExperimentUser.Instance.eUser_rayCastData_O.push_sample(hitColInfo);
+                }
+
+                
+            }
+            else
+            {
+                string[] names = new string[] {"noHit","noHit"};
+                lslStreamsExperimentUser.Instance.eUser_hitColliderName_O.push_sample(names);
+
+                float[] hitColInfo = new float[]
+                {
+                    10000.0f,
+                    10000.0f,
+                    10000.0f,
+                    10000.0f,
+                    10000.0f,
+                    10000.0f,
+                    10000.0f,
+                    10000.0f,
+                    10000.0f,
+                    10000.0f,
+                    10000.0f,
+                    10000.0f
+                };
+                lslStreamsExperimentUser.Instance.eUser_rayCastData_O.push_sample(hitColInfo);
+
+            }
+
 
             # endregion
             
@@ -259,7 +400,7 @@ public class sendSaveDataExperimentUser : MonoBehaviour
         recordingButton.SetActive(true);
     }
 
-    public void StoppDataSending_ExperimentControl()
+    public void StoppDataSending_ExperimentUser()
     {
         
         StopCoroutine( SendData_ExperimentUser() );
