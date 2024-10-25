@@ -12,6 +12,7 @@ public class GazeSphereInteraction : MonoBehaviour
         return _Instance;
     }
     
+    public GameObject remotGazeSphere;
     public bool gazeSphereCollision = false;
     public bool artObjectCollision = false;
 
@@ -82,17 +83,17 @@ public class GazeSphereInteraction : MonoBehaviour
                 // trigger object transitions depending on which object is viewed
                 if (isObject1)
                 {
-                    object1.GetComponent<ObjectTransitions>().MakeTransition();
+                    sendInteractionInfoeCon.Instance.transitionObject1();
                 }
 
                 if (isObject2)
                 {
-                    object2.GetComponent<ObjectTransitions>().MakeTransition();
+                    sendInteractionInfoeCon.Instance.transitionObject2();
                 }
 
                 if (isObject3)
                 {
-                    object3.GetComponent<ObjectTransitions>().MakeTransition();
+                    sendInteractionInfoeCon.Instance.transitionObject3();
                 }
 
                 

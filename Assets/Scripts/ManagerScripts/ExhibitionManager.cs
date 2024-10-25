@@ -266,6 +266,17 @@ public class ExhibitionManager : MonoBehaviour
         localGazeSphere.GetComponent<Transform>().position = new Vector3(0, 0, 0);
         remoteGazeSphere.GetComponent<Transform>().position = new Vector3(0, 0, 0);
         
+        // start interaction data exchange
+        if (ExperimentManager.Instance.isExperimentControl())
+        {
+            sendInteractionInfoeCon.Instance.Start_sendInteractionData();
+        }
+
+        if (ExperimentManager.Instance.isExperimentUser())
+        {
+            receiveInteractioninfoeUser.Instance.Start_processIncomingInteraction();
+        }
+        
         // fade in
         fadingCamera.FadeIn();
         yield return new WaitForSeconds(fadingCamera.fadeDuration);
@@ -410,6 +421,17 @@ public class ExhibitionManager : MonoBehaviour
     {
         
         // ExperimentManager.Instance().localExhibitionExit = true;
+        // start interaction data exchange
+        if (ExperimentManager.Instance.isExperimentUser())
+        {
+            receiveInteractioninfoeUser.Instance.Stopp_processIncomingInteraction();
+        }
+
+        if (ExperimentManager.Instance.isExperimentControl())
+        {
+            sendInteractionInfoeCon.Instance.Stopp_sendInteractionData();
+        }
+
         
         object1.GetComponent<ObjectTransitions>().Return2DefaultState4NewParticipant();
         object2.GetComponent<ObjectTransitions>().Return2DefaultState4NewParticipant();

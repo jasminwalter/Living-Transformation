@@ -18,6 +18,16 @@ public class lslStreamsExperimentControl : MonoBehaviour
 
     public StreamInfo participantIDs_I;
     public StreamOutlet participantIDs_O;
+
+    public StreamInfo eCon_makeTransitionO1_I;
+    public StreamOutlet eCon_makeTransitionO1_O;
+    
+    public StreamInfo eCon_makeTransitionO2_I;
+    public StreamOutlet eCon_makeTransitionO2_O;
+    
+    public StreamInfo eCon_makeTransitionO3_I;
+    public StreamOutlet eCon_makeTransitionO3_O;
+    
     
     // VR headset and hands
     public StreamInfo eCon_hmd_I;
@@ -85,6 +95,31 @@ public class lslStreamsExperimentControl : MonoBehaviour
         participantIDs_I.desc().append_child("eCon_participantID");
         participantIDs_I.desc().append_child("eUser_participantID");
         participantIDs_O = new StreamOutlet(participantIDs_I);
+        
+        
+        eCon_makeTransitionO1_I = new StreamInfo(
+            "eCon_makeTransitionO1", 
+            "Markers", 
+            1, 
+            NominalRate,
+            LSL.channel_format_t.cf_int8);
+        eCon_makeTransitionO1_O = new StreamOutlet(eCon_makeTransitionO1_I);
+        
+        eCon_makeTransitionO2_I = new StreamInfo(
+            "eCon_makeTransitionO2", 
+            "Markers", 
+            1, 
+            NominalRate,
+            LSL.channel_format_t.cf_int8);
+        eCon_makeTransitionO2_O = new StreamOutlet(eCon_makeTransitionO2_I);
+        
+        eCon_makeTransitionO3_I = new StreamInfo(
+            "eCon_makeTransitionO3", 
+            "Markers", 
+            1, 
+            NominalRate,
+            LSL.channel_format_t.cf_int8);
+        eCon_makeTransitionO3_O = new StreamOutlet(eCon_makeTransitionO3_I);
         
         
         // VR hmd and hand
