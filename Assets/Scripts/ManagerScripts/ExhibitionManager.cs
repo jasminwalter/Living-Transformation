@@ -292,6 +292,21 @@ public class ExhibitionManager : MonoBehaviour
         
         yield return null;
     }
+
+    public void networkInteractionData()
+    {
+          
+        // start interaction data exchange
+        if (ExperimentManager.Instance.isExperimentControl())
+        {
+            sendInteractionInfoeCon.Instance.Start_sendInteractionData();
+        }
+
+        if (ExperimentManager.Instance.isExperimentUser())
+        {
+            receiveInteractioninfoeUser.Instance.Start_processIncomingInteraction();
+        }
+    }
     
     // private IEnumerator EnterExhibitionPart2()
     // {
@@ -360,6 +375,8 @@ public class ExhibitionManager : MonoBehaviour
     // }
 
     #endregion
+    
+    
 
     #region ExitingExhibition
 
