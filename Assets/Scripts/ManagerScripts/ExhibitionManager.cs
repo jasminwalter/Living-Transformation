@@ -74,8 +74,15 @@ public class ExhibitionManager : MonoBehaviour
     private int transfer2PrepRoom = 0;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
+        
+        // Ensure that this instance is the only one and is accessible globally
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        
         
     }
 
@@ -232,26 +239,26 @@ public class ExhibitionManager : MonoBehaviour
         }
         
         // position player in exhibition
-        /*
-        if (NetMan.IsServer())
+        
+        if (ExperimentManager.Instance.isExperimentControl())
         {
             playerLocal.GetComponent<Transform>().position = startServer.GetComponent<Transform>().position;
-            avatarLocal.GetComponent<Transform>().position = startServer.GetComponent<Transform>().position;
+            //avatarLocal.GetComponent<Transform>().position = startServer.GetComponent<Transform>().position;
             
             playerRemote.GetComponent<Transform>().position = start2ndPlayer.GetComponent<Transform>().position;
-            avatarRemote.GetComponent<Transform>().position = start2ndPlayer.GetComponent<Transform>().position;
+            //avatarRemote.GetComponent<Transform>().position = start2ndPlayer.GetComponent<Transform>().position;
 
         }
         else
         {
             playerLocal.GetComponent<Transform>().position = start2ndPlayer.GetComponent<Transform>().position;
-            avatarLocal.GetComponent<Transform>().position = start2ndPlayer.GetComponent<Transform>().position;
+            //avatarLocal.GetComponent<Transform>().position = start2ndPlayer.GetComponent<Transform>().position;
             
             playerRemote.GetComponent<Transform>().position = startServer.GetComponent<Transform>().position;
-            avatarRemote.GetComponent<Transform>().position = startServer.GetComponent<Transform>().position;
+            //avatarRemote.GetComponent<Transform>().position = startServer.GetComponent<Transform>().position;
         }
         
-        */
+        
 
         // avatarLocal.GetComponent<VRFootIK>().footOffset = avatarLocalFootOffset;
         

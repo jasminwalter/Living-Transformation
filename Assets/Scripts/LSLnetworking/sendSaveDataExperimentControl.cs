@@ -9,7 +9,10 @@ using Unity.Mathematics;
 
 public class sendSaveDataExperimentControl : MonoBehaviour
 {
-    public float[] gazeM;
+    public int eCon_partID;
+    public int eUser_partID;
+    
+    private float[] gazeM;
     private float _samplingRate = 1.0f/ 90;
     public bool dataSending;
 
@@ -83,6 +86,13 @@ public class sendSaveDataExperimentControl : MonoBehaviour
             
             double[] timeSsample = new []{timeBeginnSample};
             lslStreamsExperimentControl.Instance.eCon_timeStamp_StartSample_O.push_sample(timeSsample);
+
+            int[] partIDs =
+            {
+                eCon_partID,
+                eUser_partID
+            };
+            lslStreamsExperimentControl.Instance.participantIDs_O.push_sample(partIDs);
 
             # region VR hmd controller
             // hmd

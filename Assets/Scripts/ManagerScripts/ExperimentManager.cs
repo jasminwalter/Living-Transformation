@@ -10,6 +10,8 @@ public class ExperimentManager : MonoBehaviour
 
     public bool isExperimentControlVersion = false;
     public bool isExperimentUserVersion = false;
+
+    public sendSaveDataExperimentControl sendEControlScripty;
     
     // Player
     [Header("Player Vars")]
@@ -90,6 +92,27 @@ public class ExperimentManager : MonoBehaviour
     public bool isExperimentUser()
     {
         return isExperimentUserVersion;
+    }
+
+    public void StartNewParticipant()
+    {
+        if (isExperimentControl())
+        {
+            int eConPartID = ParticipantNumberGenerator.Instance.GenerateUniqueParticipantNumber();
+            int eUserPartID = ParticipantNumberGenerator.Instance.GenerateUniqueParticipantNumber();
+            
+            sendEControlScripty.eCon_partID = eConPartID;
+            sendEControlScripty.eUser_partID = eUserPartID;
+
+        }
+        
+        // reset prep room vars
+        QuestionsManager.Instance.Return2DefaultNexPlayer();
+        
+        // reset exhibition vars
+        ExhibitionManager.Instance.ForceExhibitionExit();
+        
+        
     }
 
     /*

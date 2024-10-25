@@ -118,8 +118,12 @@ public class QuestionsManager : MonoBehaviour
     public GameObject trainingInformationG1;
     public GameObject trainingInformationG2;
     public GameObject trainingInformationG3;
+    public GameObject trainingInformationG4;
     
     public GameObject startExhibitionG;
+    
+    public GameObject WrongDirSignG1;
+    public GameObject WrongDirSignG2;
     
     #endregion
 
@@ -229,6 +233,18 @@ public class QuestionsManager : MonoBehaviour
     private float _handleResetDuration = 0.5f;
 
 
+    private void Start()
+    {
+        
+        // Ensure that this instance is the only one and is accessible globally
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        
+        
+    }
+    
     private void OnEnable()
     {
         //cameraVR = playerVR.GetComponent<GameObject>().Find("VRCamera");
@@ -557,8 +573,12 @@ public class QuestionsManager : MonoBehaviour
             _trainingInformation1 = trainingInformationG1;
             _trainingInformation2 = trainingInformationG2;
             _trainingInformation3 = trainingInformationG3;
+            _trainingInformation4 = trainingInformationG4;
     
-            _startExhibition = startExhibitionG;
+            _startExhibition = startExhibitionE;
+
+            _wrongDirSign1 = WrongDirSignG1;
+            _wrongDirSign2 = WrongDirSignG2;
         }
         
     }
@@ -1258,6 +1278,8 @@ public class QuestionsManager : MonoBehaviour
         emotionRatingList = new float[]{0.0f,0.0f,0.0f,0.0f,0.0f,0.0f};
         
         connectionRating = 0.0f;
+        
+        
 
     }
 }

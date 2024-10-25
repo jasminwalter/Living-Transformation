@@ -15,6 +15,9 @@ public class lslStreamsExperimentControl : MonoBehaviour
 
     public StreamInfo eCon_timeStamp_StartSample_I;
     public StreamOutlet eCon_timeStamp_StartSample_O;
+
+    public StreamInfo participantIDs_I;
+    public StreamOutlet participantIDs_O;
     
     // VR headset and hands
     public StreamInfo eCon_hmd_I;
@@ -72,6 +75,17 @@ public class lslStreamsExperimentControl : MonoBehaviour
             NominalRate,
             LSL.channel_format_t.cf_double64);
         eCon_timeStamp_StartSample_O = new StreamOutlet(eCon_timeStamp_StartSample_I);
+        
+        participantIDs_I = new StreamInfo(
+            "participantIDs", 
+            "Markers", 
+            2, 
+            NominalRate,
+            LSL.channel_format_t.cf_int16);
+        participantIDs_I.desc().append_child("eCon_participantID");
+        participantIDs_I.desc().append_child("eUser_participantID");
+        participantIDs_O = new StreamOutlet(participantIDs_I);
+        
         
         // VR hmd and hand
         # region VR hmd and hands
