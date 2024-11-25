@@ -74,6 +74,7 @@ public class QuestionsManager : MonoBehaviour
     public GameObject avatarGenderE;
     public GameObject avatarSizeFE;
     public GameObject avatarSizeME;
+    public GameObject avatarSizeNBE;
     
     public GameObject startExhibitionE;
 
@@ -128,6 +129,7 @@ public class QuestionsManager : MonoBehaviour
     public GameObject avatarGenderG;
     public GameObject avatarSizeFG;
     public GameObject avatarSizeMG;
+    public GameObject avatarSizeNBG;
     
     public GameObject startExhibitionG;
     
@@ -185,6 +187,7 @@ public class QuestionsManager : MonoBehaviour
     private GameObject _avatarSize;
     private GameObject _avatarSizeM;
     private GameObject _avatarSizeF;
+    private GameObject _avatarSizeNB;
 
     private GameObject _startExhibition;
 
@@ -541,6 +544,7 @@ public class QuestionsManager : MonoBehaviour
             _avatarGender = avatarGenderE;
             _avatarSizeM = avatarSizeME;
             _avatarSizeF = avatarSizeFE;
+            _avatarSizeNB = avatarSizeNBE;
     
             _startExhibition = startExhibitionE;
 
@@ -596,6 +600,7 @@ public class QuestionsManager : MonoBehaviour
             _avatarGender = avatarGenderG;
             _avatarSizeM = avatarSizeMG;
             _avatarSizeF = avatarSizeFG;
+            _avatarSizeNB = avatarSizeNBG;
     
             _startExhibition = startExhibitionG;
 
@@ -1310,6 +1315,12 @@ public class QuestionsManager : MonoBehaviour
         StartCoroutine(FadeOutAvatarGender());
     }
     
+    public void AvatarSizeNB()
+    {
+        _avatarSize = _avatarSizeNB;
+        StartCoroutine(FadeOutAvatarGender());
+    }
+    
     private IEnumerator FadeOutAvatarGender()
     {
         StartCoroutine(CanvasGroupFadingOut(_avatarGender));
@@ -1379,6 +1390,34 @@ public class QuestionsManager : MonoBehaviour
     {
         avatarManager.DisableAvatar();
         avatarManager.currentAvatar = avatarManager.male4;
+        avatarManager.currentAvatar.SetActive(true);
+    }
+    
+    public void NonBinary1()
+    {
+        avatarManager.DisableAvatar();
+        avatarManager.currentAvatar = avatarManager.nonbinary1;
+        avatarManager.currentAvatar.SetActive(true);
+    }
+    
+    public void NonBinary2()
+    {
+        avatarManager.DisableAvatar();
+        avatarManager.currentAvatar = avatarManager.nonbinary2;
+        avatarManager.currentAvatar.SetActive(true);
+    }
+    
+    public void NonBinary3()
+    {
+        avatarManager.DisableAvatar();
+        avatarManager.currentAvatar = avatarManager.nonbinary3;
+        avatarManager.currentAvatar.SetActive(true);
+    }
+    
+    public void NonBinary4()
+    {
+        avatarManager.DisableAvatar();
+        avatarManager.currentAvatar = avatarManager.nonbinary4;
         avatarManager.currentAvatar.SetActive(true);
     }
     

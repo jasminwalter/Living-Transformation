@@ -16,6 +16,11 @@ public class AvatarManager : MonoBehaviour
     public GameObject male2;
     public GameObject male3;
     public GameObject male4;
+    
+    public GameObject nonbinary1;
+    public GameObject nonbinary2;
+    public GameObject nonbinary3;
+    public GameObject nonbinary4;
 
     public GameObject mirror;
     private Vector3 mirrorPosition = new Vector3(-11.11f,-48.41115f,8.718639f);
